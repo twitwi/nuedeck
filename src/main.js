@@ -7,6 +7,9 @@ Vue.config.productionTip = false
 import HelloWorld from './components/HelloWorld.vue'
 Vue.component('HelloWorld', HelloWorld)
 
+import StatusBar from './components/StatusBar.vue'
+Vue.component('StatusBar', StatusBar)
+
 
 
 new Vue({

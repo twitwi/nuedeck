@@ -5,7 +5,7 @@
     <button @click="currentSlide++">»</button>
     <br/>
     <div v-for="[s,i] in slidesToRender"
-         :key="i"
+         :key="'S'+i"
          :class="slideClasses(s, i, currentSlide)"
          :style="{ NOdisplay: i==currentSlide ? undefined : 'none'}">
       <hr/>
@@ -18,6 +18,11 @@
       <component :is="{
         data: ((d) => () => d)($data), // pass a copy of data (test for performance)
         template: s.contentTemplate }"></component>
+      <component v-for="(a,ai) in addins"
+      :key="'S'+i+'A'+ai"
+      :is="{
+          data: ((d) => () => ({ ...d, renderSlide: i }))($data), // pass a copy of data (test for performance)
+          template: a.contentTemplate }"></component>
     </div>
   </div>
 </template>
@@ -47,6 +52,7 @@ export let defaultMixin = {
           selectors: {
             container: '#nd-container',
             sources: '.nd-source',
+            addins: '.nd-addin',
             sourceTypeHtml: '.html'
           }
         },
@@ -96,7 +102,9 @@ let vmopts = {
   data () {
     return {
       slides: [],
-      currentSlide: 2,
+      addins: [],
+      currentSlide: 1,
+      vars: {},
     }
   },
   computed: {
@@ -105,26 +113,47 @@ let vmopts = {
       let start = Math.max(0, this.currentSlide - 1)
       let end = Math.min(this.currentSlide + 2, this.slides.length)
       return this.slides.map((s,i) => [s, i]).slice(start, end)
+    },
+    slideCount () {
+      return this.slides.length
     }
   },
   beforeMount () {
     let S = this.opts.core.selectors
-    let allNew = []
-    // Load slides in different formats
-    this.forAll(S.sources, (slide) => {
-      this.L(slide.content)
-      if (slide.matches(S.sourceTypeHtml)) {
-        // html slides
+    { // Get HTML metadata into variables
+      let app = (n, v) => {
+        this.vars[n] = v
+      }
+      app('title', document.querySelector('html>head>title').innerHTML)
+      this.forAll('html>head>meta[name]', (e) => {
+        app(e.getAttribute('name'), e.getAttribute('content'))
+      })
+    }
+    { // Load slides in different formats
+      let allNew = []
+      this.forAll(S.sources, (slide) => {
+        if (slide.matches(S.sourceTypeHtml)) {
+          // html slides
+          let o = Array.from(slide.content.children).map( el => ({
+            contentTemplate: el.outerHTML
+          }))
+          allNew = [...allNew, ...o]
+        } else { // default, smart
+          allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
+        }
+      })
+      this.slides.splice(0, 0, ...allNew)
+    }
+    { // Load addins (to be added to every slide)
+      let allNew = []
+      this.forAll(S.addins, (slide) => {
         let o = Array.from(slide.content.children).map( el => ({
           contentTemplate: el.outerHTML
         }))
         allNew = [...allNew, ...o]
-      } else { // default, smart
-        allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
-      }
-    })
-    this.slides.splice(0, 0, ...allNew)
-    this.L(JSON.parse(JSON.stringify(this.slides)))
+      })
+      this.addins.splice(0, 0, ...allNew)
+    }
   },
   mounted () {
   },
