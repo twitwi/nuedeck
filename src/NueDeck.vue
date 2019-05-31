@@ -10,13 +10,15 @@
          :style="{ NOdisplay: i==currentSlide ? undefined : 'none'}">
       <hr/>
       <hr/>
-      <hr/>
       {{ i }}
-      ----- ===== ----- TODO find a way to alias $parent (at least)
+      <hr/>
+      <!-- TODO find a way to alias $parent (at least, and test perf of the current solution) -->
       <br/>
-      <component :is="{ template: s.contentTemplate }"></component>
+      <!-- another solution props: {state: {default:$data}} -->
+      <component :is="{
+        data: ((d) => () => d)($data), // pass a copy of data (test for performance)
+        template: s.contentTemplate }"></component>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
@@ -33,17 +35,6 @@ let tools = {
   }
 }
 
-/*
-export let defaultOptions = {
-  skipPlugins: [],
-  selectors: {
-    core: {
-      container: '#nd-container',
-      sources: '.nd-source'
-    }
-  }
-}
-*/
 export let defaultMixin = {
   data () {
     return {
@@ -56,7 +47,7 @@ export let defaultMixin = {
           selectors: {
             container: '#nd-container',
             sources: '.nd-source',
-            sourceTypeMarkdown: '.smart'
+            sourceTypeHtml: '.html'
           }
         },
         skipPlugins: [],
@@ -66,28 +57,36 @@ export let defaultMixin = {
 }
 
 function makeSlidesFromMarkdown (contentNode) {
+  // Content as text
   let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
 
-  window.content = content
-  // TODO make this optionnal and even metadata configurable (tricky in some sense)
-  { // remove trailing spaces
+  { // Remove trailing spaces
+    // TODO make this optional and even metadata configurable (tricky in some sense)
     let lines = content.split('\n')
     let spaces = lines.filter( l => l.trim().length > 0).map( l => l.length - l.replace(/^ */, '').length)
     let remove = spaces.reduce((x,y)=>Math.min(x,y))
     content = lines.map(l => l.substr(remove)).join('\n')
   }
 
+  let slides = []
+  { // Split slides at # and ## starting lines
+    let lines = content.split('\n')
+    let slideSizes = lines.map((e, i)=>[e, i]).filter(([e,])=>e.match(/^##*/)).map(([,i], j, l) => j==0 ? i : i - l[j-1][1])
+    for (let s of slideSizes) {
+      slides.push(lines.splice(0, s))
+    }
+    slides.push(lines)
+    slides = slides.map(l=>l.join('\n')).filter(s => s.trim().length > 0)
+  }
+
   let converter = new showdown.Converter()
   converter.setOption('literalMidWordUnderscores', true)
   converter.setOption('disableForced4SpacesIndentedSublists', true)
   converter.setOption('simpleLineBreaks', true)
-  let html = converter.makeHtml(content);
 
-  tools.L(html)
-
-  return [
-    {contentTemplate: `<div>${html}</div>` }
-  ]
+  return slides.map(s => ({
+    contentTemplate: `<div>${ converter.makeHtml(s) }</div>`
+  }))
 }
 
 
@@ -97,7 +96,7 @@ let vmopts = {
   data () {
     return {
       slides: [],
-      currentSlide: 0,
+      currentSlide: 2,
     }
   },
   computed: {
@@ -114,13 +113,14 @@ let vmopts = {
     // Load slides in different formats
     this.forAll(S.sources, (slide) => {
       this.L(slide.content)
-      if (slide.matches(S.sourceTypeMarkdown)) {
-        allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
-      } else { // default html
+      if (slide.matches(S.sourceTypeHtml)) {
+        // html slides
         let o = Array.from(slide.content.children).map( el => ({
           contentTemplate: el.outerHTML
         }))
         allNew = [...allNew, ...o]
+      } else { // default, smart
+        allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
       }
     })
     this.slides.splice(0, 0, ...allNew)

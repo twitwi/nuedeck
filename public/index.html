@@ -15,17 +15,71 @@
 
     <style>
     .slide { font-size: 75%; transition: all 1s; opacity: 0; display: inline-block; width: 45%; height: 250px; overflow: scroll;}
-    .current-slide-m1 { border: 1px solid red; opacity: 0.2; display: none; }
+    .current-slide-m1 { border: 1px solid red; opacity: 0.2; }
     .current-slide { border: 1px solid green; opacity: 1; }
     .current-slide-p1 { border: 1px solid blue; opacity: 1; }
     </style>
   </head>
   <body>
+    <!-- This is the main container (TODO: might get replaced/complemented by a template/layout) -->
     <div id="nd-container">
     </div>
 
+    <!-- There can be multiple "nd-source" blocks, of different types (see html below) -->
+    <template class="nd-source">
+## Single “smart” slide in markdown
+- A template element with class nd-source (by default)
+- This is the second element of a bullet list
+    </template>
 
-    <template class="nd-source smart">
+    <!-- A "nd-source smart" block can be indented if it looks better -->
+    <template class="nd-source">
+      ## Indented “smart” slide in markdown
+      - A template element with class nd-source (by default)
+      - This is the second element of a bullet list
+    </template>
+
+    <!-- A "nd-source smart" block can contain multiple slides (so you can have a single of these) -->
+    <template class="nd-source">
+      ## First slide in a block
+      - This is the first slide of the block
+      - 1<sup>st</sup>
+      
+      ## Second slide in a block
+      - This is the second slide of the block
+      - 2<sup>nd</sup>
+    </template>
+
+## In this presentation, you'll find
+- An example title slide
+- Examples of section slides (#) and normal slides (##)
+- Examples of custom classes and how to put them on some element
+- Examples of incremental apparition of bullet points
+- **NB: Use left/right arrows to navigate**
+
+# <span class="var-title-br"></span> {*no-status title-slide} // comment
+- <span class="var-author"></span>
+- <span class="var-date"></span>
+
+## Overview {#the-overview}
+- we could have written something
+- in this overview
+- but the goal is to illustrate the fact that
+- you can:
+    1. give an identifier to any element (or a slide)
+    1. easily copy a slide with `@copy` (this will be illustrated at the end)
+
+## One can type slides in markdown
+- Most of this demo is like that that
+
+## You can use HTML too, if you need very specific things
+<div>
+    <div style="width: 45%; float: left; border: 1px solid black;"> this is a two-column layout (that could be achieved with some classes and css styles also) </div>
+    <div style="width: 45%; float: right; border: 1px solid black;"> lorem ipsum … </div>
+</div>
+</template>
+
+<template class="nd-source">
     # TOTO
     - cool
       - sub_zero_math
@@ -33,13 +87,17 @@
       - sub
     - ness
     </template>
- <template class="nd-source ">
-# TOTO 2 {{ $parent.currentSlide }}
-- cool <b>OK</b>
-- ness
+ <template class="nd-source">
+   # TOTO 2 {{ $parent.currentSlide }} {{ currentSlide }}
+   - cool <b>OK</b>
+   - ness <button @click="currentSlide++">++</button>
+
+   # TOTO 3 {{ $parent.currentSlide * $parent.currentSlide }}
+   - cool <b>OK</b>
+   - ness
 </template>
 
-    <template class="nd-source">
+    <template class="nd-source html">
       <section>
         POUET PUET
       <h1>{{ $parent.opts }}<span class="comment"> comment</span></h1>
@@ -50,7 +108,7 @@
       </template>
 
 
-      <template class="nd-source">
+      <template class="nd-source html">
       <h1>{{ $parent.currentSlide }}<span class="comment"> comment</span></h1>
 <ul>
 <li><span class="var-author">Rémi Emonet</span></li>
