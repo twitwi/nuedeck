@@ -29,6 +29,7 @@
     <template class="nd-source">
 ## Single “smart” slide in markdown
 - A template element with class nd-source (by default)
+  - this is a sub element
 - This is the second element of a bullet list
     </template>
 
@@ -36,6 +37,7 @@
     <template class="nd-source">
       ## Indented “smart” slide in markdown
       - A template element with class nd-source (by default)
+        - this is a sub element
       - This is the second element of a bullet list
     </template>
 
@@ -43,13 +45,36 @@
     <template class="nd-source">
       ## First slide in a block
       - This is the first slide of the block
-      - 1<sup>st</sup>
-      
+        - 1<sup>st</sup>
+
       ## Second slide in a block
       - This is the second slide of the block
-      - 2<sup>nd</sup>
+        - 2<sup>nd</sup>
     </template>
 
+    <!-- With "nd-source html" you can have raw html slides -->
+    <template class="nd-source html">
+      <section>
+        <h6>This is an HTML slide</h6>
+        <ul>
+          <li><a href="https://arxiv.org/abs/1710.05468">https://arxiv.org/abs/1710.05468</a> (<a href="https://arxiv.org/pdf/1710.05468.pdf" target="_blank">pdf</a>)</li>
+          <li><em>Generalization in Deep Learning</em></li>
+          <li>Kenji Kawaguchi, Leslie Pack Kaelbling, Yoshua Bengio</li>
+        </ul>
+        <blockquote style="font-size:10px">This paper provides non-vacuous and numerically-tight generalization guarantees for deep learning, as well as theoretical insights into why and how deep learning can generalize well, despite its large capacity, complexity, possible algorithmic instability, nonrobustness, and sharp minima, responding to an open question in the literature. We also propose new open problems and discuss the limitations of our results. </blockquote>
+      </section>
+      <section>
+        <h6>This is another HTML slide</h6>
+        <div>
+            <div style="width: 46%; float: left; border: 4px solid black;"> this is a two-column layout (that could be achieved with some classes and css styles also) </div>
+            <div style="width: 46%; float: right; border: 4px solid black;"> lorem ipsum … </div>
+        </div>
+      </section>
+    </template>
+
+
+
+  <template class="nd-source">
 ## In this presentation, you'll find
 - An example title slide
 - Examples of section slides (#) and normal slides (##)
@@ -114,14 +139,6 @@
 <li><span class="var-author">Rémi Emonet</span></li>
 <li><span class="var-date">2019-06-29</span></li>
 </ul>
-</section>
-<section>
-<ul>
-<li><a href="https://arxiv.org/abs/1710.05468">https://arxiv.org/abs/1710.05468</a> (<a href="https://arxiv.org/pdf/1710.05468.pdf" target="_blank">pdf</a>)</li>
-<li><em>Generalization in Deep Learning</em></li>
-<li>Kenji Kawaguchi, Leslie Pack Kaelbling, Yoshua Bengio</li>
-</ul>
-<blockquote style="font-size:24px">This paper provides non-vacuous and numerically-tight generalization guarantees for deep learning, as well as theoretical insights into why and how deep learning can generalize well, despite its large capacity, complexity, possible algorithmic instability, nonrobustness, and sharp minima, responding to an open question in the literature. We also propose new open problems and discuss the limitations of our results. </blockquote>
 </section>
 <section>
 <ol>
