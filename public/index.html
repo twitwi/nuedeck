@@ -19,13 +19,19 @@
     .current-slide { border: 1px solid green; opacity: 1; }
     .current-slide-p1 { border: 1px solid blue; opacity: 1; }
 
-    .nuedeck { border: 2px solid red; }
+    .nuedeck { border: 2px solid red; position: relative;}
     </style>
   </head>
   <body>
     <!-- This is the main container (TODO: might get replaced/complemented by a template/layout) -->
     <div id="nd-container"></div>
 
+    <!-- To add something to the container -->
+    <template class="nd-addon">
+      <status-bar :current="currentSlide"></status-bar>
+    </template>
+
+    <!-- To add something to every slide -->
     <template class="nd-addin">
       <span>{{ currentSlide }} !!!!</span>
       <status-bar></status-bar>

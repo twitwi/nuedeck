@@ -15,6 +15,11 @@
           data: ((d) => () => ({ ...d, renderSlide: i }))($data), // pass a copy of data (test for performance)
           template: a.contentTemplate }"></component>
     </div>
+    <component v-for="(a,ai) in addons"
+    :key="'A'+ai"
+    :is="{
+        data: ((d) => () => ({ ...d}))($data), // pass a copy of data (test for performance)
+        template: a.contentTemplate }"></component>
   </div>
 </template>
 
@@ -53,6 +58,7 @@ export let defaultMixin = {
             container: '#nd-container',
             sources: '.nd-source',
             addins: '.nd-addin',
+            addons: '.nd-addon',
             sourceTypeHtml: '.html'
           },
           // eslint-disable-next-line
@@ -116,6 +122,7 @@ let vmopts = {
     return {
       slides: [],
       addins: [],
+      addons: [],
       keyBindings: [],
       currentSlide: 4,
       vars: {},
@@ -163,6 +170,16 @@ let vmopts = {
         }
       })
       this.slides.splice(0, 0, ...allNew)
+    }
+    { // Load addons (to be added to the container)
+      let allNew = []
+      this.forAll(S.addons, (slide) => {
+        let o = Array.from(slide.content.children).map( el => ({
+          contentTemplate: el.outerHTML
+        }))
+        allNew = [...allNew, ...o]
+      })
+      this.addons.splice(0, 0, ...allNew)
     }
     { // Load addins (to be added to every slide)
       let allNew = []

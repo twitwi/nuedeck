@@ -3,7 +3,7 @@
     {{ p.vars.venue }} |
     {{ p.vars.author }} |
     {{ p.vars.date }} |
-    {{ $parent.renderSlide + 1 }} / {{ p.slideCount }}
+    {{ current + 1 }} / {{ p.slideCount }}
   </div>
 </template>
 
@@ -16,6 +16,9 @@ export default {
     }
   },
   props: {
+    current: {
+      default () { return this.$parent.renderSlide }
+    }
   }
 }
 </script>
