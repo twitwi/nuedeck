@@ -9,7 +9,7 @@
 
     <title>NueDeck: an introduction</title>
 
-    <meta name="author" content="Rémi Emonet TODO">
+    <meta name="author" content="Rémi Emonet / TODO">
     <meta name="venue" content="NueDeck">
     <meta name="date" content="2019-06-29">
 
@@ -62,10 +62,11 @@
     <template class="nd-source">
       # <span v-html="vars.title"></span> <!-- title can be more than plain text -->
       - {{ vars.author }}
+        ||| <span v-html="$parent.br(vars.author, '/')"></span>
+        <!-- here we replaced / by newlines -->
       - {{ vars.date }}
-      <!-- here we replace non-breaking spaces by newlines -->
-      - <span v-html="$parent.br(vars.title)"></span>
-      - <span v-html="$parent.br(vars.author)"></span>
+        ||| <span v-html="$parent.br(vars.title)"></span>
+        <!-- here we replaced non-breaking spaces by newlines -->
     </template>
 
     <!-- With "nd-source html" you can have raw html slides -->

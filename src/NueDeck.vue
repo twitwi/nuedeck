@@ -175,8 +175,11 @@ let vmopts = {
       }
       return res
     },
-    br (v) {
-      return v.replace(this.opts.core.metadataSeparator, "<br/>")
+    br (v, sep=undefined) {
+      if (sep === undefined) {
+        sep = this.opts.core.metadataSeparator
+      }
+      return v.replace(sep, "<br/>")
     }
   }
 }
