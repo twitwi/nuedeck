@@ -54,7 +54,9 @@ export let defaultMixin = {
             sources: '.nd-source',
             addins: '.nd-addin',
             sourceTypeHtml: '.html'
-          }
+          },
+          // eslint-disable-next-line
+          metadataSeparator: /(&nbsp;| )/gi,   /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */
         },
         skipPlugins: [],
       }
@@ -103,7 +105,7 @@ let vmopts = {
     return {
       slides: [],
       addins: [],
-      currentSlide: 1,
+      currentSlide: 4,
       vars: {},
     }
   },
@@ -172,6 +174,9 @@ let vmopts = {
         res.push(this.opts.core.classes.currentSlide + suffix)
       }
       return res
+    },
+    br (v) {
+      return v.replace(this.opts.core.metadataSeparator, "<br/>")
     }
   }
 }

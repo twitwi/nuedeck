@@ -7,9 +7,9 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <meta charset="utf-8">
 
-    <title>NueDeck</title>
+    <title>NueDeck: an introduction</title>
 
-    <meta name="author" content="Rémi Emonet">
+    <meta name="author" content="Rémi Emonet TODO">
     <meta name="venue" content="NueDeck">
     <meta name="date" content="2019-06-29">
 
@@ -18,12 +18,13 @@
     .current-slide-m1 { border: 1px solid red; opacity: 0.2; }
     .current-slide { border: 1px solid green; opacity: 1; }
     .current-slide-p1 { border: 1px solid blue; opacity: 1; }
+
+    .nuedeck { border: 2px solid red; }
     </style>
   </head>
   <body>
     <!-- This is the main container (TODO: might get replaced/complemented by a template/layout) -->
-    <div id="nd-container">
-    </div>
+    <div id="nd-container"></div>
 
     <template class="nd-addin">
       <span>{{ currentSlide }} !!!!</span>
@@ -55,6 +56,16 @@
       ## Second slide in a block
       - This is the second slide of the block
         - 2<sup>nd</sup>
+    </template>
+
+    <!-- One can also use vue.js to access various variables -->
+    <template class="nd-source">
+      # <span v-html="vars.title"></span> <!-- title can be more than plain text -->
+      - {{ vars.author }}
+      - {{ vars.date }}
+      <!-- here we replace non-breaking spaces by newlines -->
+      - <span v-html="$parent.br(vars.title)"></span>
+      - <span v-html="$parent.br(vars.author)"></span>
     </template>
 
     <!-- With "nd-source html" you can have raw html slides -->
