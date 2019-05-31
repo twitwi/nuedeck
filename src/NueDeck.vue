@@ -1,19 +1,10 @@
 <template>
   <div class="nuedeck">
-    {{ opts }}
-    <button @click="currentSlide--">«</button>
-    <button @click="currentSlide++">»</button>
-    <br/>
     <div v-for="[s,i] in slidesToRender"
          :key="'S'+i"
          :class="slideClasses(s, i, currentSlide)"
          :style="{ NOdisplay: i==currentSlide ? undefined : 'none'}">
-      <hr/>
-      <hr/>
-      {{ i }}
-      <hr/>
       <!-- TODO find a way to alias $parent (at least, and test perf of the current solution) -->
-      <br/>
       <!-- another solution props: {state: {default:$data}} -->
       <component :is="{
         data: ((d) => () => d)($data), // pass a copy of data (test for performance)
@@ -30,6 +21,7 @@
 <script>
 
 import showdown from 'showdown'
+import keymage from 'keymage'
 
 let tools = {
   L () {
@@ -44,6 +36,14 @@ export let defaultMixin = {
   data () {
     return {
       opts: {
+        keys: {
+          previousStep: ['backspace', 'left', 'pgdown'],
+          nextStep: ['enter', 'space', 'right', 'pgup'],
+          previousSlide: ['up'],
+          nextSlide: ['down'],
+          previousEndOfSlide: ['a'],
+          nextEndOfSlide: ['z'],
+        },
         core: {
           classes : {
             slide: 'slide',
@@ -97,6 +97,17 @@ function makeSlidesFromMarkdown (contentNode) {
   }))
 }
 
+function registerKeybindings (vm) {
+  if (vm.keyBindingsUnregistering !== undefined) {
+    vm.keyBindingsUnregistering.forEach(f => f())
+    vm.keyBindingsUnregistering = []
+  }
+  let keys = vm.opts.keys
+  for (let k in keys) {
+    // TODO: consider nested objects in keys (for plugins)
+    keys[k].forEach(s => keymage(s, ev => vm.$emit(k, ev)))
+  }
+}
 
 let vmopts = {
   name: 'nuedeck',
@@ -105,9 +116,16 @@ let vmopts = {
     return {
       slides: [],
       addins: [],
+      keyBindings: [],
       currentSlide: 4,
       vars: {},
     }
+  },
+  created () {
+    // non-reactive properties
+    // event bus
+    this.$on('nextStep', () => this.currentSlide++)
+    this.$on('previousStep', () => this.currentSlide--)
   },
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
@@ -156,6 +174,7 @@ let vmopts = {
       })
       this.addins.splice(0, 0, ...allNew)
     }
+    registerKeybindings(this)
   },
   mounted () {
   },
@@ -175,6 +194,7 @@ let vmopts = {
       }
       return res
     },
+    // TODO: maybe separate what is meant to be used like these?
     br (v, sep=undefined) {
       if (sep === undefined) {
         sep = this.opts.core.metadataSeparator
