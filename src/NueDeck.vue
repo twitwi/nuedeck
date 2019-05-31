@@ -22,6 +22,8 @@
 
 <script>
 
+import showdown from 'showdown'
+
 let tools = {
   L () {
     console.log(...['LOG:', ...arguments])
@@ -53,13 +55,39 @@ export let defaultMixin = {
           },
           selectors: {
             container: '#nd-container',
-            sources: '.nd-source'
+            sources: '.nd-source',
+            sourceTypeMarkdown: '.smart'
           }
         },
         skipPlugins: [],
       }
     }
   }
+}
+
+function makeSlidesFromMarkdown (contentNode) {
+  let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
+
+  window.content = content
+  // TODO make this optionnal and even metadata configurable (tricky in some sense)
+  { // remove trailing spaces
+    let lines = content.split('\n')
+    let spaces = lines.filter( l => l.trim().length > 0).map( l => l.length - l.replace(/^ */, '').length)
+    let remove = spaces.reduce((x,y)=>Math.min(x,y))
+    content = lines.map(l => l.substr(remove)).join('\n')
+  }
+
+  let converter = new showdown.Converter()
+  converter.setOption('literalMidWordUnderscores', true)
+  converter.setOption('disableForced4SpacesIndentedSublists', true)
+  converter.setOption('simpleLineBreaks', true)
+  let html = converter.makeHtml(content);
+
+  tools.L(html)
+
+  return [
+    {contentTemplate: `<div>${html}</div>` }
+  ]
 }
 
 
@@ -81,14 +109,22 @@ let vmopts = {
     }
   },
   beforeMount () {
-    this.L(this.opts.core.selectors.sources)
-    this.forAll(this.opts.core.selectors.sources, (slide) => {
-      let o = Array.from(slide.content.children).map( el => ({
-        contentTemplate: el.outerHTML
-      }))
-      this.slides.splice(0, 0, ...o)
+    let S = this.opts.core.selectors
+    let allNew = []
+    // Load slides in different formats
+    this.forAll(S.sources, (slide) => {
+      this.L(slide.content)
+      if (slide.matches(S.sourceTypeMarkdown)) {
+        allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
+      } else { // default html
+        let o = Array.from(slide.content.children).map( el => ({
+          contentTemplate: el.outerHTML
+        }))
+        allNew = [...allNew, ...o]
+      }
     })
-    this.L(this.slides)
+    this.slides.splice(0, 0, ...allNew)
+    this.L(JSON.parse(JSON.stringify(this.slides)))
   },
   mounted () {
   },

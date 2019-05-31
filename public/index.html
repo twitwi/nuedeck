@@ -14,7 +14,7 @@
     <meta name="date" content="2019-06-29">
 
     <style>
-    .slide { transition: all 1s; opacity: 0; display: inline-block; width: 100%; height: 150px; overflow: scroll;}
+    .slide { font-size: 75%; transition: all 1s; opacity: 0; display: inline-block; width: 45%; height: 250px; overflow: scroll;}
     .current-slide-m1 { border: 1px solid red; opacity: 0.2; display: none; }
     .current-slide { border: 1px solid green; opacity: 1; }
     .current-slide-p1 { border: 1px solid blue; opacity: 1; }
@@ -24,14 +24,33 @@
     <div id="nd-container">
     </div>
 
+
+    <template class="nd-source smart">
+    # TOTO
+    - cool
+      - sub_zero_math
+        and more
+      - sub
+    - ness
+    </template>
+ <template class="nd-source ">
+# TOTO 2 {{ $parent.currentSlide }}
+- cool <b>OK</b>
+- ness
+</template>
+
     <template class="nd-source">
       <section>
+        POUET PUET
       <h1>{{ $parent.opts }}<span class="comment"> comment</span></h1>
         TEST <span v-if="false">SHOULD NOT APPEAR</span>
         {{ $parent.opts }}
         TEST
       </section>
-      <section>
+      </template>
+
+
+      <template class="nd-source">
       <h1>{{ $parent.currentSlide }}<span class="comment"> comment</span></h1>
 <ul>
 <li><span class="var-author">Rémi Emonet</span></li>
