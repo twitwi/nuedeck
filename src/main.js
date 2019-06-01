@@ -10,6 +10,8 @@ Vue.component('HelloWorld', HelloWorld)
 import StatusBar from './components/StatusBar.vue'
 Vue.component('StatusBar', StatusBar)
 
+import LocalStyle from './components/LocalStyle.vue'
+Vue.component('LocalStyle', LocalStyle)
 
 
 new Vue({
