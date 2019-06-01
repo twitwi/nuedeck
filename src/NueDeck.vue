@@ -29,6 +29,8 @@
 <script>
 
 import showdown from 'showdown'
+import showdownKatex from 'showdown-katex'
+// TODO make sure we can run offline etc
 import keymage from 'keymage'
 
 let tools = {
@@ -96,7 +98,15 @@ function makeSlidesFromMarkdown (contentNode) {
     slides = slides.map(l=>l.join('\n')).filter(s => s.trim().length > 0)
   }
 
-  let converter = new showdown.Converter()
+  let converter = new showdown.Converter({
+    extensions: [
+      showdownKatex({
+        delimiters: [
+          { left: "$", right: "$", display: true }
+        ]
+      })
+    ]
+  })
   converter.setOption('literalMidWordUnderscores', true)
   converter.setOption('disableForced4SpacesIndentedSublists', true)
   converter.setOption('simpleLineBreaks', true)
@@ -136,7 +146,7 @@ let vmopts = {
         // have a helper to register that
         // nameOfTheEvent: { short: "...", long: "......."}
       },
-      currentSlide: 6,
+      currentSlide: 3,
       currentStep: 0,
       vars: {},
     }

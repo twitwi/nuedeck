@@ -21,6 +21,7 @@
 
     .nuedeck { border: 2px solid red; position: relative;}
     .current-step~* {color: red;}
+    .katex>*~.katex-html {display: none;}
     </style>
   </head>
   <body>
@@ -63,6 +64,10 @@
       ## Second slide in a block
       - This is the second slide of the block
         - 2<sup>nd</sup>
+        - and some latex/katex $ \sum_{i=1}^{10^{n}} f(i) $
+        - and some latex/katex $$ \sum_{i=1}^{10^{n}} f(i) $$
+        - and some ascimath ~1+1/2/2~ (but causes error if too complex)
+
     </template>
 
     <!-- One can also use vue.js to access various variables -->
