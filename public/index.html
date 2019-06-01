@@ -20,6 +20,7 @@
     .current-slide-p1 { border: 1px solid blue; opacity: 1; }
 
     .nuedeck { border: 2px solid red; position: relative;}
+    .current-step~* {color: red;}
     </style>
   </head>
   <body>
@@ -92,6 +93,39 @@
             <div style="width: 46%; float: left; border: 4px solid black;"> this is a two-column layout (that could be achieved with some classes and css styles also) </div>
             <div style="width: 46%; float: right; border: 4px solid black;"> lorem ipsum … </div>
         </div>
+      </section>
+    </template>
+
+
+
+    <template class="nd-source html">
+      <section style="font-size: 80%;">
+        <local-style>
+          .step::after { content: ' [step]'; font-weight: bold; }
+        </local-style>
+        <h1>Testing Step Animations</h1>
+        <ol>
+          <li>Introduction</li>
+          <ol>
+            <li>Introduction</li>
+            <li>Background</li>
+            <li class="step">“Rethinking Generalization”</li>
+            <li>Discussion</li>
+            <li class="step">Appendices</li>
+          </ol>
+          <li>Background
+            <ol>
+              <li>Introduction</li>
+              <li>Background</li>
+              <li class="step">“Rethinking Generalization”</li>
+              <li>Discussion</li>
+              <li class="step">Appendices</li>
+            </ol>
+          </li>
+          <li class="step">“Rethinking Generalization”</li>
+          <li class="step">Generalization bound via validation</li>
+          <li>After last</li>
+        </ol>
       </section>
     </template>
 

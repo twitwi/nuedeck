@@ -3,7 +3,7 @@
     {{ p.vars.venue }} |
     {{ p.vars.author }} |
     {{ p.vars.date }} |
-    {{ current + 1 }} / {{ p.slideCount }}
+    {{ current + 1 }} / {{ p.slideCount }} ({{ p.currentStep }}/{{ p.stepCount }})
   </div>
 </template>
 

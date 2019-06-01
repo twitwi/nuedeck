@@ -3,17 +3,20 @@
     <div v-for="[s,i] in slidesToRender"
          :key="'S'+i"
          :class="slideClasses(s, i, currentSlide)"
-         :style="{ NOdisplay: i==currentSlide ? undefined : 'none'}">
+         :style="{ display: Math.abs(currentSlide-i)<=1 ? undefined : 'none'}">
       <!-- TODO find a way to alias $parent (at least, and test perf of the current solution) -->
       <!-- another solution props: {state: {default:$data}} -->
       <component :is="{
+        mounted () {
+          slideContentRoot(i, this.$el)
+        },
         data: ((d) => () => d)($data), // pass a copy of data (test for performance)
         template: s.contentTemplate }"></component>
       <component v-for="(a,ai) in addins"
       :key="'S'+i+'A'+ai"
       :is="{
-          data: ((d) => () => ({ ...d, renderSlide: i }))($data), // pass a copy of data (test for performance)
-          template: a.contentTemplate }"></component>
+        data: ((d) => () => ({ ...d, renderSlide: i }))($data), // pass a copy of data (test for performance)
+        template: a.contentTemplate }"></component>
     </div>
     <component v-for="(a,ai) in addons"
     :key="'A'+ai"
@@ -115,6 +118,11 @@ function registerKeybindings (vm) {
   }
 }
 
+function maybe (obj, possibleAttributeFunction) {
+  if (obj[possibleAttributeFunction] === undefined) return () => {}
+  return obj[possibleAttributeFunction]
+}
+
 let vmopts = {
   name: 'nuedeck',
   mixins: [defaultMixin],
@@ -124,25 +132,57 @@ let vmopts = {
       addins: [],
       addons: [],
       keyBindings: [],
-      currentSlide: 4,
+      keyDocs: {
+        // have a helper to register that
+        // nameOfTheEvent: { short: "...", long: "......."}
+      },
+      currentSlide: 6,
+      currentStep: 0,
       vars: {},
+    }
+  },
+  watch: {
+    slides () {
+      this.L('WATCH: slides')
     }
   },
   created () {
     // non-reactive properties
-    // event bus
-    this.$on('nextStep', () => this.currentSlide++)
-    this.$on('previousStep', () => this.currentSlide--)
+    this.slideContentRoots = {}
+    // event bus from key bindings
+    this.$on('nextStep', () => {
+      let s = this.slides[this.currentSlide]
+      if (this.currentStep >= s.steps.length - 1) {
+        if (this.currentSlide === this.slideCount - 1) return
+        this.jumpToSlide(this.currentSlide + 1, 0)
+      } else {
+        this.jumpToSlide(this.currentSlide, this.currentStep + 1)
+      }
+    })
+    this.$on('previousStep', () => {
+      if (this.currentStep <= 0) {
+        if (this.currentSlide === 0) return
+        let sl = this.currentSlide - 1
+        let s = this.slides[sl]
+        let st = Math.max(0, s.steps.length - 1)
+        this.jumpToSlide(sl, st)
+      } else {
+        this.jumpToSlide(this.currentSlide, this.currentStep - 1)
+      }
+    })
   },
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
     slidesToRender () {
-      let start = Math.max(0, this.currentSlide - 1)
-      let end = Math.min(this.currentSlide + 2, this.slides.length)
+      let start = 0 //Math.max(0, this.currentSlide - 1)
+      let end = this.slides.length //Math.min(this.currentSlide + 2, this.slides.length)
       return this.slides.map((s,i) => [s, i]).slice(start, end)
     },
     slideCount () {
       return this.slides.length
+    },
+    stepCount () {
+      return this.slides[this.currentSlide].steps.length
     }
   },
   beforeMount () {
@@ -169,6 +209,9 @@ let vmopts = {
           allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
         }
       })
+      allNew.forEach(s => {
+        if (s.steps === undefined) s.steps = []
+      })
       this.slides.splice(0, 0, ...allNew)
     }
     { // Load addons (to be added to the container)
@@ -194,9 +237,74 @@ let vmopts = {
     registerKeybindings(this)
   },
   mounted () {
+    this.L('MOUNTED')
+  },
+  updated () {
+    this.L('UPDATED')
+    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-1})
   },
   methods: {
     ...tools,
+    slideContentRoot (i, dom) {
+      // TODO: investigate, hard, this seems to be called way too much du to vuejs rerendering a lot...
+      // this happens because currentSlide changes => classes for the slides changes => for loop redone... (independant of the use of slidesToRender)
+      //this.L('SLIDE CONTENT MOUNTED', i, dom)
+      this.L('SLIDE CONTENT MOUNTED')
+      this.slideContentRoots[i] = dom
+    },
+    parseSteps (i, dom) {
+      this.L('PARSE STEPS', i)
+      let s = this.slides[i]
+      let allNew = []
+      this.forAll('.step', (el,elind) => {
+        allNew.push(() => {
+          this.L('step', elind, 'of slide', i)
+          this.forAll('.step, .current-step', clear => clear.classList.remove('current-step', 'current-step-exact'), dom)
+          let cur = el
+          this.L('cur', cur)
+          cur.classList.add('current-step-exact')
+          while (! cur.classList.contains('slide')) {
+            cur.classList.add('current-step')
+            cur = cur.parentNode
+            this.L('cur changed to parent', cur)
+          }
+        })
+      }, dom)
+      allNew.push(() => {
+        this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)
+      })
+      s.steps.splice(0, s.steps.length, ...allNew)
+    },
+    jumpToSlide (sl, st, pPrev={}) {
+      let prev = {sl: this.currentSlide, st: this.currentStep}
+      Object.assign(prev, pPrev)
+      this.L(prev, sl, st)
+      if (prev.sl !== sl) {
+        if (this.slideContentRoots[sl] !== undefined) {
+          this.parseSteps(sl, this.slideContentRoots[sl])
+        }
+      }
+      if (prev.sl === sl) {
+        // we stay in the same slide
+        if (prev.st < st) {
+          for (let i = prev.st+1; i <= st; i++) {
+            // TODO will need to .skip and .doit
+            this.slides[sl].steps[i]()
+          }
+        } else {
+          for (let i = prev.st-1; i >= st; i--) {
+            // TODO will need to .skip and .doit
+            this.slides[sl].steps[i]()
+          }
+        }
+        this.currentStep = st
+      } else {
+        // we change slide
+        this.slides[sl].steps.slice(0, st+1).forEach(f => f())
+        this.currentSlide = sl
+        this.currentStep = st
+      }
+    },
     slideClasses (s, i, currentSlide) {
       let res = [this.opts.core.classes.slide]
       {
