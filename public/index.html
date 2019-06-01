@@ -14,10 +14,10 @@
     <meta name="date" content="2019-06-29">
 
     <style>
-    .slide { font-size: 75%; transition: all 1s; opacity: 0; display: inline-block; width: 45%; height: 250px; overflow: scroll;}
-    .current-slide-m1 { border: 1px solid red; opacity: 0.2; }
-    .current-slide { border: 1px solid green; opacity: 1; }
-    .current-slide-p1 { border: 1px solid blue; opacity: 1; }
+    .slide { font-size: 75%; transition: all 300ms; opacity: 0; display: inline-block; width: 45%; height: 250px; overflow: scroll; position: absolute; left: 0; top: 20px; transform: translate(100%,100%)}
+    .current-slide-m1 { border: 1px solid red; opacity: 0.2; transform: translate(100%, 0) scale(0.75, 0.75)}
+    .current-slide { border: 1px solid green; opacity: 1; transform: none;}
+    .current-slide-p1 { border: 1px solid blue; opacity: 1; transform: translate(0,100%) scale(0.75, 0.75) }
 
     .nuedeck { border: 2px solid red; position: relative;}
     .current-step~* {color: red;}
@@ -102,7 +102,7 @@
     </template>
 
 
-
+    <!-- show/test steps (progressive display) + style -->
     <template class="nd-source html">
       <section style="font-size: 80%;">
         <local-style>
@@ -134,7 +134,41 @@
       </section>
     </template>
 
+    <!-- style (and more generally custom elements) in markdown -->
+    <template class="nd-source">
+      # Style in markdown
+      <local-style>
+        .style-in-md::after { content: ' [STYLE]'; font-weight: bold; }
+      </local-style>
+      - <span class="style-in-md"></span>
+    </template>
 
+
+    <template class="nd-source">
+      # @COPY: simpleTest
+    </template>
+
+    <template class="nd-TENTATIVE">
+      @SLIDE: #thing class truc much
+      # bla bla
+      - then maybe, @COPY could even be at this level too...
+
+      OR
+
+      @{#thing class truc much}
+      #
+
+      THEN
+
+      # @COPY: #thing
+
+      @{#truc funky}
+      # @COPY: #thing
+
+      OR even (but somewhat less generic)
+
+      @COPY: #thing
+    </template>
 
   <template class="nd-source">
 ## In this presentation, you'll find

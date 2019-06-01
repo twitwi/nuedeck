@@ -75,6 +75,65 @@ export let defaultMixin = {
   }
 }
 
+function processCustomMarkdownConstructs (w) {
+  // w is a wrapper (body element actually) that contains the slide content
+  // NB: it is a single slide (for now)
+  let d = w.getRootNode()
+  tools.L(w)
+
+  let may = (f) => f ? f : ()=>{}
+  let endsWith = (longStr, part) => longStr.indexOf(part, longStr.length - part.length) !== -1
+  let REST = null
+  let RESTRIM = null
+  let startsWith = (longStr, part) => {
+      let res = longStr.substr(0, part.length) == part
+      REST = res ? longStr.slice(part.length) : null
+      RESTRIM = res ? REST.replace(/^ */, "") : null
+      return res
+  }
+  var startsWithIgnoreCase = (longStr, part) => {
+      let res = longStr.substr(0, part.length).toUpperCase() == part.toUpperCase()
+      REST = res ? longStr.slice(part.length) : null
+      RESTRIM = res ? REST.replace(/^ */, "") : null
+      return res;
+  }
+
+  // TODO KNOW HOW TO HANDLE THE FACT THAT @COPY WILL REFERENCE OTHER SLIDE (that have no ids for now)
+  Array.from(w.children).forEach(s => {
+    tools.L(s.firstChild)
+    if (s.firstChild.tagName.match(/^h1$/i)) {
+      if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {
+        var main = RESTRIM.split(/:/);
+        var baseSelector = main[0];
+        var animPart = main.slice(1).join(':');
+        var hasAnim = ! animPart.match(/^\s*$/);
+        var base = null;
+        s.outerHTML = `<section>TODO DO REPLACE BY ${main}</section>`
+        /*
+        for (i in slides) {
+          if ($(slides[i]).is(baseSelector)) {
+            base = slides[i];
+          }
+        }
+        if (base == null) {
+          // TODO should alert based on options
+          alert("Could not find matches for selector '"+baseSelector+"' in @COPY");
+          return s;
+        }
+        slide = $(base).clone().get(0);
+        slide.removeAttribute('id');
+        if (hasAnim) {
+          slide.classList.add('anim-continue');
+          $('<span>').text('@anim:'+animPart).insertAfter(slide.firstChild); // first is the heading, we want to keep it there
+        }
+        slides[s] = slide;
+        return s;
+        */
+      }
+    }
+  })
+}
+
 function makeSlidesFromMarkdown (contentNode) {
   // Content as text
   let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
@@ -107,13 +166,28 @@ function makeSlidesFromMarkdown (contentNode) {
       })
     ]
   })
+  converter.setOption('noHeaderId',  true),
   converter.setOption('literalMidWordUnderscores', true)
   converter.setOption('disableForced4SpacesIndentedSublists', true)
   converter.setOption('simpleLineBreaks', true)
 
-  return slides.map(s => ({
-    contentTemplate: `<div>${ converter.makeHtml(s) }</div>`
-  }))
+  let res = []
+  slides.forEach(sraw => {
+    // TODO: consider promoting it as a showdown extension? might need to handle not single slides but whole content (and do the h1, h2 splitting and allow to not do it)
+    // on the model of showdown-katex
+    let html = converter.makeHtml(sraw)
+    let parser = new DOMParser()
+    let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
+    // TODO: extension point
+    processCustomMarkdownConstructs(wrapper)
+    Array.from(wrapper.children).forEach(s => {
+      res.push({
+        contentTemplate: s.outerHTML,
+        key: s.getAttribute('id')
+      })
+    })
+  })
+  return res
 }
 
 function registerKeybindings (vm) {
@@ -146,8 +220,8 @@ let vmopts = {
         // have a helper to register that
         // nameOfTheEvent: { short: "...", long: "......."}
       },
-      currentSlide: 3,
-      currentStep: 0,
+      currentSlide: 7,
+      currentStep: 4,
       vars: {},
     }
   },
@@ -216,7 +290,7 @@ let vmopts = {
           }))
           allNew = [...allNew, ...o]
         } else { // default, smart
-          allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content)]
+          allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content, )]
         }
       })
       allNew.forEach(s => {
@@ -248,6 +322,7 @@ let vmopts = {
   },
   mounted () {
     this.L('MOUNTED')
+    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-1})
   },
   updated () {
     this.L('UPDATED')
