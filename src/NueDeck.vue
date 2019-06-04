@@ -370,7 +370,7 @@ let vmopts = {
           let cur = el
           this.L('cur', cur)
           cur.classList.add('current-step-exact')
-          while (! cur.classList.contains('slide')) {
+          while (! cur.parentNode.classList.contains('slide')) {
             cur.classList.add('current-step')
             cur = cur.parentNode
             this.L('cur changed to parent', cur)
