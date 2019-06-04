@@ -234,15 +234,6 @@ let vmopts = {
     // non-reactive properties
     this.slideContentRoots = {}
     // event bus from key bindings
-    this.$on('nextStep', () => {
-      let s = this.slides[this.currentSlide]
-      if (this.currentStep >= s.steps.length - 1) {
-        if (this.currentSlide === this.slideCount - 1) return
-        this.jumpToSlide(this.currentSlide + 1, 0)
-      } else {
-        this.jumpToSlide(this.currentSlide, this.currentStep + 1)
-      }
-    })
     this.$on('previousStep', () => {
       if (this.currentStep <= 0) {
         if (this.currentSlide === 0) return
@@ -253,6 +244,36 @@ let vmopts = {
       } else {
         this.jumpToSlide(this.currentSlide, this.currentStep - 1)
       }
+    })
+    this.$on('nextStep', () => {
+      let s = this.slides[this.currentSlide]
+      if (this.currentStep >= s.steps.length - 1) {
+        if (this.currentSlide === this.slideCount - 1) return
+        this.jumpToSlide(this.currentSlide + 1, 0)
+      } else {
+        this.jumpToSlide(this.currentSlide, this.currentStep + 1)
+      }
+    })
+    this.$on('previousEndOfSlide', () => {
+      this.jumpToSlide(this.currentSlide - 1, -1)
+    })
+    this.$on('nextEndOfSlide', () => {
+      let s = this.slides[this.currentSlide]
+      if (this.currentStep >= s.steps.length - 1) {
+        this.jumpToSlide(this.currentSlide + 1, -1)
+      } else {
+        this.jumpToSlide(this.currentSlide, -1)
+      }
+    })
+    this.$on('previousSlide', () => {
+      if (this.currentStep == 0) {
+        this.jumpToSlide(this.currentSlide - 1, 0)
+      } else {
+        this.jumpToSlide(this.currentSlide, 0)
+      }
+    })
+    this.$on('nextSlide', () => {
+      this.jumpToSlide(this.currentSlide + 1, 0)
     })
   },
   computed: {
@@ -322,11 +343,11 @@ let vmopts = {
   },
   mounted () {
     this.L('MOUNTED')
-    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-1})
+    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
   updated () {
     this.L('UPDATED')
-    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-1})
+    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
   methods: {
     ...tools,
@@ -364,11 +385,13 @@ let vmopts = {
       let prev = {sl: this.currentSlide, st: this.currentStep}
       Object.assign(prev, pPrev)
       this.L(prev, sl, st)
+      if (sl < 0) sl = this.slides.length + sl // handle negative slide index
       if (prev.sl !== sl) {
         if (this.slideContentRoots[sl] !== undefined) {
           this.parseSteps(sl, this.slideContentRoots[sl])
         }
       }
+      if (st < 0) st = this.slides[sl].steps.length + st // handle negative step index
       if (prev.sl === sl) {
         // we stay in the same slide
         if (prev.st < st) {
