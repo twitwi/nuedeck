@@ -342,6 +342,7 @@ let vmopts = {
     registerKeybindings(this)
   },
   mounted () {
+    window.vm = this
     this.L('MOUNTED')
     this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
