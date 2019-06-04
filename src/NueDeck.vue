@@ -3,7 +3,7 @@
     <div v-for="[s,i] in slidesToRender"
          :key="'S'+i"
          :class="slideClasses(s, i, currentSlide)"
-         :style="{ display: Math.abs(currentSlide-i)<=1 ? undefined : 'none'}">
+         :style="{ display: Math.abs(currentSlide-i)<=2 ? undefined : 'none'}">
       <!-- TODO find a way to alias $parent (at least, and test perf of the current solution) -->
       <!-- another solution props: {state: {default:$data}} -->
       <component :is="{
