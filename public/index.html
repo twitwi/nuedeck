@@ -37,7 +37,9 @@
     .slide { background: #DDF; }
 
     .nuedeck { border: 10px dashed darkgreen; }
-    .nuedeck { resize: both; width: 1200px; height: 800px; overflow: hidden;}
+    /*.nuedeck { resize: both; width: 1200px; height: 800px; overflow: hidden;}*/
+    body {overflow: hidden; }
+    .nuedeck.nuedeck { position: absolute; left:0; right:0; top:0; bottom: 0; }
 
     .nuedeck { position: relative;}
     .current-step~* {color: red;}
