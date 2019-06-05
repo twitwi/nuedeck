@@ -1,5 +1,6 @@
 <template>
-  <div class="nuedeck">
+  <div class="nuedeck" ref="nuedeck">
+   <div class="fit" ref="fit">
     <div v-for="[s,i] in slidesToRender"
          :key="'S'+i"
          :class="slideClasses(s, i, currentSlide)"
@@ -23,6 +24,7 @@
     :is="{
         data: ((d) => () => ({ ...d}))($data), // pass a copy of data (test for performance)
         template: a.contentTemplate }"></component>
+   </div>
   </div>
 </template>
 
@@ -66,6 +68,13 @@ export let defaultMixin = {
             addons: '.nd-addon',
             sourceTypeHtml: '.html'
           },
+          designWidth: 800*1.3, // px
+          designHeight: 600, // px
+          fitMode: "center middle",
+          fitMarginX: 0,
+          fitMarginY: 0,
+          fitDebounce: 200,
+
           // eslint-disable-next-line
           metadataSeparator: /(&nbsp;| )/gi,   /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */
         },
@@ -344,6 +353,10 @@ let vmopts = {
   mounted () {
     window.vm = this
     this.L('MOUNTED')
+    this.optionsOverrideFromCSS()
+    this.autofit()
+    // TMP
+    this.$refs.nuedeck.onmouseup = () => {this.autofit()}
     this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
   updated () {
@@ -427,6 +440,36 @@ let vmopts = {
         res.push(this.opts.core.classes.currentSlide + suffix)
       }
       return res
+    },
+    autofit () {
+      let o = this.opts
+      let r = this.$refs.nuedeck.getBoundingClientRect()
+      let dw = o.core.designWidth
+      let dh = o.core.designHeight
+      let sx = r.width / (dw + 2*o.core.fitMarginX)
+      let sy = r.height / (dh + 2*o.core.fitMarginY)
+      let s = Math.min(sx, sy)
+      // TODO fit modes
+      this.$refs.fit.style.transform = `translate(-50%,-50%) scale(${s}, ${s}) translate(50%, 50%) translate(${r.width/2/s - dw/2}px, ${r.height/2/s - dh/2}px)`
+    },
+    optionsOverrideFromCSS () {
+      let st = getComputedStyle(this.$refs.nuedeck)
+      let digest = (pre, obj, maxd=10) => {
+        if (maxd <= 0) return
+        if (obj === undefined) return
+        if (typeof obj === 'string') return
+        for (let att of Object.keys(obj)) {
+          let k = pre+att
+          let v = st.getPropertyValue(k)
+          if (v !== '') {
+            this.L('CSS variable', k, 'replaces options value', obj[att], 'by', eval(v))
+            obj[att] = eval(v)
+          } else {
+            digest(`${k}-`, obj[att], maxd-1)
+          }
+        }
+      }
+      digest('--nuedeck-', this.opts)
     },
     // TODO: maybe separate what is meant to be used like these?
     br (v, sep=undefined) {
