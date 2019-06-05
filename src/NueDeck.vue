@@ -264,25 +264,33 @@ let vmopts = {
       }
     })
     this.$on('previousEndOfSlide', () => {
-      this.jumpToSlide(this.currentSlide - 1, -1)
+      if (this.currentSlide > 0) {
+        this.jumpToSlide(this.currentSlide - 1, -1)
+      }
     })
     this.$on('nextEndOfSlide', () => {
       let s = this.slides[this.currentSlide]
       if (this.currentStep >= s.steps.length - 1) {
-        this.jumpToSlide(this.currentSlide + 1, -1)
+        if (this.currentSlide < this.slides.length - 1) {
+          this.jumpToSlide(this.currentSlide + 1, -1)
+        }
       } else {
         this.jumpToSlide(this.currentSlide, -1)
       }
     })
     this.$on('previousSlide', () => {
       if (this.currentStep == 0) {
-        this.jumpToSlide(this.currentSlide - 1, 0)
+        if (this.currentSlide > 0) {
+          this.jumpToSlide(this.currentSlide - 1, 0)
+        }
       } else {
         this.jumpToSlide(this.currentSlide, 0)
       }
     })
     this.$on('nextSlide', () => {
-      this.jumpToSlide(this.currentSlide + 1, 0)
+      if (this.currentSlide < this.slides.length - 1) {
+        this.jumpToSlide(this.currentSlide + 1, 0)
+      }
     })
   },
   computed: {
