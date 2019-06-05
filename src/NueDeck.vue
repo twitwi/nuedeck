@@ -71,8 +71,7 @@ export let defaultMixin = {
           designWidth: 800*1.3, // px
           designHeight: 600, // px
           fitMode: "center middle",
-          fitMarginX: 0,
-          fitMarginY: 0,
+          fitMargin: [0, 0, 0, 0],
           fitDebounce: 200,
 
           // eslint-disable-next-line
@@ -363,6 +362,7 @@ let vmopts = {
     this.L('MOUNTED')
     this.optionsOverrideFromCSS()
     this.autofit()
+    window.addEventListener('resize', () => {this.autofit()})
     // TMP
     this.$refs.nuedeck.onmouseup = () => {this.autofit()}
     this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
@@ -451,14 +451,17 @@ let vmopts = {
     },
     autofit () {
       let o = this.opts
-      let r = this.$refs.nuedeck.getBoundingClientRect()
+      let r = {width: this.$refs.nuedeck.clientWidth, height: this.$refs.nuedeck.clientHeight}
+      let m = o.core.fitMargin
       let dw = o.core.designWidth
       let dh = o.core.designHeight
-      let sx = r.width / (dw + 2*o.core.fitMarginX)
-      let sy = r.height / (dh + 2*o.core.fitMarginY)
+      let sx = r.width / (dw + m[1] + m[3])
+      let sy = r.height / (dh + m[0] + m[2])
       let s = Math.min(sx, sy)
       // TODO fit modes
-      this.$refs.fit.style.transform = `translate(-50%,-50%) scale(${s}, ${s}) translate(50%, 50%) translate(${r.width/2/s - dw/2}px, ${r.height/2/s - dh/2}px)`
+      let tx = m[3] + (r.width/s - (dw + m[1] + m[3])) / 2
+      let ty = m[0] + (r.height/s - (dh + m[0] + m[2])) / 2
+      this.$refs.fit.style.transform = `translate(-50%,-50%) scale(${s}, ${s}) translate(50%, 50%) translate(${tx}px, ${ty}px)`
     },
     optionsOverrideFromCSS () {
       let st = getComputedStyle(this.$refs.nuedeck)
