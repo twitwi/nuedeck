@@ -18,9 +18,25 @@
 
     .slide { font-size: 20px; display: inline-block; overflow: scroll; }
 
+    /* THEME: raw */
+    .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
+    .slide { visibility: hidden; }
+    .current-slide { visibility: visible; }
+
+    /* THEME: trivial with a small forward transition
+    .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
+    .slide { transition: all 350ms, visibility 0s; visibility: hidden; }
+    .current-slide-m1 { opacity: 1; visibility: visible; z-index: -1; }
+    .current-slide { opacity: 1; visibility: visible; }
+    .current-slide-p1 { opacity: 0; visibility: visible; z-index: -1; }
+    .current-slide-p2 { opacity: 0; }
+    */
+
+
     /* THEME: 3 horiz
     :root { --thumb-ratio: .3; --nuedeck-core-designWidth: 800 * (1 + 2 * var(--thumb-ratio)); }
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; --p: var(--thumb-ratio)}
+    .slide { transition: all 700ms, z-index 0s; }
     .current-slide-m2 { transform: translate(calc(-400px + 400px * var(--p)), calc(600px * var(--p))) scale(0, 0); }
     .current-slide-m1 { transform: translate(calc(-400px + 400px * var(--p)), 0px) scale(var(--p), var(--p));}
     .current-slide { transform: translate(calc(800px * var(--p)), 0); }
@@ -28,30 +44,33 @@
     .current-slide-p2 { transform: translate(calc(400px + 800px * 1.5*var(--p)), calc(600px * var(--p))) scale(0, 0) ; z-index: -1}
     */
 
-    /* THEME: perspective */
+    /* THEME: perspective
     :root { --nuedeck-core-designWidth: 1500; --nuedeck-core-designHeight: 900; }
     .nuedeck { perspective: 2000px; }
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; transition: all 700ms, z-index 0s; }
-    .slide { z-index: -100; transform: translate(50%,0%) scale(.1, .1); opacity: 0; border: 1px solid black;}
+    .slide { z-index: -100; transform: translate(50%,0%) scale(.1, .1); opacity: 0; }
     .current-slide-m1 { z-index: 1; opacity: 0.75; transform: translate(750px, 0) scale(0.75, 0.75)}
     .current-slide { z-index: 3; opacity: 1; transform: none;}
     .current-slide-p1 { z-index: 2; opacity: 1; transform: translate(0,80%) scale(0.5, 0.5) rotateZ(10deg) rotateX(45deg); }
     .current-slide-p2 { z-index: 1; opacity: 1; transform: translate(0%,100%) scale(0.25, 0.25) rotateZ(20deg) rotateX(45deg); }
+    */
 
     .slide { background: #DDF; overflow: hidden; }
 
-    .nuedeck { border: 10px dashed darkgreen; }
+    /*.nuedeck { border: 10px dashed darkgreen; }*/
 
     /*
-    .nuedeck { resize: both; width: 1200px; height: 800px; overflow: hidden;}
+    .nuedeck { border: 10px dashed darkgreen; resize: both; width: 1200px; height: 800px; overflow: hidden; }
+    .nuedeck { position: relative; }
     */
     body {overflow: hidden; }
-    .nuedeck.nuedeck { position: absolute; left:0; right:0; top:0; bottom: 0; }
+    .nuedeck { position: absolute; left:0; right:0; top:0; bottom: 0; }
 
-
-    .nuedeck { position: relative;}
-    .current-step~* {color: red;}
-    .current-step.current-step-exact::after {content: "⇐"; font-size: 2em; position: relative; text-align: baseline; }
+    .slide:not(.current-slide):not(.current-slide-m1) .step,
+    .slide:not(.current-slide):not(.current-slide-m1) .step~*,
+    .current-step~*
+    {color: white;}
+    .current-step.current-step-exact::after {content: "☚"; display: inline-block; opacity: 0.75; transform: scale(5, 5) rotate(-15deg) translateY(-0.0em); transform-origin: left; }
     .katex>*~.katex-html {display: none;}
     </style>
   </head>

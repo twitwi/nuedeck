@@ -68,7 +68,7 @@ export let defaultMixin = {
             addons: '.nd-addon',
             sourceTypeHtml: '.html'
           },
-          designWidth: 800*1.3, // px
+          designWidth: 800, // px
           designHeight: 600, // px
           fitMode: "center middle",
           fitMargin: [0, 0, 0, 0],
