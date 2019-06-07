@@ -2,7 +2,7 @@
 import showdown from 'showdown'
 import showdownKatex from 'showdown-katex'
 
-function makeSlidesFromMarkdown (contentNode, vm) {
+async function makeSlidesFromMarkdown(contentNode, vm) {
   // Content as text
   let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
 
@@ -40,39 +40,39 @@ function makeSlidesFromMarkdown (contentNode, vm) {
   converter.setOption('simpleLineBreaks', true)
 
   let res = []
-  slides.forEach(sraw => {
+  for (let sraw of slides) {
     let html = converter.makeHtml(sraw)
     let parser = new DOMParser()
     let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
 
-    vm.callAllPlugins('enrichSlides', {type: 'md', body: wrapper})
+    await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper})
 
     Array.from(wrapper.children).forEach(s => {
       res.push({
-        contentTemplate: s.outerHTML,
+        contentElement: s,
         key: s.getAttribute('id')
       })
     })
-  })
+  }
   return res
 }
 
 export default () => ({
   name: 'Markdown',
 
-  generateSlides(slide, contentNode, out, ...more) {
+  async generateSlides(slide, contentNode, out) {
     if (slide.getAttribute('data-type') === 'html') {
       // html slides
       let o = Array.from(contentNode.children).map( el => ({
-        contentTemplate: el.outerHTML
+        contentElement: el
       }))
       out.splice(out.length, 0, ...o)
       return 'BREAK'
     } else if (slide.getAttribute('data-type') === 'md') {
-      out.splice(out.length, 0, ...makeSlidesFromMarkdown(contentNode, this))
+      out.splice(out.length, 0, ...await makeSlidesFromMarkdown(contentNode, this))
       return 'BREAK'
     } else if (! slide.getAttribute('data-type')) { // empty type => markdown
-      out.splice(out.length, 0, ...makeSlidesFromMarkdown(contentNode, this))
+      out.splice(out.length, 0, ...await makeSlidesFromMarkdown(contentNode, this))
       return 'BREAK'
     }
   },

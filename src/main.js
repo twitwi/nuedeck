@@ -28,6 +28,8 @@ import ExtraMarkdownPlugin from './plugins/markdown-extra.js'
 plugins.push(new ExtraMarkdownPlugin())
 import AutofitPlugin from './plugins/autofit.js'
 plugins.push(new AutofitPlugin())
+import SVGPlugin from './plugins/svg.js'
+plugins.push(new SVGPlugin())
 
 let props = {
   plugins

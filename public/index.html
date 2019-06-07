@@ -21,8 +21,8 @@
     /* THEME: raw
     */
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
-    .slide { visibility: hidden; }
-    .current-slide { visibility: visible; }
+    .slide { display: none; }
+    .current-slide { display: block; }
 
     /* THEME: trivial with a small forward transition
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
@@ -149,6 +149,11 @@
         <div>
             <div style="width: 46%; float: left; border: 4px solid black;"> this is a two-column layout (that could be achieved with some classes and css styles also) </div>
             <div style="width: 46%; float: right; border: 4px solid black;"> lorem ipsum … </div>
+        </div>
+        <br style="clear:both"/>
+        <div>
+          With some SVG, that gets inlined:
+          <img src="Test.svg" height="200px"></img>
         </div>
       </section>
     </template>

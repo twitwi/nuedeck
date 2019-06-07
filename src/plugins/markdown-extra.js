@@ -6,7 +6,7 @@ let tools = {
 export default () => ({
   name: 'MarkdownExtra',
   //
-  enrichSlides({type, body: w}, ...more) {
+  /*async*/ enrichGeneratedSlides({type, body: w}, ...more) {
 
     // TODO: make an option to actually do process other types
     if (type !== 'md') return

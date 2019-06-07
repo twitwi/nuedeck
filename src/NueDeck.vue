@@ -39,6 +39,11 @@ let tools = {
   },
   forAll (sel, f, base=document) {
     base.querySelectorAll(sel).forEach(f)
+  },
+  async asyncForAll (sel, f, base=document) {
+    for (let e of base.querySelectorAll(sel)) {
+      await f(e)
+    }
   }
 }
 
@@ -64,6 +69,7 @@ export let defaultMixin = {
             sources: '.nd-source',
             addins: '.nd-addin',
             addons: '.nd-addon',
+            svg: 'img[src$=".svg"]:not(no-inject)'
           },
           designWidth: 800, // px
           designHeight: 600, // px
@@ -153,7 +159,6 @@ let vmopts = {
     }
   },
   beforeMount () {
-    let S = this.opts.core.selectors
     { // Get HTML metadata into variables
       let app = (n, v) => {
         this.vars[n] = v
@@ -163,54 +168,64 @@ let vmopts = {
         app(e.getAttribute('name'), e.getAttribute('content'))
       })
     }
-    { // Load slides in different formats
-      let allNew = []
-      this.forAll(S.sources, (slide) => {
-        let res = this.callAllPlugins('generateSlides', slide, slide.content, allNew)
-        if (res === undefined) {
-          // no plugin handled this format
-          this.L('WARNING', 'no plugin handled this format', slide)
-        }
-      })
-      allNew.forEach(s => {
-        if (s.steps === undefined) s.steps = []
-      })
-      this.slides.splice(0, 0, ...allNew)
-    }
-    { // Load addons (to be added to the container)
-      let allNew = []
-      this.forAll(S.addons, (slide) => {
-        let o = Array.from(slide.content.children).map( el => ({
-          contentTemplate: el.outerHTML
-        }))
-        allNew = [...allNew, ...o]
-      })
-      this.addons.splice(0, 0, ...allNew)
-    }
-    { // Load addins (to be added to every slide)
-      let allNew = []
-      this.forAll(S.addins, (slide) => {
-        let o = Array.from(slide.content.children).map( el => ({
-          contentTemplate: el.outerHTML
-        }))
-        allNew = [...allNew, ...o]
-      })
-      this.addins.splice(0, 0, ...allNew)
-    }
+    this.callAllPlugins('beforeMount') // blocking, so, not to be overused
     registerKeybindings(this)
+    this.asyncBeforeMount()
   },
   mounted () {
     window.vm = this
     this.L('MOUNTED')
-    this.optionsOverrideFromCSS()
-    this.callAllPlugins('mounted')
-    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
+    this.asyncMounted()
   },
   updated () {
     this.L('UPDATED')
     this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
   methods: {
+    async asyncBeforeMount () {
+      let S = this.opts.core.selectors
+      { // Load slides in different formats
+        let allNew = []
+        await this.asyncForAll(S.sources, async (slide) => {
+          let res = await this.asyncCallAllPlugins('generateSlides', slide, slide.content, allNew)
+          if (res === undefined) {
+            // no plugin handled this format
+            this.L('WARNING', 'no plugin handled this format', slide)
+          }
+        })
+        allNew.forEach(s => {
+          if (s.steps === undefined) s.steps = []
+        })
+        // At this point, slides are in DOM form in contentElement
+        await this.asyncCallAllPlugins('enrichSlideDeck', allNew)
+        this.slides.splice(0, 0, ...allNew.map( s => ({...s, contentElement: undefined, contentTemplate: s.contentElement.outerHTML}) ))
+      }
+      { // Load addons (to be added to the container)
+        let allNew = []
+        this.forAll(S.addons, (slide) => {
+          let o = Array.from(slide.content.children).map( el => ({
+            contentTemplate: el.outerHTML
+          }))
+          allNew = [...allNew, ...o]
+        })
+        this.addons.splice(0, 0, ...allNew)
+      }
+      { // Load addins (to be added to every slide)
+        let allNew = []
+        this.forAll(S.addins, (slide) => {
+          let o = Array.from(slide.content.children).map( el => ({
+            contentTemplate: el.outerHTML
+          }))
+          allNew = [...allNew, ...o]
+        })
+        this.addins.splice(0, 0, ...allNew)
+      }
+    },
+    async asyncMounted () {
+      await this.optionsOverrideFromCSS()
+      await this.asyncCallAllPlugins('mounted')
+      await this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
+    },
     ...tools,
     slideContentRoot (i, dom) {
       // TODO: investigate, hard, this seems to be called way too much du to vuejs rerendering a lot...
@@ -247,6 +262,7 @@ let vmopts = {
       Object.assign(prev, pPrev)
       this.L(prev, sl, st)
       if (sl < 0) sl = this.slides.length + sl // handle negative slide index
+      if (sl < 0 || sl > this.slides.length - 1) return // out of range
       if (prev.sl !== sl) {
         if (this.slideContentRoots[sl] !== undefined) {
           this.parseSteps(sl, this.slideContentRoots[sl])
@@ -311,6 +327,14 @@ let vmopts = {
       this.L(args)
       for (let p of this.enabledPlugins) {
         let ret = maybe(p, fname).bind(this)(...args)
+        if (ret === 'BREAK') return p
+      }
+      return null
+    },
+    async asyncCallAllPlugins (fname, ...args) {
+      this.L(args)
+      for (let p of this.enabledPlugins) {
+        let ret = await maybe(p, fname).bind(this)(...args)
         if (ret === 'BREAK') return p
       }
       return null
