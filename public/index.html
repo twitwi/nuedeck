@@ -18,7 +18,8 @@
 
     .slide { font-size: 20px; display: inline-block; overflow: scroll; }
 
-    /* THEME: raw */
+    /* THEME: raw
+    */
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
     .slide { visibility: hidden; }
     .current-slide { visibility: visible; }
@@ -54,6 +55,7 @@
     .current-slide-p1 { z-index: 2; opacity: 1; transform: translate(0,80%) scale(0.5, 0.5) rotateZ(10deg) rotateX(45deg); }
     .current-slide-p2 { z-index: 1; opacity: 1; transform: translate(0%,100%) scale(0.25, 0.25) rotateZ(20deg) rotateX(45deg); }
     */
+
 
     .slide { background: #DDF; overflow: hidden; }
 
@@ -131,8 +133,8 @@
         <!-- here we replaced non-breaking spaces by newlines -->
     </template>
 
-    <!-- With "nd-source html" you can have raw html slides -->
-    <template class="nd-source html">
+    <!-- With "nd-source" data-type="html" you can have raw html slides -->
+    <template class="nd-source" data-type="html">
       <section>
         <h6>This is an HTML slide</h6>
         <ul>
@@ -153,7 +155,7 @@
 
 
     <!-- show/test steps (progressive display) + style -->
-    <template class="nd-source html">
+    <template class="nd-source" data-type="html">
       <section style="font-size: 80%;">
         <local-style>
           .step::after { content: ' [step]'; font-weight: bold; }
@@ -268,7 +270,7 @@
    - ness
 </template>
 
-    <template class="nd-source html">
+    <template class="nd-source" data-type="html">
       <section>
         POUET PUET
       <h1>{{ $parent.opts }}<span class="comment"> comment</span></h1>
@@ -279,7 +281,7 @@
       </template>
 
 
-      <template class="nd-source html">
+      <template class="nd-source" data-type="html">
       <h1>{{ $parent.currentSlide }}<span class="comment"> comment</span></h1>
 <ul>
 <li><span class="var-author">Rémi Emonet</span></li>

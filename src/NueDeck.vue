@@ -30,8 +30,6 @@
 
 <script>
 
-import showdown from 'showdown'
-import showdownKatex from 'showdown-katex'
 // TODO make sure we can run offline etc
 import keymage from 'keymage'
 
@@ -66,136 +64,20 @@ export let defaultMixin = {
             sources: '.nd-source',
             addins: '.nd-addin',
             addons: '.nd-addon',
-            sourceTypeHtml: '.html'
           },
           designWidth: 800, // px
           designHeight: 600, // px
           fitMode: "center middle",
-          fitMargin: [0, 0, 0, 0],
+          fitMargin: [0, 0, 0, 0],
           fitDebounce: 200,
 
           // eslint-disable-next-line
           metadataSeparator: /(&nbsp;| )/gi,   /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */
         },
-        skipPlugins: [],
+        skipPlugins: ['Dummy'], // names of plugins to disable
       }
     }
   }
-}
-
-function processCustomMarkdownConstructs (w) {
-  // w is a wrapper (body element actually) that contains the slide content
-  // NB: it is a single slide (for now)
-  let d = w.getRootNode()
-  tools.L(w)
-
-  let may = (f) => f ? f : ()=>{}
-  let endsWith = (longStr, part) => longStr.indexOf(part, longStr.length - part.length) !== -1
-  let REST = null
-  let RESTRIM = null
-  let startsWith = (longStr, part) => {
-      let res = longStr.substr(0, part.length) == part
-      REST = res ? longStr.slice(part.length) : null
-      RESTRIM = res ? REST.replace(/^ */, "") : null
-      return res
-  }
-  var startsWithIgnoreCase = (longStr, part) => {
-      let res = longStr.substr(0, part.length).toUpperCase() == part.toUpperCase()
-      REST = res ? longStr.slice(part.length) : null
-      RESTRIM = res ? REST.replace(/^ */, "") : null
-      return res;
-  }
-
-  // TODO KNOW HOW TO HANDLE THE FACT THAT @COPY WILL REFERENCE OTHER SLIDE (that have no ids for now)
-  Array.from(w.children).forEach(s => {
-    tools.L(s.firstChild)
-    if (s.firstChild.tagName.match(/^h1$/i)) {
-      if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {
-        var main = RESTRIM.split(/:/);
-        var baseSelector = main[0];
-        var animPart = main.slice(1).join(':');
-        var hasAnim = ! animPart.match(/^\s*$/);
-        var base = null;
-        s.outerHTML = `<section>TODO DO REPLACE BY ${main}</section>`
-        /*
-        for (i in slides) {
-          if ($(slides[i]).is(baseSelector)) {
-            base = slides[i];
-          }
-        }
-        if (base == null) {
-          // TODO should alert based on options
-          alert("Could not find matches for selector '"+baseSelector+"' in @COPY");
-          return s;
-        }
-        slide = $(base).clone().get(0);
-        slide.removeAttribute('id');
-        if (hasAnim) {
-          slide.classList.add('anim-continue');
-          $('<span>').text('@anim:'+animPart).insertAfter(slide.firstChild); // first is the heading, we want to keep it there
-        }
-        slides[s] = slide;
-        return s;
-        */
-      }
-    }
-  })
-}
-
-function makeSlidesFromMarkdown (contentNode) {
-  // Content as text
-  let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
-
-  { // Remove trailing spaces
-    // TODO make this optional and even metadata configurable (tricky in some sense)
-    let lines = content.split('\n')
-    let spaces = lines.filter( l => l.trim().length > 0).map( l => l.length - l.replace(/^ */, '').length)
-    let remove = spaces.reduce((x,y)=>Math.min(x,y))
-    content = lines.map(l => l.substr(remove)).join('\n')
-  }
-
-  let slides = []
-  { // Split slides at # and ## starting lines
-    let lines = content.split('\n')
-    let slideSizes = lines.map((e, i)=>[e, i]).filter(([e,])=>e.match(/^##*/)).map(([,i], j, l) => j==0 ? i : i - l[j-1][1])
-    for (let s of slideSizes) {
-      slides.push(lines.splice(0, s))
-    }
-    slides.push(lines)
-    slides = slides.map(l=>l.join('\n')).filter(s => s.trim().length > 0)
-  }
-
-  let converter = new showdown.Converter({
-    extensions: [
-      showdownKatex({
-        delimiters: [
-          { left: "$", right: "$", display: true }
-        ]
-      })
-    ]
-  })
-  converter.setOption('noHeaderId',  true),
-  converter.setOption('literalMidWordUnderscores', true)
-  converter.setOption('disableForced4SpacesIndentedSublists', true)
-  converter.setOption('simpleLineBreaks', true)
-
-  let res = []
-  slides.forEach(sraw => {
-    // TODO: consider promoting it as a showdown extension? might need to handle not single slides but whole content (and do the h1, h2 splitting and allow to not do it)
-    // on the model of showdown-katex
-    let html = converter.makeHtml(sraw)
-    let parser = new DOMParser()
-    let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
-    // TODO: extension point
-    processCustomMarkdownConstructs(wrapper)
-    Array.from(wrapper.children).forEach(s => {
-      res.push({
-        contentTemplate: s.outerHTML,
-        key: s.getAttribute('id')
-      })
-    })
-  })
-  return res
 }
 
 function registerKeybindings (vm) {
@@ -218,8 +100,12 @@ function maybe (obj, possibleAttributeFunction) {
 let vmopts = {
   name: 'nuedeck',
   mixins: [defaultMixin],
+  props: {
+    plugins: { type: Array, default: () => [] },
+  },
   data () {
     return {
+      opts: {}, // as a reminder that it is in the mixin
       slides: [],
       addins: [],
       addons: [],
@@ -228,8 +114,9 @@ let vmopts = {
         // have a helper to register that
         // nameOfTheEvent: { short: "...", long: "......."}
       },
-      currentSlide: 7,
-      currentStep: 4,
+      // an optionDocs?
+      currentSlide: 6,
+      currentStep: 0,
       vars: {},
     }
   },
@@ -239,58 +126,14 @@ let vmopts = {
     }
   },
   created () {
+    this.L('PLUGINS', this.plugins.map(p => p.name), this.enabledPlugins.map(p => p.name))
+
     // non-reactive properties
     this.slideContentRoots = {}
-    // event bus from key bindings
-    this.$on('previousStep', () => {
-      if (this.currentStep <= 0) {
-        if (this.currentSlide === 0) return
-        let sl = this.currentSlide - 1
-        let s = this.slides[sl]
-        let st = Math.max(0, s.steps.length - 1)
-        this.jumpToSlide(sl, st)
-      } else {
-        this.jumpToSlide(this.currentSlide, this.currentStep - 1)
-      }
-    })
-    this.$on('nextStep', () => {
-      let s = this.slides[this.currentSlide]
-      if (this.currentStep >= s.steps.length - 1) {
-        if (this.currentSlide === this.slideCount - 1) return
-        this.jumpToSlide(this.currentSlide + 1, 0)
-      } else {
-        this.jumpToSlide(this.currentSlide, this.currentStep + 1)
-      }
-    })
-    this.$on('previousEndOfSlide', () => {
-      if (this.currentSlide > 0) {
-        this.jumpToSlide(this.currentSlide - 1, -1)
-      }
-    })
-    this.$on('nextEndOfSlide', () => {
-      let s = this.slides[this.currentSlide]
-      if (this.currentStep >= s.steps.length - 1) {
-        if (this.currentSlide < this.slides.length - 1) {
-          this.jumpToSlide(this.currentSlide + 1, -1)
-        }
-      } else {
-        this.jumpToSlide(this.currentSlide, -1)
-      }
-    })
-    this.$on('previousSlide', () => {
-      if (this.currentStep == 0) {
-        if (this.currentSlide > 0) {
-          this.jumpToSlide(this.currentSlide - 1, 0)
-        }
-      } else {
-        this.jumpToSlide(this.currentSlide, 0)
-      }
-    })
-    this.$on('nextSlide', () => {
-      if (this.currentSlide < this.slides.length - 1) {
-        this.jumpToSlide(this.currentSlide + 1, 0)
-      }
-    })
+    let registerAction = this.$on.bind(this)
+    let setOption = (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"
+    this.callAllPlugins('init', {registerAction, setOption})
+
   },
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
@@ -304,6 +147,9 @@ let vmopts = {
     },
     stepCount () {
       return this.slides[this.currentSlide].steps.length
+    },
+    enabledPlugins () {
+      return this.plugins.filter(p => this.opts.skipPlugins.indexOf(p.name) === -1)
     }
   },
   beforeMount () {
@@ -320,14 +166,10 @@ let vmopts = {
     { // Load slides in different formats
       let allNew = []
       this.forAll(S.sources, (slide) => {
-        if (slide.matches(S.sourceTypeHtml)) {
-          // html slides
-          let o = Array.from(slide.content.children).map( el => ({
-            contentTemplate: el.outerHTML
-          }))
-          allNew = [...allNew, ...o]
-        } else { // default, smart
-          allNew = [...allNew, ...makeSlidesFromMarkdown(slide.content, )]
+        let res = this.callAllPlugins('generateSlides', slide, slide.content, allNew)
+        if (res === undefined) {
+          // no plugin handled this format
+          this.L('WARNING', 'no plugin handled this format', slide)
         }
       })
       allNew.forEach(s => {
@@ -361,10 +203,7 @@ let vmopts = {
     window.vm = this
     this.L('MOUNTED')
     this.optionsOverrideFromCSS()
-    this.autofit()
-    window.addEventListener('resize', () => {this.autofit()})
-    // TMP
-    this.$refs.nuedeck.onmouseup = () => {this.autofit()}
+    this.callAllPlugins('mounted')
     this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
   updated () {
@@ -449,20 +288,6 @@ let vmopts = {
       }
       return res
     },
-    autofit () {
-      let o = this.opts
-      let r = {width: this.$refs.nuedeck.clientWidth, height: this.$refs.nuedeck.clientHeight}
-      let m = o.core.fitMargin
-      let dw = o.core.designWidth
-      let dh = o.core.designHeight
-      let sx = r.width / (dw + m[1] + m[3])
-      let sy = r.height / (dh + m[0] + m[2])
-      let s = Math.min(sx, sy)
-      // TODO fit modes
-      let tx = m[3] + (r.width/s - (dw + m[1] + m[3])) / 2
-      let ty = m[0] + (r.height/s - (dh + m[0] + m[2])) / 2
-      this.$refs.fit.style.transform = `translate(-50%,-50%) scale(${s}, ${s}) translate(50%, 50%) translate(${tx}px, ${ty}px)`
-    },
     optionsOverrideFromCSS () {
       let st = getComputedStyle(this.$refs.nuedeck)
       let digest = (pre, obj, maxd=10) => {
@@ -481,6 +306,14 @@ let vmopts = {
         }
       }
       digest('--nuedeck-', this.opts)
+    },
+    callAllPlugins (fname, ...args) {
+      this.L(args)
+      for (let p of this.enabledPlugins) {
+        let ret = maybe(p, fname).bind(this)(...args)
+        if (ret === 'BREAK') return p
+      }
+      return null
     },
     // TODO: maybe separate what is meant to be used like these?
     br (v, sep=undefined) {

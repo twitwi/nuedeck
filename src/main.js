@@ -14,6 +14,25 @@ import LocalStyle from './components/LocalStyle.vue'
 Vue.component('LocalStyle', LocalStyle)
 
 
+let plugins = []
+
+plugins.push({name: 'Toto'})
+
+import DummyPlugin from './plugins/dummy.js'
+plugins.push(new DummyPlugin())
+import NavigationPlugin from './plugins/navigation.js'
+plugins.push(new NavigationPlugin())
+import MarkdownPlugin from './plugins/markdown.js'
+plugins.push(new MarkdownPlugin())
+import ExtraMarkdownPlugin from './plugins/markdown-extra.js'
+plugins.push(new ExtraMarkdownPlugin())
+import AutofitPlugin from './plugins/autofit.js'
+plugins.push(new AutofitPlugin())
+
+let props = {
+  plugins
+}
+
 new Vue({
-  render: h => h(NueDeck),
+  render: h => h(NueDeck, {props}),
 }).$mount('#nd-container')
