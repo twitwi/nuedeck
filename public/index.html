@@ -87,8 +87,11 @@
 
 
     #itsacopy h1 {border-bottom: 10px solid red; }
-    .blurry { filter: blur(3px); }
-    .slide.greenborder { border: 5px solid chartreuse; }
+    .blurry { filter: blur(.05em); }
+    .greenborder { border: 5px solid chartreuse; }
+    .comment { font-size: 75%; }
+    .comment::before { content: "//  "; }
+    #sin { color: red; display: inline-block; transform: scale(2); transform-origin: left bottom; }
     </style>
   </head>
   <body>
@@ -231,7 +234,9 @@
       # @COPY: simpleTest
 
       # Classes etc inside
-      - with some math $sin(x) @:id=sin blurry /greenborder$
+      - with some math $sin(x) @:id=sin blurry greenborder$
+      - with a comment // this is the comment
+      - styling both the text @:greenborder // and the comment @:blurry
     </template>
 
     <template class="nd-TENTATIVE">

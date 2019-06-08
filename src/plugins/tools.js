@@ -32,3 +32,13 @@ export function selfAndAll(el, selector) {
   res = [...res, ...el.querySelectorAll(selector)]
   return res
 }
+
+export function replaceNodeByOuterHTMLFragment(node, html) {
+  let parent = node.parentNode
+  let fragment = node.getRootNode().createElement('div')
+  fragment.innerHTML = html
+  for (let node of Array.from(fragment.childNodes)) {
+    parent.insertBefore(node, this)
+  }
+  parent.removeChild(node)
+}

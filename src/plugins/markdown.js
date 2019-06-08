@@ -1,6 +1,27 @@
 
 import showdown from 'showdown'
 
+export function digestAtColonContent(expr, target, targetList) {
+  if (targetList === undefined) targetList = [target]
+  for (let part of expr.trim().split(' ')) {
+    if (part.startsWith('#')) { // ID
+      // only to the first child (in case multiple ones got generated)
+      target.setAttribute('id', part.substr(1))
+    } else if (part.indexOf('=') !== -1) {
+      let i = part.indexOf('=')
+      let a = part.substr(0, i)
+      let v = part.substr(i+1)
+      targetList.forEach(el => el.setAttribute(a, v))
+    } else if (part.startsWith('/')) { // Container class
+      targetList.forEach(el => el.setAttribute('data-container-class', part.substr(1)))
+    } else if (part.startsWith('.')) {
+      targetList.forEach(el => el.classList.add(part.substr(1)))
+    } else {
+      targetList.forEach(el => el.classList.add(part))
+    }
+  }
+}
+
 async function makeSlidesFromMarkdown(contentNode, vm) {
   // Content as text
   let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
@@ -61,20 +82,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     // apply generic headers of the form @: #myid mycls mycls2
     for (let h of header) {
       if (h.startsWith('@:')) {
-        for (let part of h.substr(2).trim().split(' ')) {
-          if (part.startsWith('#')) { // ID
-            // only to the first child (in case multiple ones got generated)
-            wrapper.firstChild.setAttribute('id', part.substr(1))
-          } else if (part.indexOf('=') !== -1) {
-            // TODO for attributes?
-          } else if (part.startsWith('/')) { // Container class
-            Array.from(wrapper.children).forEach(el => el.setAttribute('data-container-class', part.substr(1)))
-          } else if (part.startsWith('.')) {
-            Array.from(wrapper.children).forEach(el => el.classList.add(part.substr(1)))
-          } else {
-            Array.from(wrapper.children).forEach(el => el.classList.add(part))
-          }
-        }
+        digestAtColonContent(h.substr(2), wrapper.firstChild, Array.from(wrapper.children))
       }
     }
 

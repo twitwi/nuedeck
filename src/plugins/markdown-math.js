@@ -1,9 +1,5 @@
 
-import { walkTextNodes } from './tools.js'
-
-function escapeRegExp(str) {
-  return str.replace(/[-[\]/{}()*+?.\\$^|]/g, '\\$&');
-}
+import { walkTextNodes, replaceNodeByOuterHTMLFragment } from './tools.js'
 
 export default () => ({
   name: 'MarkdownMath',
@@ -16,13 +12,13 @@ export default () => ({
 
     // TODO: config
     let delimiters = [
-      { reg: '[$][$](([^$]|[$](?![$]))+?)[$][$]', ind: 0},
-      { reg: '[$]([^$]+?)[$]', ind: 0},
+      { reg: '[$][$](([^$]|[$](?![$]))+?)[$][$]', ind: 1},
+      { reg: '[$]([^$]+?)[$]', ind: 1},
     ]
 
     let patchers = delimiters.map(({reg, ind}) => ({
       test: new RegExp(reg, 'g'),
-      replacer: (match, ...g) => {
+      replacer: (...g) => {
         let span = w.getRootNode().createElement('span')
         span.setAttribute('data-special', '')
         span.setAttribute('latex', '')
@@ -31,17 +27,11 @@ export default () => ({
       }
     }))
 
-    walkTextNodes(w, function (txt, parent) {
+    walkTextNodes(w, function (txt) {
       if (! txt.trim()) return
       let newTxt = patchers.reduce((acc, {test, replacer}) => acc.replace(test, replacer), txt)
       if (newTxt !== txt) {
-        // replace the text node (this) by a set of children
-        let fragment = this.getRootNode().createElement('div')
-        fragment.innerHTML = newTxt
-        for (let node of Array.from(fragment.childNodes)) {
-          parent.insertBefore(node, this)
-        }
-        parent.removeChild(this)
+        replaceNodeByOuterHTMLFragment(this, newTxt)
       }
     })
   }

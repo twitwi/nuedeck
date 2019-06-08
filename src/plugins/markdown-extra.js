@@ -29,8 +29,7 @@ export default () => ({
     }
 
     Array.from(w.children).forEach(s => {
-      tools.L("CHILD", s.firstChild)
-      if (s.firstChild.tagName.match(/^h1$/i)) {
+      if (s.firstChild.tagName && s.firstChild.tagName.match(/^h1$/i)) {
         if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {
           var main = RESTRIM.split(/:/);
           var baseSelector = main[0];
