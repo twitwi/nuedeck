@@ -74,7 +74,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
             wrapper.firstChild.setAttribute('id', part.substr(1))
           } else if (part.indexOf('=') !== -1) {
             // TODO for attributes?
-          } else if (part.startsWith('*')) { // Container class
+          } else if (part.startsWith('/')) { // Container class
             Array.from(wrapper.children).forEach(el => el.setAttribute('data-container-class', part.substr(1)))
           } else if (part.startsWith('.')) {
             Array.from(wrapper.children).forEach(el => el.classList.add(part.substr(1)))
