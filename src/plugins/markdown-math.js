@@ -22,12 +22,11 @@ export default () => ({
 
     let patchers = delimiters.map(({reg, ind}) => ({
       test: new RegExp(reg, 'g'),
-      replacer: (match, txt) => {
-        console.log("MATCHHHHHHHHHHHHH", match, txt)
+      replacer: (match, ...g) => {
         let span = w.getRootNode().createElement('span')
         span.setAttribute('data-special', '')
         span.setAttribute('latex', '')
-        span.textContent = txt
+        span.textContent = g[ind]
         return span.outerHTML
       }
     }))
