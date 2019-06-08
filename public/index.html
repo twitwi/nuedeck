@@ -19,10 +19,10 @@
     .slide { font-size: 20px; display: inline-block; overflow: scroll; }
 
     /* THEME: raw
-    */
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
     .slide { display: none; }
     .current-slide { display: block; }
+    */
 
     /* THEME: trivial with a small forward transition
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
@@ -35,7 +35,8 @@
 
 
     /* THEME: 3 horiz
-    :root { --thumb-ratio: .3; --nuedeck-core-designWidth: 800 * (1 + 2 * var(--thumb-ratio)); }
+    */
+    :root { --thumb-ratio: .5; --nuedeck-core-designWidth: 800 * (1 + 2 * var(--thumb-ratio)); }
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; --p: var(--thumb-ratio)}
     .slide { transition: all 700ms, z-index 0s; }
     .current-slide-m2 { transform: translate(calc(-400px + 400px * var(--p)), calc(600px * var(--p))) scale(0, 0); }
@@ -43,7 +44,6 @@
     .current-slide { transform: translate(calc(800px * var(--p)), 0); }
     .current-slide-p1 { transform: translate(calc(400px + 800px * 1.5*var(--p)), 0px) scale(var(--p), var(--p)) ; }
     .current-slide-p2 { transform: translate(calc(400px + 800px * 1.5*var(--p)), calc(600px * var(--p))) scale(0, 0) ; z-index: -1}
-    */
 
     /* THEME: perspective
     :root { --nuedeck-core-designWidth: 1500; --nuedeck-core-designHeight: 900; }
@@ -151,9 +151,16 @@
             <div style="width: 46%; float: right; border: 4px solid black;"> lorem ipsum … </div>
         </div>
         <br style="clear:both"/>
+        <local-style>
+          #use31 { fill: orange; transform: rotate(10deg); } /* unreferenced ids are untouched (so not necessarily unique across SVG) */
+          #uniquesvg4 { transform: rotate(-25deg); } /* rewriten ids get a unique value (different in each SVG) */
+          .idwas-box2 { stroke-width: 10px; } /* rewriten ids are also "kept" as .idwas-zzz */
+        </local-style>
         <div>
-          With some SVG, that gets inlined:
-          <img src="Test.svg" height="200px"></img>
+          With some SVG, that gets inlined: <br/>
+          <img src="Test.svg" width="100px" height="200px"></img>
+          <img src="Test.svg" width="100px"></img>
+          <img src="Test.svg"               height="200px"></img>
         </div>
       </section>
     </template>

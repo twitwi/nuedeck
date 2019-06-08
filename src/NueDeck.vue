@@ -69,7 +69,7 @@ export let defaultMixin = {
             sources: '.nd-source',
             addins: '.nd-addin',
             addons: '.nd-addon',
-            svg: 'img[src$=".svg"]:not(no-inject)'
+            svg: 'img[src$=".svg"]:not(.no-inject)'
           },
           designWidth: 800, // px
           designHeight: 600, // px
