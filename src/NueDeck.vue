@@ -121,7 +121,7 @@ let vmopts = {
         // nameOfTheEvent: { short: "...", long: "......."}
       },
       // an optionDocs?
-      currentSlide: 8,
+      currentSlide: 9,
       currentStep: 0,
       vars: {},
     }
@@ -137,8 +137,8 @@ let vmopts = {
     // non-reactive properties
     this.slideContentRoots = {}
     let registerAction = this.$on.bind(this)
-    let setOption = (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"
-    this.callAllPlugins('init', {registerAction, setOption})
+    let setDefaultOption = ()=>{} // (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"... but it is nice to have helpers/guides for the init thing
+    this.callAllPlugins('init', {registerAction, setDefaultOption})
 
   },
   computed: {
@@ -301,6 +301,9 @@ let vmopts = {
           suffix = '-m' + (-n)
         }
         res.push(this.opts.core.classes.currentSlide + suffix)
+      }
+      if (s.containerClass) {
+        res.push(s.containerClass)
       }
       return res
     },

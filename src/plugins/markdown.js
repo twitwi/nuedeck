@@ -17,13 +17,23 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   let slides = []
   { // Split slides at # and ## starting lines
     let lines = content.split('\n')
-    let slideSizes = lines.map((e, i)=>[e, i]).filter(([e,])=>e.match(/^##*/)).map(([,i], j, l) => j==0 ? i : i - l[j-1][1])
+    // extract line numbers of start of slides
+    let slideIndices = lines.map((e, i)=>[e, i]).filter(([e,])=>e.match(/^##*/))
+    // integrate lines that are just before a # line, and that start with @ (for metadata etc)
+    slideIndices = slideIndices.map(([e,i])=> {
+      while (i>0 && lines[i-1].startsWith('@')) {
+        i--
+      }
+      return [e, i]
+    })
+    // compute the size (number of lines) of each slide for splicing
+    let slideSizes = slideIndices.map(([,i], j, l) => j==0 ? i : i - l[j-1][1])
     for (let s of slideSizes) {
       slides.push(lines.splice(0, s))
     }
     slides.push(lines)
-    slides = slides.map(l=>l.join('\n')).filter(s => s.trim().length > 0)
   }
+  slides = slides.filter(lines => lines.join().trim().length > 0)
 
   let converter = new showdown.Converter({
     extensions: [
@@ -40,21 +50,54 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   converter.setOption('simpleLineBreaks', true)
 
   let res = []
-  for (let sraw of slides) {
+  for (let lines of slides) {
+    let header = []
+    {
+      let i = 0
+      while (lines[i].startsWith('@')) { i++ }
+      header = lines.splice(0, i)
+    }
+    let sraw = lines.join('\n')
+
     let html = converter.makeHtml(sraw)
     let parser = new DOMParser()
     let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
 
-    await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper})
+    await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper, headerLines: header})
+
+    // apply generic headers of the form @: #myid mycls mycls2
+    for (let h of header) {
+      if (h.startsWith('@:')) {
+        for (let part of h.substr(2).trim().split(' ')) {
+          if (part.startsWith('#')) { // ID
+            // only to the first child (in case multiple ones got generated)
+            wrapper.firstChild.setAttribute('id', part.substr(1))
+          } else if (part.indexOf('=') !== -1) {
+            // TODO for attributes?
+          } else if (part.startsWith('*')) { // Container class
+            Array.from(wrapper.children).forEach(el => el.setAttribute('data-container-class', part.substr(1)))
+          } else if (part.startsWith('.')) {
+            Array.from(wrapper.children).forEach(el => el.classList.add(part.substr(1)))
+          } else {
+            Array.from(wrapper.children).forEach(el => el.classList.add(part))
+          }
+        }
+      }
+    }
 
     Array.from(wrapper.children).forEach(s => {
-      res.push({
-        contentElement: s,
-        key: s.getAttribute('id')
-      })
+      res.push(slideFromElement(s))
     })
   }
   return res
+}
+
+function slideFromElement(s) {
+  return {
+    contentElement: s,
+    containerClass: s.getAttribute('data-container-class'),
+    key: s.getAttribute('id')
+  }
 }
 
 export default () => ({
@@ -63,10 +106,7 @@ export default () => ({
   async generateSlides(slide, contentNode, out) {
     if (slide.getAttribute('data-type') === 'html') {
       // html slides
-      let o = Array.from(contentNode.children).map( el => ({
-        contentElement: el,
-        key: el.getAttribute('id')
-      }))
+      let o = Array.from(contentNode.children).map(slideFromElement)
       out.splice(out.length, 0, ...o)
       return 'BREAK'
     } else if (slide.getAttribute('data-type') === 'md') {

@@ -19,18 +19,18 @@ export default () => ({
   /*async*/ enrichSlideDeck(slides) {
     let byId = {}
     for (let s of slides) {
-      console.log(s)
       byId[s.key] = s.contentElement
     }
-    console.log("BID", byId)
     for (let i in slides) {
       let s = slides[i]
       let toReplace = selfAndAll(s.contentElement, 'div[data-special][copy]')
       if (i==9) console.log(i, toReplace, s.contentElement)
       for (let old of toReplace) {
-        console.log(old, old.getAttribute('copy'), byId[old.getAttribute('copy')].innerHTML)
         let replacement = byId[old.getAttribute('copy')].cloneNode(true)
         replacement.removeAttribute('id')
+        for (let a of old.getAttributeNames().filter(a => a !== 'copy' && a !== 'data-special')) {
+          replacement.setAttribute(a, old.getAttribute(a))
+        }
         replace(s, old, replacement)
       }
     }
