@@ -103,7 +103,6 @@ function makeReferencedIdsUnique(svg) {
 }
 
 function patchSVG(img) { return function(svg) {
-  console.log(img, svg)
   img.removeAttribute('src')
   let stretch = false
   let styleRewrite = true

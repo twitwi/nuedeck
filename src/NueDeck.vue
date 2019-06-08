@@ -260,7 +260,7 @@ let vmopts = {
     jumpToSlide (sl, st, pPrev={}) {
       let prev = {sl: this.currentSlide, st: this.currentStep}
       Object.assign(prev, pPrev)
-      this.L(prev, sl, st)
+      this.L('JUMP', prev, sl, st)
       if (sl < 0) sl = this.slides.length + sl // handle negative slide index
       if (sl < 0 || sl > this.slides.length - 1) return // out of range
       if (prev.sl !== sl) {
@@ -327,7 +327,6 @@ let vmopts = {
       digest('--nuedeck-', this.opts)
     },
     callAllPlugins (fname, ...args) {
-      this.L(args)
       for (let p of this.enabledPlugins) {
         let ret = maybe(p, fname).bind(this)(...args)
         if (ret === 'BREAK') return p
@@ -335,7 +334,6 @@ let vmopts = {
       return null
     },
     async asyncCallAllPlugins (fname, ...args) {
-      this.L(args)
       for (let p of this.enabledPlugins) {
         let ret = await maybe(p, fname).bind(this)(...args)
         if (ret === 'BREAK') return p
