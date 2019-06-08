@@ -43,7 +43,7 @@ export default () => ({
           var animPart = main.slice(1).join(':');
           var hasAnim = ! animPart.match(/^\s*$/);
           var base = null;
-          s.outerHTML = `<section copy='${main}'>TODO DO REPLACE BY ${main}</section>`
+          s.outerHTML = `<div data-special copy='${main}'>TODblogblogblogO DO REPLACE BY ${main}</div>`
           /*
           for (i in slides) {
             if ($(slides[i]).is(baseSelector)) {

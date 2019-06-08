@@ -121,7 +121,7 @@ let vmopts = {
         // nameOfTheEvent: { short: "...", long: "......."}
       },
       // an optionDocs?
-      currentSlide: 6,
+      currentSlide: 8,
       currentStep: 0,
       vars: {},
     }

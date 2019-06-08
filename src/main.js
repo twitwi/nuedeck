@@ -30,6 +30,9 @@ import AutofitPlugin from './plugins/autofit.js'
 plugins.push(new AutofitPlugin())
 import SVGPlugin from './plugins/svg.js'
 plugins.push(new SVGPlugin())
+import CopySlidePlugin from './plugins/copy-slide.js'
+plugins.push(new CopySlidePlugin())
+
 
 let props = {
   plugins

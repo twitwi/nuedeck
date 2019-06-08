@@ -64,7 +64,8 @@ export default () => ({
     if (slide.getAttribute('data-type') === 'html') {
       // html slides
       let o = Array.from(contentNode.children).map( el => ({
-        contentElement: el
+        contentElement: el,
+        key: el.getAttribute('id')
       }))
       out.splice(out.length, 0, ...o)
       return 'BREAK'

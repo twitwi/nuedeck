@@ -16,6 +16,12 @@
 
     <style>
 
+    /*
+    not working...??? due to the UPDATED problem
+    .slide:not(.current-slide)>* { background: red !important;transform: rotate(95deg) !important; }
+    .slide>* { background: blue !important;transition: all 1s ease; transform: rotate(20deg) }
+    */
+
     .slide { font-size: 20px; display: inline-block; overflow: scroll; }
 
     /* THEME: raw
@@ -36,7 +42,7 @@
 
     /* THEME: 3 horiz
     */
-    :root { --thumb-ratio: .5; --nuedeck-core-designWidth: 800 * (1 + 2 * var(--thumb-ratio)); }
+    :root { --thumb-ratio: .05; --nuedeck-core-designWidth: 800 * (1 + 2 * var(--thumb-ratio)); }
     .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; --p: var(--thumb-ratio)}
     .slide { transition: all 700ms, z-index 0s; }
     .current-slide-m2 { transform: translate(calc(-400px + 400px * var(--p)), calc(600px * var(--p))) scale(0, 0); }
@@ -168,7 +174,7 @@
 
     <!-- show/test steps (progressive display) + style -->
     <template class="nd-source" data-type="html">
-      <section style="font-size: 80%;">
+      <section style="font-size: 80%;" id="simpleTest">
         <local-style>
           .step::after { content: ' [step]'; font-weight: bold; }
         </local-style>
