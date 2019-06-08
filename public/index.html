@@ -131,10 +131,9 @@
       ## Second slide in a block
       - This is the second slide of the block
         - 2<sup>nd</sup>
-        - and some latex/katex $ \sum_{i=1}^{10^{n}} f(i) $
-        - and some latex/katex $$ \sum_{i=1}^{10^{n}} f(i) $$
-        - and some ascimath ~1+1/2/2~ (but causes error if too complex)
-
+        - and some latex with one dollar $\displaystyle \sum_{i=1}^{10^{n}} f(i)$ and $x^{y^z}$
+        - and some with two dollars $$\sum_{i=1}^{10^{n}} f(i)$$ and $$x^{y^z}$$
+        - and some using special HTML <span data-special latex> \frac{10}{200}</span>
     </template>
 
     <!-- One can also use vue.js to access various variables -->
@@ -230,6 +229,9 @@
 
       @:#itsacopy /greenborder blurry
       # @COPY: simpleTest
+
+      # Classes etc inside
+      - with some math $sin(x) @:id=sin blurry /greenborder$
     </template>
 
     <template class="nd-TENTATIVE">
@@ -297,9 +299,10 @@
    - cool <b>OK</b>
    - ness <button @click="currentSlide++">++</button>
 
+   @disable-math
    # TOTO 3 {{ $parent.currentSlide * $parent.currentSlide }}
    - cool <b>OK</b>
-   - ness
+   - still can put <span data-special latex>\frac{10}{99}</span>
 </template>
 
     <template class="nd-source" data-type="html">

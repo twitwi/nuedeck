@@ -6,14 +6,10 @@ let tools = {
 export default () => ({
   name: 'MarkdownExtra',
   //
-  /*async*/ enrichGeneratedSlides({type, body: w}, ...more) {
+  /*async*/ enrichGeneratedSlides({type, body: w}) {
 
     // TODO: make an option to actually do process other types
     if (type !== 'md') return
-
-    // w is a wrapper (body element actually) that contains the slide content
-    // NB: it is a single slide (for now)
-    let d = w.getRootNode()
 
     let may = (f) => f ? f : ()=>{}
     let endsWith = (longStr, part) => longStr.indexOf(part, longStr.length - part.length) !== -1
@@ -32,8 +28,6 @@ export default () => ({
         return res;
     }
 
-    // TODO KNOW HOW TO HANDLE THE FACT THAT @COPY WILL REFERENCE OTHER SLIDE (that have no ids for now)
-    // -> the actually copy will be later, maybe with another extension even,, or even a special component
     Array.from(w.children).forEach(s => {
       tools.L("CHILD", s.firstChild)
       if (s.firstChild.tagName.match(/^h1$/i)) {

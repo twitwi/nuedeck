@@ -1,5 +1,6 @@
 
 import SVGInjector from 'svg-injector'
+import { walk } from './tools.js'
 
 async function svgInject(singleSVG, options) {
   return new Promise(resolve => {
@@ -11,18 +12,6 @@ async function svgInject(singleSVG, options) {
       }
     })
   })
-}
-
-function walk(node, f) {
-  if (node) {
-    do {
-      if (node.nodeType === node.ELEMENT_NODE) {
-        f.call(node)
-        walk(node.firstChild, f)
-      }
-      node = node.nextSibling
-    } while (node)
-  }
 }
 
 // TODO actually allow disabling  features?

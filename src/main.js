@@ -22,15 +22,21 @@ import DummyPlugin from './plugins/dummy.js'
 plugins.push(new DummyPlugin())
 import NavigationPlugin from './plugins/navigation.js'
 plugins.push(new NavigationPlugin())
+import AutofitPlugin from './plugins/autofit.js'
+plugins.push(new AutofitPlugin())
+
 import MarkdownPlugin from './plugins/markdown.js'
 plugins.push(new MarkdownPlugin())
 import ExtraMarkdownPlugin from './plugins/markdown-extra.js'
 plugins.push(new ExtraMarkdownPlugin())
-import AutofitPlugin from './plugins/autofit.js'
-plugins.push(new AutofitPlugin())
-import SVGPlugin from './plugins/svg.js'
+import MathMarkdownPlugin from './plugins/markdown-math.js'
+plugins.push(new MathMarkdownPlugin())
+
+import SVGPlugin from './plugins/enrich-svg.js'
 plugins.push(new SVGPlugin())
-import CopySlidePlugin from './plugins/copy-slide.js'
+import KatexPlugin from './plugins/enrich-katex.js'
+plugins.push(new KatexPlugin())
+import CopySlidePlugin from './plugins/enrich-copy-slide.js'
 plugins.push(new CopySlidePlugin())
 
 

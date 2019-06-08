@@ -1,6 +1,5 @@
 
 import showdown from 'showdown'
-import showdownKatex from 'showdown-katex'
 
 async function makeSlidesFromMarkdown(contentNode, vm) {
   // Content as text
@@ -36,13 +35,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   slides = slides.filter(lines => lines.join().trim().length > 0)
 
   let converter = new showdown.Converter({
-    extensions: [
-      showdownKatex({
-        delimiters: [
-          { left: "$", right: "$", display: true }
-        ]
-      })
-    ]
+    extensions: []
   })
   converter.setOption('noHeaderId',  true),
   converter.setOption('literalMidWordUnderscores', true)

@@ -1,10 +1,5 @@
 
-function selfAndAll(el, selector) {
-  let res = []
-  if (el.matches(selector)) res.push(el)
-  res = [...res, ...el.querySelectorAll(selector)]
-  return res
-}
+import { selfAndAll } from './tools'
 
 function replace(s, old, replacement) {
   if (old === s.contentElement) {
@@ -24,7 +19,6 @@ export default () => ({
     for (let i in slides) {
       let s = slides[i]
       let toReplace = selfAndAll(s.contentElement, 'div[data-special][copy]')
-      if (i==9) console.log(i, toReplace, s.contentElement)
       for (let old of toReplace) {
         let replacement = byId[old.getAttribute('copy')].cloneNode(true)
         replacement.removeAttribute('id')
