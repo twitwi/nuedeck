@@ -373,10 +373,6 @@ body {
   overflow: hidden;
 }
 
-.katex > * ~ .katex-html {
-  display: none;
-}
-
 :root {
   --theme-step-opacity: 0.1;
 }
@@ -435,31 +431,31 @@ body {
   font-family: 'Exo 2';
   font-style: italic;
   font-weight: 400;
-  src: local("Exo 2 Italic"), local("Exo2-Italic"), url(build/local-fonts/7cHov4okm5zmbtYtG-wc4w.woff) format("woff"), url(//fonts.gstatic.com/s/exo2/v5/7cHov4okm5zmbtYtG-wc4w.woff) format("woff");
+  src: local("Exo 2 Italic"), local("Exo2-Italic"), url(fonts/7cHov4okm5zmbtYtG-wc4w.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHov4okm5zmbtYtG-wc4w.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: italic;
   font-weight: 700;
-  src: local("Exo 2 Bold Italic"), local("Exo2-BoldItalic"), url(build/local-fonts/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff"), url(//fonts.gstatic.com/s/exo2/v5/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff");
+  src: local("Exo 2 Bold Italic"), local("Exo2-BoldItalic"), url(fonts/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: normal;
   font-weight: 400;
-  src: local("Exo 2"), local("Exo2-Regular"), url(build/local-fonts/7cHmv4okm5zmbtYoK-g.woff) format("woff"), url(//fonts.gstatic.com/s/exo2/v5/7cHmv4okm5zmbtYoK-g.woff) format("woff");
+  src: local("Exo 2"), local("Exo2-Regular"), url(fonts/7cHmv4okm5zmbtYoK-g.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHmv4okm5zmbtYoK-g.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: normal;
   font-weight: 700;
-  src: local("Exo 2 Bold"), local("Exo2-Bold"), url(build/local-fonts/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff"), url(//fonts.gstatic.com/s/exo2/v5/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff");
+  src: local("Exo 2 Bold"), local("Exo2-Bold"), url(fonts/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff");
 }
 .timekeeper {
   font-family: monospace;
 }
 
-.deck-container {
+.nuedeck {
   font-family: 'Exo 2', 'Arial', 'Sans';
 }
 

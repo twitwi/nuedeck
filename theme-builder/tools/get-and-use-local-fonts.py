@@ -5,7 +5,7 @@ import urllib.request
 
 input  = "_fontbox.scss.in"
 output = "_fontbox.scss"
-fontpath = "build/local-fonts/"
+fontpath = "fonts/"
 
 def readURL(url):
     # woff2, with different files for different unicode ranges
@@ -26,7 +26,7 @@ with open(input, 'r') as f, open(output, 'w') as outputF:
             remote = readURL(url).decode('utf-8')
             def processUrlInRemote(x):
                 fonturl = x.group(1)
-                protocolrelatived = re.sub(r'url\(https?://', r'url(//', x.group(0))
+                protocolrelatived = re.sub(r'url\(https?://', r'url(https://', x.group(0))
                 format = x.group(2)
                 fontfilename = re.sub(r'.*/', '', fonturl)
                 fontfilecontent = readURL(fonturl)

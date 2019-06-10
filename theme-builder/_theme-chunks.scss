@@ -24,9 +24,6 @@
     display: inline-block;
     overflow: hidden;
   }
-  .katex>*~.katex-html {
-    display: none;
-  }
 }
 
 @mixin size($base) {

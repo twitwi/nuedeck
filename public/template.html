@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="./nuedeck/nuedeck-theme.css">
+    <link rel="stylesheet" href="./nuedeck/katex.min.css">
+
+    <title>NueDeck: an introduction</title>
+    <meta name="author" content="TODO">
+    <meta name="venue" content="TODO">
+    <meta name="date" content="2019-12-TODO">
+
+    <style>
+    </style>
+  </head>
+  <body>
+    <!-- This is the mount point, it will be replaced by an element with class nuedeck -->
+    <div id="nd-container"></div>
+
+    <!-- To add something to the container -->
+    <template class="nd-addon">
+      <!--<status-bar :current="currentSlide"></status-bar>-->
+    </template>
+
+    <!-- To add something to every slide -->
+    <template class="nd-addin">
+      <status-bar></status-bar>
+    </template>
+
+    <!-- To author slides -->
+    <template class="nd-source">
+      @:title-slide /no-status
+      # <span v-html="$parent.br(vars.title)"></span> // comment
+      - {{ vars.author }}
+      - {{ vars.date }}
+
+      ## TODO write your content
+      - A template element with class nd-source (by default)
+        - this is a sub element
+      - This is the second element of a bullet list
+      - Some maths
+        - $y = x^2 \times 99$ is equivalent to $x^2 = \pm \sqrt{\frac{y}{99}}$
+        - More with $\sum_{i=1}^{20} \frac{1}{20} f(i)$
+    </template>
+
+    <script src="./nuedeck/nuedeck-deps.js"></script>
+    <script src="./nuedeck/nuedeck.js"></script>
+
+  </body>
+</html>

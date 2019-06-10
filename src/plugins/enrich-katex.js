@@ -15,9 +15,9 @@ export default () => ({
       for (let span of toProcess) {
         span.removeAttribute('data-special')
         span.removeAttribute('latex')
-        let v = `${span.textContent}`
+        let v = `\\displaystyle ${span.textContent}`
         Katex.render(v, span, {
-          displayMode: true,
+          displayMode: false,
           macros: {
             '\\nuedeck': 'N_{UE}D^{ECK}'
           },

@@ -23,8 +23,9 @@ theme-variations: tools/generate-variations.py
 	cd ${D} && ../$< all
 
 _fontbox.scss: _fontbox.scss.in tools/get-and-use-local-fonts.py
-	mkdir -p ${D}/local-fonts
+	mkdir -p fonts
 	tools/get-and-use-local-fonts.py $<
+	mv fonts ${D}
 
 test-continuous:
 	bash -l -c '@mo ../public/test.css *.scss tools/* Makefile -- make test'
@@ -34,7 +35,7 @@ test: ${D}/test.css
 
 ${D}/test.css: ${D}/test.scss $(wildcard _*.scss) Makefile
 	cp -t ${D} _*.scss
-	sass ${SASSOPTS} --update ${<}:${@}
+	cd ${D} && sass ${SASSOPTS} --update test.scss:test.css
 
 ${D}/test.scss: tools/generate-variations.py $(wildcard _*.scss) _fontbox.scss tools/*.py Makefile
 	cd ${D} && ../$< ../$@ - light 200 - - -
