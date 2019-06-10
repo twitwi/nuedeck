@@ -37,6 +37,7 @@ plugins.push(new SuffixesMarkdownPlugin())
 import SVGPlugin from './plugins/enrich-svg.js'
 plugins.push(new SVGPlugin())
 import KatexPlugin from './plugins/enrich-katex.js'
+import 'katex/dist/katex.css'
 plugins.push(new KatexPlugin())
 import CopySlidePlugin from './plugins/enrich-copy-slide.js'
 plugins.push(new CopySlidePlugin())
