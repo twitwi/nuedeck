@@ -25,6 +25,7 @@ theme-variations: tools/generate-variations.py
 _fontbox.scss: _fontbox.scss.in tools/get-and-use-local-fonts.py
 	mkdir -p fonts
 	tools/get-and-use-local-fonts.py $<
+	cd ${D} && rm -rf fonts
 	mv fonts ${D}
 
 test-continuous:
