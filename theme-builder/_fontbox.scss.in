@@ -1,0 +1,29 @@
+
+/* IF this file is _fontbox.scss,
+   then it has been AUTO-GENERATED from _fontbox.scss.in
+*/
+
+@mixin font-draft() {
+    @import url(http://fonts.googleapis.com/css?family=Gloria+Hallelujah);
+    .timekeeper { font-family: monospace; }
+    .deck-container {
+        font-family: 'Gloria Hallelujah', 'cursive', 'Arial', 'Sans';
+    }
+}
+
+@mixin font-exo-2() {
+    @import url(http://fonts.googleapis.com/css?family=Exo+2:400,400italic,700italic,700);
+    .timekeeper { font-family: monospace; }
+    .deck-container {
+        font-family: 'Exo 2', 'Arial', 'Sans';
+    }
+}
+
+@mixin font-montserrat() {
+    @import url(http://fonts.googleapis.com/css?family=Montserrat);
+    .timekeeper { font-family: monospace; }
+    .deck-container {
+        font-family: 'Montserrat', 'Arial', 'Sans';
+    }
+}
+
