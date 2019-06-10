@@ -238,12 +238,25 @@ let vmopts = {
       this.L('PARSE STEPS', iSlide)
       let s = this.slides[iSlide]
       let allNew = []
+      let lastStepEl = dom
       this.forAll('.step', (el, iStep) => {
         this.callAllPlugins('stepElementToAnimationStep', allNew, {el, iStep, iSlide, dom})
+        lastStepEl = el
       }, dom)
-      allNew.push(() => {
-        this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)
-      })
+      while (lastStepEl !== dom) {
+        if (lastStepEl.nextElementSibling !== null) {
+          // heuristically, add a step if the last step is not at the very end
+          allNew.push({ doit: () => {
+            this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)
+          }})
+          break
+        }
+        lastStepEl = lastStepEl.parentNode
+      }
+      // add a dummy step if there are none
+      if (allNew.length === 0) {
+        allNew.push({})
+      }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
     jumpToSlide (sl, st, pPrev={}) {
@@ -254,27 +267,33 @@ let vmopts = {
       if (sl < 0 || sl > this.slides.length - 1) return // out of range
       if (prev.sl !== sl) {
         if (this.slideContentRoots[sl] !== undefined) {
+          // on slide change
           this.parseSteps(sl, this.slideContentRoots[sl])
+          for (let step of this.slides[sl].steps) {
+            maybe(step, 'init')()
+          }
         }
       }
       if (st < 0) st = this.slides[sl].steps.length + st // handle negative step index
+      if (st < 0 || st > this.slides[sl].steps.length - 1) return // out of range
       if (prev.sl === sl) {
         // we stay in the same slide
         if (prev.st < st) {
-          for (let i = prev.st+1; i <= st; i++) {
-            // TODO will need to .skip and .doit
-            this.slides[sl].steps[i]()
+          for (let i = prev.st+1; i < st; i++) {
+            maybe(this.slides[sl].steps[i], 'fast')()
           }
+          maybe(this.slides[sl].steps[st], 'doit')()
         } else {
-          for (let i = prev.st-1; i >= st; i--) {
-            // TODO will need to .skip and .doit
-            this.slides[sl].steps[i]()
+          for (let i = prev.st-1; i > st; i--) {
+            maybe(this.slides[sl].steps[i], 'undo')()
           }
+          maybe(this.slides[sl].steps[st], 'back')()
         }
         this.currentStep = st
       } else {
         // we change slide
-        this.slides[sl].steps.slice(0, st+1).forEach(f => f())
+        this.slides[sl].steps.slice(0, st).forEach(step => maybe(step, 'fast')())
+        maybe(this.slides[sl].steps[st], 'doit')()
         this.currentSlide = sl
         this.currentStep = st
       }

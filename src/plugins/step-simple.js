@@ -19,7 +19,13 @@ export default () => ({
       // not doing it just in case a plugin would like to plug after it.
     }
 
-    out.push(makeStepCurrent)
+    out.push({
+      // init:,
+      fast: makeStepCurrent,
+      doit: makeStepCurrent,
+      // undo:,
+      back: makeStepCurrent,
+    })
   }
 
 })
