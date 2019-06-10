@@ -34,7 +34,8 @@
     .nuedeck { position: relative; }
     */
 
-
+    .step[data-anim] { display: none; }
+    .hidden { visibility: hidden; }
 
 
     #itsacopy h1 {border-bottom: 10px solid red; }
@@ -150,13 +151,16 @@
             <li>Background</li>
             <li class="step">“Rethinking Generalization”</li>
             <li>Discussion</li>
-            <li class="step">Appendices</li>
+            <li class="step">Appendices
+              <span class="step" data-anim="add-class" data-target=".step" data-class="blurry"></span>
+            </li>
           </ol></li>
           <li>Background
             <ol>
               <li>Introduction</li>
               <li>Background</li>
               <li class="step">“Rethinking Generalization”</li>
+              <span class="step" data-anim="remove-class" data-target=".step" data-class="blurry"></span>
               <li>Discussion</li>
               <li class="step">Appendices</li>
             </ol>
@@ -165,6 +169,22 @@
           <li class="step">Generalization bound via validation</li>
           <li>After last</li>
         </ol>
+      </section>
+
+      <section>
+        <local-style>
+          .svglight {filter: blur(30px); }
+        </local-style>
+        <h2>Animating svg</h2>
+        <img src="Test.svg" width="100px" height="200px"></img>
+        <img src="Test.svg" width="100px"></img>
+        <img src="Test.svg"               height="200px" id="third"></img>
+        <span class="step" data-anim="add-class" data-target="#use23" data-class="svglight"></span>
+        <span class="step" data-anim="add-class" data-target="#use21" data-class="svglight"></span>
+        <span class="step" data-anim="add-class" data-target="#third #use19" data-class="svglight"></span>
+        <div class="step">Un petit message</div>
+        <span class="step" data-anim="remove-class" data-target="#use21" data-class="svglight"></span>
+
       </section>
     </template>
 

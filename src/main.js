@@ -25,6 +25,8 @@ plugins.push(new NavigationPlugin())
 import AutofitPlugin from './plugins/autofit.js'
 plugins.push(new AutofitPlugin())
 
+import AnimationStepPlugin from './plugins/step-animation.js'
+plugins.push(new AnimationStepPlugin())
 import SimpleStepPlugin from './plugins/step-simple.js'
 plugins.push(new SimpleStepPlugin())
 

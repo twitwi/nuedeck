@@ -243,9 +243,9 @@ let vmopts = {
         this.callAllPlugins('stepElementToAnimationStep', allNew, {el, iStep, iSlide, dom})
         lastStepEl = el
       }, dom)
+      // heuristically, add a step if the last step is not at the very end
       while (lastStepEl !== dom) {
         if (lastStepEl.nextElementSibling !== null) {
-          // heuristically, add a step if the last step is not at the very end
           allNew.push({ doit: () => {
             this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)
           }})
@@ -253,9 +253,14 @@ let vmopts = {
         }
         lastStepEl = lastStepEl.parentNode
       }
-      // add a dummy step if there are none
       if (allNew.length === 0) {
+        // add a dummy step if there are none
         allNew.push({})
+      } else {
+        if (allNew.filter(s => s.isSimple).length > 0) {
+          // add a first empty step if there are 
+          allNew.splice(0, 0, {})
+        }
       }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
@@ -284,7 +289,7 @@ let vmopts = {
           }
           maybe(this.slides[sl].steps[st], 'doit')()
         } else {
-          for (let i = prev.st-1; i > st; i--) {
+          for (let i = prev.st; i > st; i--) {
             maybe(this.slides[sl].steps[i], 'undo')()
           }
           maybe(this.slides[sl].steps[st], 'back')()
