@@ -15,11 +15,14 @@ export default () => ({
       for (let span of toProcess) {
         span.removeAttribute('data-special')
         span.removeAttribute('latex')
-        let v = `\\displaystyle ${span.textContent}`
+        let v = `${span.textContent}`
         Katex.render(v, span, {
+          displayMode: true,
+          macros: {
+            '\\nuedeck': 'N_{UE}D^{ECK}'
+          },
           throwOnError: false, // fail silently
           errorColor: '#ff0077',
-          //breakOnUnsupportedCmds: false
         });
       }
     }
