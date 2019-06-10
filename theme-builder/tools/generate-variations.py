@@ -56,6 +56,7 @@ info = [
         'patch': {
             NO: '-exo-2',
             'draft': '-draft',
+            'walto': '-waltograph',
             DEFAULT: ID
         }
     },
