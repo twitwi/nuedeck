@@ -3,6 +3,13 @@
    then it has been AUTO-GENERATED from _fontbox.scss.in
 */
 
+
+@mixin font-waltograph() {
+    @import url(https://fontlibrary.org/face/waltograph);
+    .nuedeck {
+        font-family: 'WaltographRegular', 'Arial', 'Sans';
+    }
+}
 @mixin font-draft() {
     @import url(http://fonts.googleapis.com/css?family=Gloria+Hallelujah);
     .timekeeper { font-family: monospace; }

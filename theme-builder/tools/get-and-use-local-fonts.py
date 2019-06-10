@@ -26,9 +26,15 @@ with open(input, 'r') as f, open(output, 'w') as outputF:
             remote = readURL(url).decode('utf-8')
             def processUrlInRemote(x):
                 fonturl = x.group(1)
+                if fonturl.startswith("'") or fonturl.startswith('"'):
+                    fonturl = fonturl[1:-1]
                 protocolrelatived = re.sub(r'url\(https?://', r'url(https://', x.group(0))
                 format = x.group(2)
                 fontfilename = re.sub(r'.*/', '', fonturl)
+                print('fonturl', fonturl)
+                if (fonturl.startswith('/')):
+                    fonturl = re.sub(r'([^:]*://[^/]*/).*', r'\1', url) + fonturl
+                    print('fonturl', fonturl)
                 fontfilecontent = readURL(fonturl)
                 targetFile = fontpath+fontfilename
                 writeFile(targetFile, fontfilecontent)
