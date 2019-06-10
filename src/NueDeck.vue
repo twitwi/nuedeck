@@ -121,7 +121,7 @@ let vmopts = {
         // nameOfTheEvent: { short: "...", long: "......."}
       },
       // an optionDocs?
-      currentSlide: 0,
+      currentSlide: 6,
       currentStep: 0,
       vars: {},
     }
@@ -234,23 +234,12 @@ let vmopts = {
       this.L('SLIDE CONTENT MOUNTED')
       this.slideContentRoots[i] = dom
     },
-    parseSteps (i, dom) {
-      this.L('PARSE STEPS', i)
-      let s = this.slides[i]
+    parseSteps (iSlide, dom) {
+      this.L('PARSE STEPS', iSlide)
+      let s = this.slides[iSlide]
       let allNew = []
-      this.forAll('.step', (el,elind) => {
-        allNew.push(() => {
-          this.L('step', elind, 'of slide', i)
-          this.forAll('.step, .current-step', clear => clear.classList.remove('current-step', 'current-step-exact'), dom)
-          let cur = el
-          this.L('cur', cur)
-          cur.classList.add('current-step-exact')
-          while (! cur.parentNode.classList.contains('slide')) {
-            cur.classList.add('current-step')
-            cur = cur.parentNode
-            this.L('cur changed to parent', cur)
-          }
-        })
+      this.forAll('.step', (el, iStep) => {
+        this.callAllPlugins('stepElementToAnimationStep', allNew, {el, iStep, iSlide, dom})
       }, dom)
       allNew.push(() => {
         this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)

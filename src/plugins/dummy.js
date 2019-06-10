@@ -8,9 +8,11 @@ function log() {
 export default () => ({
   name: 'Dummy',
   // "this" will be the Vue object
+
   /*sync*/ init ({registerAction, setDefaultOption}, ...more) { log('init', ...more) }, // called when the vue object is created
   /*sync*/ beforeMount (...more) { log('beforeMount', ...more) }, // called on vue beforeMount, not to be overused
   /*async*/ mounted (...more) { log('mounted', ...more) }, // when the vue component is mounted in the DOM
+  /*sync*/ stepElementToAnimationStep (out, {el, iSlide, iStep, dom}, ...more) { log('stepElementToAnimationStep', ...more) }, // called for each .step element, to add to "out" an animation for it
 
   //
   /*async*/ generateSlides(slide, contentNode, out, ...more) { log('generateSlides', ...more) }, // e.g. parse markdown slide

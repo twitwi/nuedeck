@@ -25,6 +25,9 @@ plugins.push(new NavigationPlugin())
 import AutofitPlugin from './plugins/autofit.js'
 plugins.push(new AutofitPlugin())
 
+import SimpleStepPlugin from './plugins/step-simple.js'
+plugins.push(new SimpleStepPlugin())
+
 import MarkdownPlugin from './plugins/markdown.js'
 plugins.push(new MarkdownPlugin())
 import ExtraMarkdownPlugin from './plugins/markdown-extra.js'
