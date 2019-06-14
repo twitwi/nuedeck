@@ -37,8 +37,8 @@ export function replaceNodeByOuterHTMLFragment(node, html) {
   let parent = node.parentNode
   let fragment = node.getRootNode().createElement('div')
   fragment.innerHTML = html
-  for (let node of Array.from(fragment.childNodes)) {
-    parent.insertBefore(node, this)
+  for (let ch of Array.from(fragment.childNodes)) {
+    parent.insertBefore(ch, node)
   }
   parent.removeChild(node)
 }

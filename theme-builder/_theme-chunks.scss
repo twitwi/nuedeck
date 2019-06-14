@@ -98,6 +98,7 @@
       opacity: var(--theme-step-opacity);
     }
   }
+  /*
   .current-step.current-step-exact::after {
     content: "☚";
     display: inline-block;
@@ -105,6 +106,7 @@
     transform: scale(5, 5) rotate(-15deg) translateY(-0.0em);
     transform-origin: left;
   }
+  */
 }
 
 /* bullets */

@@ -89,6 +89,10 @@
         - and some latex with one dollar: $\sum_{i=1}^{10^{n}} f(i)$ and $x^{y^z}$
         - and some with two dollars: $$\sum_{i=1}^{10^{n}} f(i)$$ and $$x^{y^z}$$
         - and some using special HTML: <span data-special latex> \frac{10}{200}</span>
+        - when more complex, use a div (at the beginning) to disable parsing
+        - <div style="display:inline-block" data-special latex>{x}_{y} {x}_{y}</div>
+        - <span class="inline" data-special latex>{x}_{y} {x}_{y}</span>
+        - $ {x}_{y} {x}_{y}$
     </template>
 
     <!-- One can also use vue.js to access various variables -->
@@ -181,9 +185,12 @@
         <img src="Test.svg"               height="200px" id="third"></img>
         <span class="step" data-anim="add-class" data-target="#use23" data-class="svglight"></span>
         <span class="step" data-anim="add-class" data-target="#use21" data-class="svglight"></span>
-        <span class="step" data-anim="add-class" data-target="#third #use19" data-class="svglight"></span>
+        <span class="step" data-anim="add-class" data-target="#third #use15" data-class="svglight"></span>
         <div class="step">Un petit message</div>
         <span class="step" data-anim="remove-class" data-target="#use21" data-class="svglight"></span>
+        <span class="step" data-anim="show" data-target="#use19,#use17"></span>
+        <span class="step" data-anim="hide" data-target="#use19"></span>
+        <span class="step" data-anim="show" data-target="#use19"></span>
 
       </section>
     </template>
@@ -197,7 +204,28 @@
       - <span class="style-in-md"></span>
     </template>
 
+TODO @off to ignore slides from there (up to @on), prob # @off:
 
+TODO swap page up page down
+
+TODO check why marke-end are not working, probably an issue in rewriting
+
+TODO check that nesting lists with 2 spaces does (or rather does not) work
+
+TODO in this, the br is needed.... unless ther are not the followin bullets:
+# Optimizing the $F_\beta$-measure
+- Reminder @:padli densemath
+  - Precision: $prec=\frac{TP}{TP+FP}$
+  - Recall: $rec=\frac{TP}{P} = \frac{TP}{TP+FN}$
+  - $F_\beta$-measure: $F_\beta = (1+\beta^2)\frac{prec\cdot rec}{\beta^2 \cdot prec + rec}$
+- **Non-separability**, i.e.    $F_\beta \ne \sum_{(x_i, y_i) \in S}...$
+  <br/>*NB: accuracy is separable, $acc = \sum_{(x_i, y_i) \in S} \frac{1}{m} \delta(y_i - \hat{y_i})$ @:denser*
+  - ⇒ The loss for one point depends on the others
+  - ⇒ Impossible to optimize directly
+  - ⇒ Impossible to optimize on a subset (minibatch)
+
+
+TODO FIX nd-source that starts with empty line creates problem
     <template class="nd-source">
       @:blurry /greenborder
       ## Blurry thing

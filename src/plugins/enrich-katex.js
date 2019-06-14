@@ -11,7 +11,7 @@ export default () => ({
     }
     for (let i in slides) {
       let s = slides[i]
-      let toProcess = selfAndAll(s.contentElement, 'span[data-special][latex]')
+      let toProcess = selfAndAll(s.contentElement, '[data-special][latex]')
       for (let span of toProcess) {
         span.removeAttribute('data-special')
         span.removeAttribute('latex')

@@ -121,7 +121,7 @@ let vmopts = {
         // nameOfTheEvent: { short: "...", long: "......."}
       },
       // an optionDocs?
-      currentSlide: 6,
+      currentSlide: 0,
       currentStep: 0,
       vars: {},
     }
@@ -144,8 +144,9 @@ let vmopts = {
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
     slidesToRender () {
-      let start = 0 //Math.max(0, this.currentSlide - 1)
-      let end = this.slides.length //Math.min(this.currentSlide + 2, this.slides.length)
+      let start = Math.max(0, this.currentSlide - 1)
+      let end = Math.min(this.currentSlide + 2, this.slides.length)
+      //start = 0 ; end = this.slides.length
       return this.slides.map((s,i) => [s, i]).slice(start, end)
     },
     slideCount () {
@@ -257,10 +258,15 @@ let vmopts = {
         // add a dummy step if there are none
         allNew.push({})
       } else {
-        if (allNew.filter(s => s.isSimple).length > 0) {
-          // add a first empty step if there are 
+        if (! allNew[0].isSimple) {
           allNew.splice(0, 0, {})
         }
+        /*
+        if (allNew.filter(s => s.isSimple).length > 0) {
+          // add a first empty step if there are
+          allNew.splice(0, 0, {})
+        }
+        */
       }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
@@ -321,6 +327,7 @@ let vmopts = {
       return res
     },
     optionsOverrideFromCSS () {
+      // e.g. :root { --nuedeck-core-designWidth: 1200; }
       let st = getComputedStyle(this.$refs.nuedeck)
       let digest = (pre, obj, maxd=10) => {
         if (maxd <= 0) return

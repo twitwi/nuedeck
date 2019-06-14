@@ -77,6 +77,11 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     let parser = new DOMParser()
     let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
 
+    // TODO: somewhere add a header like @animSystematicReplayOnBack: to
+    // and btw, such option might be usefull on non-markdown slides too... should add a header (same syntax in an element) in html too (and call the enricher there also)
+    // and in this header, also allow steps (animations) that are done before any anim (and don't count as step)
+    // TODO: @unshown to later remove the slide (in an enrich-), e.g. for the overview that we copy
+
     await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper, headerLines: header})
 
     // apply generic headers of the form @: #myid mycls mycls2
