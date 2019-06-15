@@ -1,17 +1,37 @@
 
-import SVGInjector from 'svg-injector'
 import { walk } from './tools.js'
 
 async function svgInject(singleSVG, options) {
+
+  let fileUrl = singleSVG.getAttribute('data-src') || singleSVG.getAttribute('src')
+  let isLocal = fileUrl.startsWith('file://')
+
   return new Promise(resolve => {
-    SVGInjector(singleSVG, {
-      ...options,
-      each (svg) {
-        if (options.each) options.each(svg)
-        resolve()
+    let rq = new XMLHttpRequest()
+    rq.onreadystatechange = function() {
+      if (rq.readyState === 4) {
+        if (rq.status === 404 || rq.responseXML === null) {
+          resolve('ERROR 404 or no XML')
+        }
+        if (rq.status === 200 || isLocal && rq.status === 0) {
+          if (rq.responseXML instanceof Document) {
+            let svg = rq.responseXML.documentElement.cloneNode(true)
+            if (options.each) options.each(svg)
+            singleSVG.parentNode.replaceChild(svg, singleSVG)
+            resolve("OK")
+          } else if (DOMParser && DOMParser instanceof Function) {
+            resolve("UNHANDLED")
+          }
+        } else {
+          resolve("There was a problem injecting the SVG: " + rq.status + " " + rq.statusText);
+        }
       }
-    })
+    }
+    rq.open("GET", fileUrl);
+    if (rq.overrideMimeType) rq.overrideMimeType("text/xml");
+    rq.send();
   })
+
 }
 
 // TODO actually allow disabling  features?
@@ -47,13 +67,13 @@ function generateId(/*oldId*/) {
   return id
 }
 
-let referencingAttributes = ["clip-path", "color-profile", "fill", "filter", "marker-start", "marker-mid", "marker-end", "mask", "stroke"]
+let referencingAttributes = ['clip-path', 'color-profile', 'fill', 'filter', 'marker-start', 'marker-mid', 'marker-end', 'mask', 'stroke']
 
 function makeReferencedIdsUnique(svg) {
   let byId = {}
   let referencersIds = {}
   let pushAdd = function(k, o) {
-    if (referencersIds[k]) {
+    if (referencersIds[k] !== undefined) {
       referencersIds[k].push(o)
     } else {
       referencersIds[k] = [o]
@@ -65,17 +85,22 @@ function makeReferencedIdsUnique(svg) {
     if (id) {
       byId[id] = this
     }
-    for (let attr in referencingAttributes) {
+    for (let attr of referencingAttributes) {
       let val = this.getAttribute(attr)
       if (val) {
+        // TODO: handle multiple matches (e.g. style not rewritten) and non-full matches too (e.g. same)
         let groups = val.trim().match(/^url\(#(.+?)\)$/)
-        if (groups) pushAdd(groups[1], {o:this, a:attr})
+        if (groups) {
+          pushAdd(groups[1], {o:this, a:attr})
+        }
       }
     }
     var xlink = this.getAttribute('xlink:href')
     if (xlink) {
       var groups = xlink.trim().match(/^#(.+?)$/)
-      if (groups) pushAdd(groups[1], {o:this, a:'xlink:href'})
+      if (groups) {
+        pushAdd(groups[1], {o:this, a:'xlink:href'})
+      }
     }
   })
   // patch used ids and references (keep unreferenced ids fixed (to allow for identification from the editor to the css, even if classes should be preferred))
@@ -91,7 +116,12 @@ function makeReferencedIdsUnique(svg) {
     let refs = referencersIds[id]
     for (let pair of refs) {
       let prev = pair.o.getAttribute(pair.a)
-      let now = prev.replace('#' + id, '#' + newId)
+      let now
+      if (pair.a === 'xlink:href') {
+        now = prev.replace('#' + id, '#' + newId)
+      } else {
+        now = prev.replace('(#' + id + ')', '(#' + newId + ')')
+      }
       if (prev !== now)
       if (pair.a === 'xlink:href') {
         pair.o.setAttributeNS('http://www.w3.org/1999/xlink', 'href', now)
