@@ -62,9 +62,10 @@
     </template>
 
     <template class="nd-source">
+
       ## start
 
-      @sticky-add: @off
+      @sticky-add: @:blurry
       @:libyli
       ## Testing libyli class
       - step 1
@@ -249,9 +250,6 @@
       - <span class="style-in-md"></span>
     </template>
 
-TODO @off to ignore slides from there (up to @on), prob # @off:
-
-TODO fix empty lines at beginning of nd-source
 
 TODO disable newlines as newlines in the markdown
 
@@ -272,13 +270,12 @@ TODO in this, the br is needed.... unless ther are not the followin bullets:
   - ⇒ Impossible to optimize on a subset (minibatch)
 
 
-TODO FIX nd-source that starts with empty line creates problem
     <template class="nd-source">
       @:blurry /greenborder
       ## Blurry thing
 
       @:#itsacopy /greenborder blurry
-      # @COPY: simpleTest
+      # @copy: simpleTest
 
       ## Classes etc inside
       - with some math $sin(x) @:id=sin blurry greenborder$

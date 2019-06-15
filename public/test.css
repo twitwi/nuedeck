@@ -385,14 +385,15 @@ body {
   opacity: var(--theme-step-opacity);
 }
 
+/*
 .current-step.current-step-exact::after {
   content: "☚";
   display: inline-block;
   opacity: 0.75;
-  transform: scale(5, 5) rotate(-15deg) translateY(0em);
+  transform: scale(5, 5) rotate(-15deg) translateY(-0.0em);
   transform-origin: left;
 }
-
+*/
 /* THEME: trivial with a small forward transition */
 .slide {
   position: absolute;

@@ -38,6 +38,11 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   let slides = []
   { // Split slides at # and ## starting lines
     let lines = content.split('\n')
+
+    // remove leading empty lines
+    while (lines.length > 0 && lines[0].trim() === '') {
+      lines.splice(0, 1)
+    }
     // extract line numbers of start of slides
     let slideIndices = lines.map((e, i)=>[e, i]).filter(([e,])=>e.match(/^##*/))
     // integrate lines that are just before a # line, and that start with @ (for metadata etc)
