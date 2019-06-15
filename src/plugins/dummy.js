@@ -17,6 +17,7 @@ export default () => ({
   //
   /*async*/ generateSlides(slide, contentNode, out, ...more) { log('generateSlides', ...more) }, // e.g. parse markdown slide
   /*async*/ enrichGeneratedSlides({type, body, headerLines}, ...more) { log('enrichSlides', ...more) }, // called by slide generator, to allow their direct extension
+  /*async*/ enrichGeneratedSlidesHeader({type, headerLines}, ...more) { log('enrichSlides', ...more) }, // called by slide generator, to enrich the header, especially to allow to not parse some slides
   /*async*/ enrichSlideDeck(slides, ...more) { log('enrichSlideDeck', ...more) }, // called when all generated slides are there
 
   //

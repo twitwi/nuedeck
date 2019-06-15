@@ -71,6 +71,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
       while (lines[i].startsWith('@')) { i++ }
       header = lines.splice(0, i)
     }
+    await vm.asyncCallAllPlugins('enrichGeneratedSlidesHeader', {type: 'md', headerLines: header})
     let sraw = lines.join('\n')
 
     let html = converter.makeHtml(sraw)

@@ -10,7 +10,7 @@ function replace(s, old, replacement) {
 }
 
 export default () => ({
-  name: 'CopySlide',
+  name: 'LiByLi',
   /*async*/ enrichSlideDeck(slides) {
 
     for (let s of slides) {

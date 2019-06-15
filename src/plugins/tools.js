@@ -42,3 +42,21 @@ export function replaceNodeByOuterHTMLFragment(node, html) {
   }
   parent.removeChild(node)
 }
+
+let endsWith = (longStr, part) => longStr.indexOf(part, longStr.length - part.length) !== -1
+let _REST = null
+export let REST = ()=>_REST
+let _RESTRIM = null
+export let RESTRIM = ()=>_RESTRIM
+export let startsWith = (longStr, part) => {
+    let res = longStr.substr(0, part.length) == part
+    _REST = res ? longStr.slice(part.length) : null
+    _RESTRIM = res ? _REST.replace(/^ */, "") : null
+    return res
+}
+export let startsWithIgnoreCase = (longStr, part) => {
+    let res = longStr.substr(0, part.length).toUpperCase() == part.toUpperCase()
+    _REST = res ? longStr.slice(part.length) : null
+    _RESTRIM = res ? _REST.replace(/^ */, "") : null
+    return res;
+}

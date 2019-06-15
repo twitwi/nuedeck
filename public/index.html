@@ -62,6 +62,42 @@
     </template>
 
     <template class="nd-source">
+      ## start
+
+      @sticky-add: @:blurry
+      @:libyli
+      ## Testing libyli class
+      - step 1
+        - step 1a
+        - step 1b
+      - step 2
+        - step 2a
+        - step 2b
+      - step 3
+        - step 3a
+        - step 3b
+      - step 4
+        - step 4a
+        - step 4b
+
+      @sticky-now
+      @sticky-clear
+      @:libyli
+      ## Testing libyli class (with step on the h2) @:step
+      - step 1
+        - step 1a
+        - step 1b
+      - step 2
+        - step 2a
+        - step 2b
+      - step 3
+        - step 3a
+        - step 3b
+      - step 4
+        - step 4a
+        - step 4b
+
+
       ## SVG to feature check
       <img src="feature-check.svg" width="350"/> <img src="feature-check.svg" width="350"/>
 
@@ -215,7 +251,11 @@
 
 TODO @off to ignore slides from there (up to @on), prob # @off:
 
-TODO check why marke-end are not working, probably an issue in rewriting
+TODO fix empty lines at beginning of nd-source
+
+TODO disable newlines as newlines in the markdown
+
+TODO can we unwrap all (except explicit) paragraphs in ul/li
 
 TODO check that nesting lists with 2 spaces does (or rather does not) work
 
