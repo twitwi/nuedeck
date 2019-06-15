@@ -52,8 +52,8 @@ export let defaultMixin = {
     return {
       opts: {
         keys: {
-          previousStep: ['backspace', 'left', 'pgdown'],
-          nextStep: ['enter', 'space', 'right', 'pgup'],
+          previousStep: ['backspace', 'left', 'pgup'],
+          nextStep: ['enter', 'space', 'right', 'pgdown'],
           previousSlide: ['up'],
           nextSlide: ['down'],
           previousEndOfSlide: ['a'],
