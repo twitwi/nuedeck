@@ -14,18 +14,18 @@ export default () => ({
     while (i < headerLines.length) {
       let consume = true
       let l = headerLines[i]
-      if (startsWithIgnoreCase(l, '@sticky-clear')) {
+      if (startsWithIgnoreCase(l, '@STICKY-CLEAR')) {
         stickyHeaders = []
-      } else if (startsWithIgnoreCase(l, '@sticky-add:')) {
+      } else if (startsWithIgnoreCase(l, '@STICKY-ADD:')) {
         stickyHeaders.push(RESTRIM())
-      } else if (startsWithIgnoreCase(l, '@sticky-rm:')) {
+      } else if (startsWithIgnoreCase(l, '@STICKY-RM:')) {
         let ind = stickyHeaders.indexOf(RESTRIM())
         if (ind !== -1) {
           stickyHeaders.splice(ind, 1)
         } else {
           console.log(`MarkdownSticky: no header ${RESTRIM()} to remove from ${stickyHeaders}`)
         }
-      } else if (startsWithIgnoreCase(l, '@sticky-now')) {
+      } else if (startsWithIgnoreCase(l, '@STICKY-NOW')) {
         insertSticky = stickyHeaders.slice(0)
       } else {
         consume = false

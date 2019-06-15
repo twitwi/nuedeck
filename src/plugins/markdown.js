@@ -1,5 +1,6 @@
 
 import showdown from 'showdown'
+import { indexOfIgnoreCase } from './tools'
 
 export function digestAtColonContent(expr, target, targetList) {
   if (targetList === undefined) targetList = [target]
@@ -72,6 +73,10 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
       header = lines.splice(0, i)
     }
     await vm.asyncCallAllPlugins('enrichGeneratedSlidesHeader', {type: 'md', headerLines: header})
+    if (indexOfIgnoreCase(header, '@OFF') !== -1) {
+      continue
+    }
+
     let sraw = lines.join('\n')
 
     let html = converter.makeHtml(sraw)

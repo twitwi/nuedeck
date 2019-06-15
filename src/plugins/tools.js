@@ -60,3 +60,13 @@ export let startsWithIgnoreCase = (longStr, part) => {
     _RESTRIM = res ? _REST.replace(/^ */, "") : null
     return res;
 }
+
+export let indexOfIgnoreCase = (arr, part) => {
+  let pART = part.toUpperCase()
+  for (let i in arr) {
+    if (arr[i].toUpperCase() === pART) {
+      return i
+    }
+  }
+  return -1
+}

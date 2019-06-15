@@ -1,5 +1,5 @@
 
-import { walkTextNodes, replaceNodeByOuterHTMLFragment } from './tools.js'
+import { walkTextNodes, replaceNodeByOuterHTMLFragment, indexOfIgnoreCase } from './tools.js'
 
 import { digestAtColonContent } from './markdown.js'
 
@@ -8,7 +8,7 @@ export default () => ({
   //
   /*async*/ enrichGeneratedSlides({type, body: w, headerLines}) {
 
-    if (headerLines.indexOf('@disable-suffixes') !== -1) return
+    if (indexOfIgnoreCase(headerLines, '@DISABLE-SUFFIXES') !== -1) return
     // TODO: make an option to actually do process other types
     if (type !== 'md') return
 

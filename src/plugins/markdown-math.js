@@ -1,12 +1,12 @@
 
-import { walkTextNodes, replaceNodeByOuterHTMLFragment } from './tools.js'
+import { walkTextNodes, replaceNodeByOuterHTMLFragment, indexOfIgnoreCase } from './tools.js'
 
 export default () => ({
   name: 'MarkdownMath',
   //
   /*async*/ enrichGeneratedSlides({type, body: w, headerLines}) {
 
-    if (headerLines.indexOf('@disable-math') !== -1) return
+    if (indexOfIgnoreCase(headerLines, '@DISABLE-MATH') !== -1) return
     // TODO: make an option to actually do process other types
     if (type !== 'md') return
 
