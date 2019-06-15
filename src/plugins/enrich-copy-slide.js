@@ -13,11 +13,6 @@ export default () => ({
   name: 'CopySlide',
   /*async*/ enrichSlideDeck(slides) {
 
-    for (let s of slides) {
-      console.log(s.contentElement)
-      s.contentElement.querySelectorAll('section:not(.no-libyli):not(.title-slide):not(.overview)>*>li:not(.no)').forEach( el => el.classList.add('step'))
-    }
-
     let byId = {}
     for (let s of slides) {
       byId[s.key] = s.contentElement

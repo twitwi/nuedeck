@@ -197,6 +197,9 @@ let vmopts = {
         allNew.forEach(s => {
           if (s.steps === undefined) s.steps = []
         })
+        for (let n of allNew) {
+          n.contentElement.setAttribute('data-root', 'true')
+        }
         // At this point, slides are in DOM form in contentElement
         await this.asyncCallAllPlugins('enrichSlideDeck', allNew)
         this.slides.splice(0, 0, ...allNew.map( s => ({...s, contentElement: undefined, contentTemplate: s.contentElement.outerHTML}) ))

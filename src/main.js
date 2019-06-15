@@ -44,6 +44,8 @@ plugins.push(new SVGPlugin())
 import KatexPlugin from './plugins/enrich-katex.js'
 import 'katex/dist/katex.css'
 plugins.push(new KatexPlugin())
+import LiByLiPlugin from './plugins/enrich-libyli.js'
+plugins.push(new LiByLiPlugin())
 import CopySlidePlugin from './plugins/enrich-copy-slide.js'
 plugins.push(new CopySlidePlugin())
 
