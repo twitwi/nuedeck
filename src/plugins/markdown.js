@@ -67,7 +67,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   converter.setOption('noHeaderId',  true),
   converter.setOption('literalMidWordUnderscores', true)
   converter.setOption('disableForced4SpacesIndentedSublists', true)
-  converter.setOption('simpleLineBreaks', true)
+  //converter.setOption('simpleLineBreaks', true)
 
   let res = []
   for (let lines of slides) {
