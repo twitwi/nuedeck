@@ -65,6 +65,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     extensions: []
   })
   converter.setOption('noHeaderId',  true),
+  converter.setOption('emoji',  true),
   converter.setOption('literalMidWordUnderscores', true)
   converter.setOption('disableForced4SpacesIndentedSublists', true)
   //converter.setOption('simpleLineBreaks', true)
