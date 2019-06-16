@@ -237,6 +237,23 @@ let vmopts = {
       //this.L('SLIDE CONTENT MOUNTED', i, dom)
       this.L('SLIDE CONTENT MOUNTED')
       this.slideContentRoots[i] = dom
+      if (this.slideContentRootsNotify !== undefined) {
+        if (this.slideContentRootsNotifyIndex === i) {
+          this.slideContentRootsNotify()
+          this.slideContentRootsNotify = undefined
+        }
+      }
+    },
+    async ensureSlideIsMounted (sl) {
+      if (this.slideContentRoots[sl] !== undefined) {
+        return
+      }
+      return new Promise(resolve => {
+        this.slideContentRootsNotify = resolve
+        this.slideContentRootsNotifyIndex = sl
+        this.currentStep = 0
+        this.currentSlide = sl
+      })
     },
     parseSteps (iSlide, dom) {
       this.L('PARSE STEPS', iSlide)
@@ -273,13 +290,14 @@ let vmopts = {
       }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
-    jumpToSlide (sl, st, pPrev={}) {
+    async jumpToSlide (sl, st, pPrev={}) {
       let prev = {sl: this.currentSlide, st: this.currentStep}
       Object.assign(prev, pPrev)
       this.L('JUMP', prev, sl, st)
       if (sl < 0) sl = this.slides.length + sl // handle negative slide index
       if (sl < 0 || sl > this.slides.length - 1) return // out of range
       if (prev.sl !== sl) {
+        await this.ensureSlideIsMounted(sl)
         if (this.slideContentRoots[sl] !== undefined) {
           // on slide change
           this.parseSteps(sl, this.slideContentRoots[sl])
