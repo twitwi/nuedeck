@@ -1,5 +1,5 @@
 
-import { startsWithIgnoreCase, RESTRIM } from './tools'
+import { startsWithIgnoreCase, RESTRIM, indexOfIgnoreCase } from './tools'
 
 let tools = {
   L () { console.log(...arguments) }
@@ -8,7 +8,7 @@ let tools = {
 export default () => ({
   name: 'MarkdownExtra',
   //
-  /*async*/ enrichGeneratedSlides({type, body: w}) {
+  /*async*/ enrichGeneratedSlides({type, body: w, headerLines}) {
 
     if (type !== 'md') return
 
@@ -16,6 +16,9 @@ export default () => ({
 
     Array.from(w.children).forEach(s => {
 
+      if (indexOfIgnoreCase(headerLines, '@FOR-COPY') !== -1) {
+        s.setAttribute('data-for-copy', 'true')
+      }
 
       if (s.firstChild.tagName && s.firstChild.tagName.match(/^h[12]$/i)) {
         if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {

@@ -17,8 +17,12 @@ export default () => ({
     for (let s of slides) {
       byId[s.key] = s.contentElement
     }
+    let toRemove = []
     for (let i in slides) {
       let s = slides[i]
+      if (s.contentElement.matches('[data-for-copy]')) {
+        toRemove.unshift(i)
+      }
       let toReplace = selfAndAll(s.contentElement, 'div[data-special][copy]')
       for (let old of toReplace) {
         let toCopy = old.getAttribute('copy')
@@ -34,6 +38,9 @@ export default () => ({
         }
         replace(s, old, replacement)
       }
+    }
+    for (let i of toRemove) {
+      slides.splice(i, 1)
     }
   }
 })

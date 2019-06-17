@@ -32,7 +32,7 @@
 
 - [ ] TODO header to define pre-step (first) animation, also allow steps (animations) that are done before any anim (and don't count as step)
 
-- [ ] TODO, something like @off (maybe @unshown) but that allow @copy (to later remove the slide (in an enrich-), e.g. for the overview that we copy)
+- [x] TODO, @for-copy (something like @off (maybe @unshown) but that allow @copy (to later remove the slide (in an enrich-), e.g. for the overview that we copy))
 
 - [ ] TODO ^ (might be usefull on non-markdown slides too... should add a header (same syntax in an element) in html too (and call the enricher there also))
 
