@@ -21,7 +21,13 @@ export default () => ({
       let s = slides[i]
       let toReplace = selfAndAll(s.contentElement, 'div[data-special][copy]')
       for (let old of toReplace) {
-        let replacement = byId[old.getAttribute('copy')].cloneNode(true)
+        let toCopy = old.getAttribute('copy')
+        if (byId[toCopy] === undefined) {
+          // TODO option to not alert (as in old deckjs)
+          alert(`In @copy, could not find id '${toCopy}' \n in ${Object.keys(byId)}`)
+          continue
+        }
+        let replacement = byId[toCopy].cloneNode(true)
         replacement.removeAttribute('id')
         for (let a of old.getAttributeNames().filter(a => a !== 'copy' && a !== 'data-special')) {
           replacement.setAttribute(a, old.getAttribute(a))
