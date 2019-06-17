@@ -2,7 +2,7 @@
 export default () => ({
   name: 'SimpleStep',
 
-  /*sync*/ stepElementToAnimationStep (out, {el, iSlide, iStep, dom}) {
+  /*sync*/ stepElementToAnimationStep (out, {el}) {
 
     out.push({el, isSimple: true})
     // Could: return 'BREAK' as it is intended to be last anyway,

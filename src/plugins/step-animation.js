@@ -2,7 +2,7 @@
 export default () => ({
   name: 'SimpleStep',
 
-  /*sync*/ stepElementToAnimationStep (out, {el, iSlide, iStep, dom}) {
+  /*sync*/ stepElementToAnimationStep (out, {el, dom}) {
     let attr = (n) => el.getAttribute(`data-${n}`)
     if (!attr('anim')) return
 
