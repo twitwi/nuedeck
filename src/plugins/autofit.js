@@ -8,7 +8,7 @@ function autofit() {
   let sx = r.width / (dw + m[1] + m[3])
   let sy = r.height / (dh + m[0] + m[2])
   let s = Math.min(sx, sy)
-  // TODO fit modes
+
   let tx = m[3] + (r.width/s - (dw + m[1] + m[3])) / 2
   let ty = m[0] + (r.height/s - (dh + m[0] + m[2])) / 2
   this.$refs.fit.style.transform = `translate(-50%,-50%) scale(${s}, ${s}) translate(50%, 50%) translate(${tx}px, ${ty}px)`

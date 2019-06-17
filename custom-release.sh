@@ -64,19 +64,19 @@ fi
 
 
 if ! has no-npm ; then
-    try "Building with npm" 
+    try "Building with npm"
     npm run build
     OK
 fi
 
 
-try "Copying to $o" 
+try "Copying to $o"
 mkdir -p "$o"/nuedeck
 cp dist/js/app.*.js "$o"/nuedeck/nuedeck.js
 cp dist/js/chunk-vendors.*.js "$o"/nuedeck/nuedeck-deps.js
 cp public/template.html "$o"/example.html
 cat public/test.css node_modules/katex/dist/katex.min.css > "$o"/nuedeck/nuedeck-theme.css # take from the node_modules to have the proper fonts/ path
-# TODO: should rewrite katex css to look online also (maybe reuse the theme-builder script)
+
 mkdir -p "$o"/nuedeck/fonts
 if ! has no-theme-fonts ; then
     cat public/test.css|grep 'url(fonts/'|sed 's@.*url(fonts/\([^)]*\)).*@theme-builder/build/fonts/\1@g' | xargs cp -t "$o"/nuedeck/fonts/
@@ -88,10 +88,6 @@ if ! has no-katex-fonts ; then
 fi
 ok
 
-# TODO: also produce a font pack zip with katex and all styles
-
 try "Showing the output tree"
 tree -sh "$o"
 OK
-
-

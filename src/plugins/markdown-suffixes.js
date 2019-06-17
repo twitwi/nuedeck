@@ -9,7 +9,7 @@ export default () => ({
   /*async*/ enrichGeneratedSlides({type, body: w, headerLines}) {
 
     if (indexOfIgnoreCase(headerLines, '@DISABLE-SUFFIXES') !== -1) return
-    // TODO: make an option to actually do process other types
+
     if (type !== 'md') return
 
     let comment = new RegExp('// (.*)$')

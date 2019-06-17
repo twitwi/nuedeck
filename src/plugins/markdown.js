@@ -28,7 +28,6 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   let content = [].map.call(contentNode.childNodes, x => x.nodeType === x.TEXT_NODE ? x.textContent : x.outerHTML).join('')
 
   { // Remove trailing spaces
-    // TODO make this optional and even metadata configurable (tricky in some sense)
     let lines = content.split('\n')
     let spaces = lines.filter( l => l.trim().length > 0).map( l => l.length - l.replace(/^ */, '').length)
     let remove = spaces.reduce((x,y)=>Math.min(x,y))
@@ -88,11 +87,6 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     let html = converter.makeHtml(sraw)
     let parser = new DOMParser()
     let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
-
-    // TODO: somewhere add a header like @animSystematicReplayOnBack: to
-    // and btw, such option might be usefull on non-markdown slides too... should add a header (same syntax in an element) in html too (and call the enricher there also)
-    // and in this header, also allow steps (animations) that are done before any anim (and don't count as step)
-    // TODO: @unshown to later remove the slide (in an enrich-), e.g. for the overview that we copy
 
     await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper, headerLines: header})
 

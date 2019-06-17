@@ -34,7 +34,6 @@ async function svgInject(singleSVG, options) {
 
 }
 
-// TODO actually allow disabling  features?
 /*
 function notDisabled(k) {
     let kk = 'no'+k;

@@ -7,10 +7,9 @@ export default () => ({
   /*async*/ enrichGeneratedSlides({type, body: w, headerLines}) {
 
     if (indexOfIgnoreCase(headerLines, '@DISABLE-MATH') !== -1) return
-    // TODO: make an option to actually do process other types
+
     if (type !== 'md') return
 
-    // TODO: config
     let delimiters = [
       { reg: '[$][$](([^$]|[$](?![$]))+?)[$][$]', ind: 1},
       { reg: '[$]([^$]+?)[$]', ind: 1},
