@@ -267,10 +267,16 @@ let vmopts = {
       // heuristically, add a step if the last step is not at the very end
       while (lastStepEl !== dom) {
         if (lastStepEl.nextElementSibling !== null) {
-          allNew.push({ doit: () => {
-            this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)
-          }})
-          break
+          if (lastStepEl.nextElementSibling.matches('.comment')) {
+            lastStepEl = lastStepEl.nextElementSibling
+            continue
+          } else {
+            let doit = () => {
+              this.forAll('.step, .current-step', el => el.classList.remove('current-step', 'current-step-exact'), dom)
+            }
+            allNew.push({ doit, fast: doit }) // fast just for safety
+            break
+          }
         }
         lastStepEl = lastStepEl.parentNode
       }
@@ -281,21 +287,28 @@ let vmopts = {
         if (! allNew[0].isSimple) {
           allNew.splice(0, 0, {})
         }
-        /*
-        if (allNew.filter(s => s.isSimple).length > 0) {
-          // add a first empty step if there are
-          allNew.splice(0, 0, {})
-        }
-        */
       }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
     async jumpToSlide (sl, st, pPrev={}) {
+      let makeStepCurrent = () => {
+        let el = this.slides[sl].steps[st].el
+        if (el === undefined || el === null) return
+        let dom = this.slideContentRoots[sl]
+        this.forAll('.step, .current-step', clear => clear.classList.remove('current-step', 'current-step-exact'), dom)
+        let cur = el
+        cur.classList.add('current-step-exact')
+        while (! cur.parentNode.classList.contains('slide')) {
+          cur.classList.add('current-step')
+          cur = cur.parentNode
+        }
+      }
       let prev = {sl: this.currentSlide, st: this.currentStep}
       Object.assign(prev, pPrev)
       this.L('JUMP', prev, sl, st)
       if (sl < 0) sl = this.slides.length + sl // handle negative slide index
       if (sl < 0 || sl > this.slides.length - 1) return // out of range
+      // if we change slide, ensure it we load and init the anims
       if (prev.sl !== sl) {
         await this.ensureSlideIsMounted(sl)
         if (this.slideContentRoots[sl] !== undefined) {
@@ -310,7 +323,9 @@ let vmopts = {
       if (st < 0 || st > this.slides[sl].steps.length - 1) return // out of range
       if (prev.sl === sl) {
         // we stay in the same slide
-        if (prev.st < st) {
+        if (prev.st === st) {
+          // pass
+        } else if (prev.st < st) {
           for (let i = prev.st+1; i < st; i++) {
             maybe(this.slides[sl].steps[i], 'fast')()
           }
@@ -321,12 +336,14 @@ let vmopts = {
           }
           maybe(this.slides[sl].steps[st], 'back')()
         }
+        makeStepCurrent(this.slides[sl].steps[st].el)
         this.currentStep = st
       } else {
         // we change slide
         this.slides[sl].steps.slice(0, st).forEach(step => maybe(step, 'fast')())
         maybe(this.slides[sl].steps[st], 'doit')()
         this.currentSlide = sl
+        makeStepCurrent(this.slides[sl].steps[st].el)
         this.currentStep = st
       }
     },

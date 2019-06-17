@@ -1,14 +1,20 @@
 # General
 
-- [ ] TODO animations, always play first anim (already the case?), fix simple things (undo etc), allow "{merge:true}" to merge with next
+- [x] TODO animations, always play first anim (already the case?), fix simple things (undo etc), allow "{merge:true}" to merge with next
 
-- [ ] TODO new, 
+- [ ] TODO new, goto ui
+
+- [ ] TODO new, slide sorter
+
+- [ ] TODO new, help area
+
+- [ ] TODO new, clone system and ui, with log system too (think about nicer format)
 
 - [ ] TODO can we unwrap all (except explicit) paragraphs in ul/li (or find a way to make showdown not generate paragraphs)
 
 - [ ] TODO check that nesting lists with 2 spaces does (or rather does not) work
 
-- [ ] TODO other anims
+- [ ] TODO other anims, like follow path (maybe using composite transform)
 
 - [ ] TODO performance, debug
 
