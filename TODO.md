@@ -4,6 +4,8 @@
 
 - [ ] TODO new, goto ui
 
+- [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
+
 - [ ] TODO new, slide sorter
 
 - [ ] TODO new, help area
