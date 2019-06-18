@@ -2,6 +2,8 @@
 
 - [x] TODO animations, always play first anim (already the case?), fix simple things (undo etc), allow "{merge:true}" to merge with next
 
+- [ ] TODO use inject/provide https://vuejs.org/v2/guide/components-edge-cases.html to simplify how addin/addons/slides are written
+
 - [ ] TODO new, goto ui
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
@@ -26,28 +28,30 @@
 
 - [ ] TODO options, make an option to actually do process other types (other than md, for markdown-extra, markdown-math, markdown-suffixes, ...
 
+- [ ] TODO enrich-svg, options, allow disabling features
+
 - [ ] TODO options, math delelimiters in markdown-math
 
 - [ ] TODO real starter/tester file (index.html)
 
-- [ ] TODO somewhere, add a header like @animSystematicReplayOnBack
-
 - [ ] TODO header to define pre-step (first) animation, also allow steps (animations) that are done before any anim (and don't count as step)
+
+- [ ] TODO TOC and overview plugin to generate all these
 
 - [x] TODO, @for-copy (something like @off (maybe @unshown) but that allow @copy (to later remove the slide (in an enrich-), e.g. for the overview that we copy))
 
-- [ ] TODO ^ (might be usefull on non-markdown slides too... should add a header (same syntax in an element) in html too (and call the enricher there also))
-
-- [ ] TODO enrich-svg, allow disabling features
+- [x] TODO ^...  data-for-copy="true" (might be useful on non-markdown slides too... should add a header (same syntax in an element) in html too (and call the enricher there also))
 
 - [ ] TODO LocalStyle.vue, make it actually local? + allow it to be in the nd-source not in a slide
       the simplest solution is probably to tag all elements from a nd-source with the same class (or better to allow a classname on the nd-source, that is added to all and the locality is the user's problem, until scoped css are standard)
+
+- [ ] TODO somewhere, add a header like @animSystematicReplayOnBack... low priority unless an useful example is found
 
 - [ ] TODO markdown, make removal of trail spaces optional and even metadata configurable (tricky in some sense)... low priority
 
 - [ ] TODO autofit, handle other fit modes... low priority
 
-- [ ] TODO in this, the br is needed.... unless ther are not the followin bullets: (report to showdown?)
+- [ ] TODO in this, the br is needed.... unless there are not the following bullets: (report to showdown?)
 
 ~~~
 # Optimizing the $F_\beta$-measure
