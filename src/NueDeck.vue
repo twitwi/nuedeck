@@ -1,29 +1,34 @@
 <template>
   <div class="nuedeck" ref="nuedeck">
-   <div class="fit" ref="fit">
-    <div v-for="[s,i] in slidesToRender"
-         :key="'S'+i"
-         :class="slideClasses(s, i, currentSlide)"
-         :style="{ display: Math.abs(currentSlide-i)<=2 ? undefined : 'none'}">
-      <!-- TODO find a way to alias $parent (at least, and test perf of the current solution) -->
-      <!-- another solution props: {state: {default:$data}} -->
-      <component :is="{
-        mounted () {
-          slideContentRoot(i, this.$el)
-        },
-        data: ((d) => () => d)($data), // pass a copy of data (test for performance)
-        template: s.contentTemplate }"></component>
-      <component v-for="(a,ai) in addins"
-      :key="'S'+i+'A'+ai"
+    <div class="fit" ref="fit">
+      <div v-for="[s,i] in slidesToRender"
+      :key="'S'+i"
+      :class="slideClasses(s, i, currentSlide)"
+      :style="{ display: Math.abs(currentSlide-i)<=2 ? undefined : 'none'}">
+        <component
+        :key="'SC'+i"
+        :is="{
+          inject: ['nd'],
+          mounted () {
+            slideContentRoot(i, this.$el)
+          },
+          template: s.contentTemplate
+        }"></component>
+
+        <component v-for="(a,ai) in addins"
+        :key="'S'+i+'A'+ai"
+        :is="{
+          inject: ['nd'], // for raw addin in nd-addin
+          provide: function () { return {renderSlide:i} },
+          template: a.contentTemplate
+        }"></component>
+      </div>
+      <component v-for="(a,ai) in addons"
+      :key="'A'+ai"
       :is="{
-        data: ((d) => () => ({ ...d, renderSlide: i }))($data), // pass a copy of data (test for performance)
-        template: a.contentTemplate }"></component>
-    </div>
-    <component v-for="(a,ai) in addons"
-    :key="'A'+ai"
-    :is="{
-        data: ((d) => () => ({ ...d}))($data), // pass a copy of data (test for performance)
-        template: a.contentTemplate }"></component>
+        inject: ['nd'], // for raw addon in nd-addon
+        template: a.contentTemplate
+      }"></component>
    </div>
   </div>
 </template>
@@ -108,6 +113,9 @@ let vmopts = {
   mixins: [defaultMixin],
   props: {
     plugins: { type: Array, default: () => [] },
+  },
+  provide: function () {
+    return {nd: this}
   },
   data () {
     return {
