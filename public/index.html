@@ -156,12 +156,12 @@
 
     <!-- One can also use vue.js to access various variables -->
     <template class="nd-source">
-      # <span v-html="vars.title"></span> <!-- title can be more than plain text -->
-      - {{ vars.author }}
-        ||| <span v-html="$parent.br(vars.author, '/')"></span>
+      # <span v-html="nd.vars.title"></span> <!-- title can be more than plain text -->
+      - {{ nd.vars.author }}
+        ||| <span v-html="nd.br(nd.vars.author, '/')"></span>
         <!-- here we replaced / by newlines -->
-      - {{ vars.date }}
-        ||| <span v-html="$parent.br(vars.title)"></span>
+      - {{ nd.vars.date }}
+        ||| <span v-html="nd.br(nd.vars.title)"></span>
         <!-- here we replaced non-breaking spaces by newlines -->
     </template>
 
@@ -318,12 +318,12 @@
     - ness
     </template>
  <template class="nd-source">
-   # TOTO 2 {{ $parent.currentSlide }} {{ currentSlide }}
+   # TOTO 2 {{ nd.currentSlide }} {{ nd.currentSlide }}
    - cool <b>OK</b>
    - ness <button @click="currentSlide++">++</button>
 
    @disable-math
-   # TOTO 3 {{ $parent.currentSlide * $parent.currentSlide }}
+   # TOTO 3 {{ nd.currentSlide * nd.currentSlide }}
    - cool <b>OK</b>
    - still can put <span data-special latex>\frac{10}{99}</span>
 </template>
@@ -331,16 +331,16 @@
     <template class="nd-source" data-type="html">
       <section>
         POUET PUET
-      <h2>{{ $parent.opts }}<span class="comment"> comment</span></h2>
+      <h2>{{ nd.opts }}<span class="comment"> comment</span></h2>
         TEST <span v-if="false">SHOULD NOT APPEAR</span>
-        {{ $parent.opts }}
+        {{ nd.opts }}
         TEST
       </section>
       </template>
 
 
       <template class="nd-source" data-type="html">
-      <h2>{{ $parent.currentSlide }}<span class="comment"> comment</span></h2>
+      <h2>{{ nd.currentSlide }}<span class="comment"> comment</span></h2>
 <ul>
 <li><span class="var-author">Rémi Emonet</span></li>
 <li><span class="var-date">2019-06-29</span></li>
