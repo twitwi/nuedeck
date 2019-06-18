@@ -12,17 +12,25 @@ export default () => ({
 
       if (indexOfIgnoreCase(headerLines, '@FOR-COPY') !== -1) {
         s.setAttribute('data-for-copy', 'true')
+        // The slide will be removed later, after it can be copied
       }
 
       if (s.firstChild.tagName && s.firstChild.tagName.match(/^h[12]$/i)) {
         if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {
-          var main = RESTRIM().split(/:/);
-          //var baseSelector = main[0];
-          //var animPart = main.slice(1).join(':');
-          //var hasAnim = ! animPart.match(/^\s*$/);
-          //var base = null;
-          s.outerHTML = `<div data-special copy='${main}'>WILL BE REPLACED BY ${main}</div>`
+          let main = RESTRIM()
+          s.innerHTML = `<div data-special copy='${main}'>WILL BE REPLACED BY ${main}</div>`
         }
+      }
+
+      let prefix = ''
+      for (let header of headerLines) {
+        if (startsWithIgnoreCase(header, '@INJECT:')) {
+          // TODO maybe splice the header to remove consumed @INJECT
+          prefix += RESTRIM()
+        }
+      }
+      if (prefix !== '') {
+        s.innerHTML = prefix + s.innerHTML
       }
     })
   }

@@ -76,17 +76,26 @@
       - see https://github.com/showdownjs/showdown/wiki/Emojis
       - @:step
 
+      @: #pigs
       ## Anim scratch (with h2 as step) @:step
       - gruik *:pig: @:p1*
       - gruik *:pig: @:p2*
       - gruik *:pig: @:p3*
       - gruik *:pig: @:p4*
+      - gruik *:pig: @:p5*
+      - gruik *:pig: @:p6*
 
       <span class="step" data-anim="show" data-target=".p2" data-merge-next></span>
       <!--TODO: low priority, adding this creates some difference between init and going back to the beginning span class="step" data-anim="hide" data-target=".p2" data-merge-next></span-->
-      <span class="step" data-anim="show" data-target=".p3"></span>
+      <span class="step" data-anim="show" data-target=".p3" ></span>
       <span class="step" data-anim="show" data-target=".p4" data-merge-next></span>
       <span class="step" data-anim="show" data-target=".p1"></span>
+
+
+      @: blurry
+      @inject: <span class="step" data-anim="hide" data-target=".p5" data-merge-next></span>
+      @inject: <span class="step" data-anim="hide" data-target=".p6" data-merge-next></span>
+      ## @copy: pigs
 
 
       @sticky-add: @:blurry

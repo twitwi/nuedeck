@@ -36,7 +36,7 @@
 
 - [x] TODO make anim chainable with data-merge-next
 
-- [ ] TODO header to define pre-step (first) animation, also allow steps (animations) that are done before any anim (and don't count as step)
+- [x] TODO generic @inject:, to inject at the top of the slide... solves, for now: header to define pre-step (first) animation, also allow steps (animations) that are done before any anim (and don't count as step)
 
 - [ ] TODO TOC and overview plugin to generate all these
 
