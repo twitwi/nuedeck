@@ -28,11 +28,13 @@
 
 - [ ] TODO options, make an option to actually do process other types (other than md, for markdown-extra, markdown-math, markdown-suffixes, ...
 
-- [ ] TODO enrich-svg, options, allow disabling features
+- [ ] TODO enrich-svg, options, allow disabling features ... low priority
 
-- [ ] TODO options, math delelimiters in markdown-math
+- [ ] TODO options, math delimiters in markdown-math ... low priority
 
 - [ ] TODO real starter/tester file (index.html)
+
+- [x] TODO make anim chainable with data-merge-next
 
 - [ ] TODO header to define pre-step (first) animation, also allow steps (animations) that are done before any anim (and don't count as step)
 

@@ -74,6 +74,19 @@
       - emoji using just unicode
       - or `:pig:`
       - see https://github.com/showdownjs/showdown/wiki/Emojis
+      - @:step
+
+      ## Anim scratch (with h2 as step) @:step
+      - gruik *:pig: @:p1*
+      - gruik *:pig: @:p2*
+      - gruik *:pig: @:p3*
+      - gruik *:pig: @:p4*
+
+      <span class="step" data-anim="show" data-target=".p2" data-merge-next></span>
+      <span class="step" data-anim="show" data-target=".p3"></span>
+      <span class="step" data-anim="show" data-target=".p4" data-merge-next></span>
+      <span class="step" data-anim="show" data-target=".p1"></span>
+
 
       @sticky-add: @:blurry
       @:libyli

@@ -292,8 +292,35 @@ let vmopts = {
         // add a dummy step if there are none
         allNew.push({})
       } else {
+        /*
         if (! allNew[0].isSimple) {
           allNew.splice(0, 0, {})
+        }*/
+      }
+      {
+        // Merge
+        let i = 0
+        while (i < allNew.length) {
+          if (allNew[i].mergeNext) {
+            if (i+1 == allNew.length) {
+              console.log('ERROR merge TODO better message')
+              break
+            }
+            // actual merge
+            let a = allNew[i]
+            delete a.mergeNext
+            let b = allNew[i+1]
+            let ab = {...a, ...b}
+            for (let [k,dir] of [['init', true], ['fast', true], ['doit', true], ['undo', false], ['back', true]]) {
+              ab[k] = () => {
+                if (dir) { maybe(a, k)() ; maybe(b, k)() }
+                else { maybe(b, k)() ; maybe(a, k)() }
+              }
+            }
+            allNew.splice(i, 2, ab)
+          } else {
+            i++
+          }
         }
       }
       s.steps.splice(0, s.steps.length, ...allNew)
