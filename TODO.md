@@ -6,9 +6,15 @@
 
 - [x] TODO @eval-header: nd.highlightLi(4, 1) (but allow global custom functions, or plugins ones)... this parser is header time
 
-- [ ] TODO @eval-header: should use functions, provided by plugins, that are in nd but not directly in nd (in a subobject rather), there should be a suffix to eval something, in a slide, coming from "my" (but should be parse time or something)
+- [ ] TODO markdown shortcuts for animations
 
-- [ ] TODO new, goto ui
+- [ ] TODO check that nesting lists with 2 spaces does (or rather does not) work
+
+- [ ] TODO real starter/tester file (index.html)
+
+- [ ] TODO new, goto ui, minimalist for now (just a prompt)
+
+- [ ] TODO TOC and overview plugin to generate all these
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
 
@@ -16,15 +22,17 @@
 
 - [ ] TODO new, help area
 
+- [ ] TODO performance, debug of over-refresh by vue
+
 - [ ] TODO new, clone system and ui, with log system too (think about nicer format)
+
+- [ ] TODO ui, as in the previous, ui elements could be added automatically unless they are present in the template (e.g. goto ui, etc)
+
+- [ ] TODO @eval-header: should use functions, provided by plugins, that are in nd but not directly in nd (in a subobject rather), there should be a suffix to eval something, in a slide, coming from "my" (but should be parse time or something)
 
 - [ ] TODO can we unwrap all (except explicit) paragraphs in ul/li (or find a way to make showdown not generate paragraphs)
 
-- [ ] TODO check that nesting lists with 2 spaces does (or rather does not) work
-
 - [ ] TODO other anims, like follow path (maybe using composite transform)
-
-- [ ] TODO performance, debug
 
 - [ ] TODO performance, test caching a list of plugins per callback type (to avoid iterating all everytime)
 
@@ -36,13 +44,9 @@
 
 - [ ] TODO options, math delimiters in markdown-math ... low priority
 
-- [ ] TODO real starter/tester file (index.html)
-
 - [x] TODO make anim chainable with data-merge-next
 
 - [x] TODO generic @inject:, to inject at the top of the slide... solves, for now: header to define pre-step (first) animation, also allow steps (animations) that are done before any anim (and don't count as step)
-
-- [ ] TODO TOC and overview plugin to generate all these
 
 - [x] TODO, @for-copy (something like @off (maybe @unshown) but that allow @copy (to later remove the slide (in an enrich-), e.g. for the overview that we copy))
 
