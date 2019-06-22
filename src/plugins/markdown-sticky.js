@@ -1,5 +1,5 @@
 
-import { startsWithIgnoreCase, RESTRIM } from './tools'
+import { startsWithIgnoreCase, RESTRIM, equalsIgnoreCase } from './tools'
 
 let stickyHeaders = []
 
@@ -14,7 +14,7 @@ export default () => ({
     while (i < headerLines.length) {
       let consume = true
       let l = headerLines[i]
-      if (startsWithIgnoreCase(l, '@STICKY-CLEAR')) {
+      if (equalsIgnoreCase(l, '@STICKY-CLEAR')) {
         stickyHeaders = []
       } else if (startsWithIgnoreCase(l, '@STICKY-ADD:')) {
         stickyHeaders.push(RESTRIM())

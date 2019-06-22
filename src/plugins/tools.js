@@ -70,3 +70,7 @@ export let indexOfIgnoreCase = (arr, part) => {
   }
   return -1
 }
+
+export let equalsIgnoreCase = (longStr, part) => {
+  return longStr.toUpperCase() === part.toUpperCase()
+}
