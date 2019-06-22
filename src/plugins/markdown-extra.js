@@ -8,7 +8,8 @@ export default () => ({
 
     if (type !== 'md') return
 
-    Array.from(w.children).forEach(s => {
+    for (let i = 0; i < w.children.length; i++) {
+      let s = w.children[i]
 
       if (indexOfIgnoreCase(headerLines, '@FOR-COPY') !== -1) {
         s.setAttribute('data-for-copy', 'true')
@@ -18,21 +19,31 @@ export default () => ({
       if (s.firstChild.tagName && s.firstChild.tagName.match(/^h[12]$/i)) {
         if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {
           let main = RESTRIM()
-          s.innerHTML = `<div data-special copy='${main}'>WILL BE REPLACED BY ${main}</div>`
+          s.outerHTML = `<div data-special data-copy="${main}" data-whole></div>`
+          s = w.children[i]
         }
       }
-
-      let prefix = ''
-      for (let header of headerLines) {
-        if (startsWithIgnoreCase(header, '@INJECT:')) {
-          // TODO maybe splice the header to remove consumed @INJECT
-          prefix += RESTRIM()
+      {
+        // injection
+        let prefix = ''
+        let suffix = ''
+        for (let header of headerLines) {
+          if (startsWithIgnoreCase(header, '@INJECT:')) {
+            // TODO maybe splice the header to remove consumed @INJECT
+            prefix += RESTRIM()
+          }
+          if (startsWithIgnoreCase(header, '@INJECT-END:')) {
+            suffix += RESTRIM()
+          }
+        }
+        if (prefix !== '') {
+          s.setAttribute('data-inject-prefix', prefix)
+        }
+        if (suffix !== '') {
+          s.setAttribute('data-inject-suffix', suffix)
         }
       }
-      if (prefix !== '') {
-        s.innerHTML = prefix + s.innerHTML
-      }
-    })
+    }
   }
 
 })

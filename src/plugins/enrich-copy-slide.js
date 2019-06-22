@@ -20,12 +20,14 @@ export default () => ({
     let toRemove = []
     for (let i in slides) {
       let s = slides[i]
+      // remove elements that were just here to be copiable
       if (s.contentElement.matches('[data-for-copy]')) {
         toRemove.unshift(i)
       }
-      let toReplace = selfAndAll(s.contentElement, 'div[data-special][copy]')
+      // replace content
+      let toReplace = selfAndAll(s.contentElement, 'div[data-special][data-copy]')
       for (let old of toReplace) {
-        let toCopy = old.getAttribute('copy')
+        let toCopy = old.getAttribute('data-copy')
         if (byId[toCopy] === undefined) {
           // TODO option to not alert (as in old deckjs)
           alert(`In @copy, could not find id '${toCopy}' \n in ${Object.keys(byId)}`)
@@ -33,8 +35,15 @@ export default () => ({
         }
         let replacement = byId[toCopy].cloneNode(true)
         replacement.removeAttribute('id')
-        for (let a of old.getAttributeNames().filter(a => a !== 'copy' && a !== 'data-special')) {
+        for (let a of old.getAttributeNames().filter(a => a !== 'data-copy' && a !== 'data-special')) {
           replacement.setAttribute(a, old.getAttribute(a))
+        }
+        {
+          let pre = old.getAttribute('data-inject-prefix') || ''
+          let suf = old.getAttribute('data-inject-suffix') || ''
+          if (pre+suf !== '') {
+            replacement.innerHTML = pre + replacement.innerHTML + suf
+          }
         }
         replace(s, old, replacement)
       }

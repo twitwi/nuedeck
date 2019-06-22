@@ -4,6 +4,8 @@
 
 - [x] TODO use inject/provide https://vuejs.org/v2/guide/components-edge-cases.html to simplify how addin/addons/slides are written
 
+- [ ] TODO @eval-header: nd.underlineLi(4, 1) (but allow global custom functions, or plugins ones)... this parser is header time
+
 - [ ] TODO new, goto ui
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
