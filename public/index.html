@@ -36,6 +36,7 @@
 
     .step[data-anim] { display: none; }
     .hidden { visibility: hidden; }
+    .highlight { border: 5px solid red; }
 
 
     #itsacopy h1 {border-bottom: 10px solid red; }
@@ -63,6 +64,20 @@
 
     <template class="nd-source">
 
+      @eval-header: return ["@:blurry"]
+      @eval-header: return my.highlightLi(1)
+      @eval-header: my.test = 2
+      @eval-header: return my.highlightLi(1, my.test, 'greenborder', /*noMerge*/true)
+      @eval-header: return my.highlightLi(2, --my.test)
+      @inject-end: <span class="step" data-anim="add-class" data-target="[data-root]>*>li:nth-of-type(1)>*>li:nth-of-type(1)" data-class="highlight" data-merge-next></span>
+      ## Can have header evaluation
+      - Can be
+        - any code that will be executed
+        - some function calls on `nd` (the nuedeck object)
+      - Return type can be
+        - a list of header lines to add
+        - anything else is ignored (but it allows for)
+
 
 
       @:#overviewiii overview no-libyli
@@ -80,7 +95,7 @@
       - Discussion
 
       @:hi21
-      @inject-end: <span class="step" data-anim="add-class" data-target="[data-root]>*>li:nth-child(2)>*>li:nth-child(1)" data-class="blurry" data-merge-next></span>
+      @inject-end: <span class="step" data-anim="add-class" data-target="[data-root]>*>li:nth-child(2)>*>li:nth-child(1)" data-class="blurry"></span>
       # @copy: overviewiii
 
 

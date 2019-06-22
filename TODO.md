@@ -4,7 +4,9 @@
 
 - [x] TODO use inject/provide https://vuejs.org/v2/guide/components-edge-cases.html to simplify how addin/addons/slides are written
 
-- [ ] TODO @eval-header: nd.underlineLi(4, 1) (but allow global custom functions, or plugins ones)... this parser is header time
+- [x] TODO @eval-header: nd.highlightLi(4, 1) (but allow global custom functions, or plugins ones)... this parser is header time
+
+- [ ] TODO @eval-header: should use functions, provided by plugins, that are in nd but not directly in nd (in a subobject rather), there should be a suffix to eval something, in a slide, coming from "my" (but should be parse time or something)
 
 - [ ] TODO new, goto ui
 

@@ -34,6 +34,9 @@ import MarkdownPlugin from './plugins/markdown.js'
 plugins.push(new MarkdownPlugin())
 import StickyMarkdownPlugin from './plugins/markdown-sticky.js'
 plugins.push(new StickyMarkdownPlugin())
+import EvalMarkdownPlugin from './plugins/markdown-eval.js'
+plugins.push(new EvalMarkdownPlugin())
+// ^ header only
 import ExtraMarkdownPlugin from './plugins/markdown-extra.js'
 plugins.push(new ExtraMarkdownPlugin())
 import MathMarkdownPlugin from './plugins/markdown-math.js'
@@ -50,6 +53,8 @@ import LiByLiPlugin from './plugins/enrich-libyli.js'
 plugins.push(new LiByLiPlugin())
 import CopySlidePlugin from './plugins/enrich-copy-slide.js'
 plugins.push(new CopySlidePlugin())
+import InjectPlugin from './plugins/enrich-inject.js'
+plugins.push(new InjectPlugin()) // after copy
 
 
 let props = {

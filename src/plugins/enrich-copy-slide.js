@@ -38,13 +38,6 @@ export default () => ({
         for (let a of old.getAttributeNames().filter(a => a !== 'data-copy' && a !== 'data-special')) {
           replacement.setAttribute(a, old.getAttribute(a))
         }
-        {
-          let pre = old.getAttribute('data-inject-prefix') || ''
-          let suf = old.getAttribute('data-inject-suffix') || ''
-          if (pre+suf !== '') {
-            replacement.innerHTML = pre + replacement.innerHTML + suf
-          }
-        }
         replace(s, old, replacement)
       }
     }
