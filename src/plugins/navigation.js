@@ -53,5 +53,15 @@ export default () => ({
         this.jumpToSlide(this.currentSlide + 1, 0)
       }
     })
+    registerAction('popupJumpToSlide', () => {
+      let res = prompt('Enter slide number to jump to:', this.currentSlide + 1)
+      if (res == null) return
+      this.jumpToSlide(parseInt(res) - 1, 0)
+    })
+    registerAction('popupJumpToSlide0Based', () => {
+      let res = prompt('Enter slide number to jump to:', this.currentSlide)
+      if (res == null) return
+      this.jumpToSlide(parseInt(res), 0)
+    })
   }
 })

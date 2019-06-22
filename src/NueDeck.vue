@@ -63,6 +63,7 @@ export let defaultMixin = {
           nextSlide: ['down'],
           previousEndOfSlide: ['a'],
           nextEndOfSlide: ['z'],
+          popupJumpToSlide: ['g'],
         },
         core: {
           classes : {

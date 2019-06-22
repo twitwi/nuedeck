@@ -12,7 +12,7 @@
 
 - [ ] TODO real starter/tester file (index.html)
 
-- [ ] TODO new, goto ui, minimalist for now (just a prompt)
+- [x] TODO new, goto ui, minimalist for now (just a prompt)
 
 - [ ] TODO TOC and overview plugin to generate all these
 
