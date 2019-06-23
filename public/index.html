@@ -182,12 +182,12 @@
       - gruik@ *:pig:*{.p5}
       - gruik@ *:pig:*{.p6}
       - @anim: .p2 + .p3 +
-      - + test continuation with 2 and 3 {.step}
+      - and test continuation with 2 and 3 {.step}
       - @anim: .p4 + .p1
 
       @: blurry
-      @inject: @anim: .p5 +
-      @inject: @anim: .p6 +
+      @inject: @anim: -.p5 +
+      @eval-header: return ['@inject: @anim: -.p6 +']
       ## @copy: pigsat
 
 

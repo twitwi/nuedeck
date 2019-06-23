@@ -10,13 +10,13 @@
 
 - [x] TODO switch to mardown-it (robust, faster, 2 spaces) (nesting lists with 2 spaces did not work) motivated partly by https://github.com/showdownjs/showdown/issues/367 https://www.reddit.com/r/Notable/comments/bzwgia/another_update_on_v160/
 
-- [ ] TODO review and fix @anim continuation and @anim in @inject
+- [x] TODO review and fix @anim continuation and @anim in @inject
 
 - [ ] TODO real starter/tester file (index.html)
 
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
 
-- [ ] TODO TOC and overview plugin to generate all these
+- [ ] TODO TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
 
