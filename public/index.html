@@ -31,7 +31,7 @@
     /*.nuedeck { border: 10px dashed darkgreen; }*/
     /*
     .nuedeck { border: 10px dashed darkgreen; resize: both; width: 1200px; height: 800px; overflow: hidden; }
-    .nuedeck { position: relative; }
+    .nuedeck { position: relative; }
     */
 
     .step[data-anim] { display: none; }
@@ -64,6 +64,20 @@
 
     <template class="nd-source">
 
+      @:#svgtest
+      ## Animation test (with SVG)
+      <local-style>
+        #svgtest .highlight { filter: blur(15px) }
+      </local-style>
+      <img src="Test.svg" width="100px" height="200px"></img>
+      <img src="Test.svg" width="100px"></img>
+      <img src="Test.svg"               height="200px" id="third"></img>
+      <span class="step"></span>
+      - @anim: %+highlight:#use23 | %+highlight: #use21 | %+highlight: #third #use15
+      - Un petit message @:step
+      - @anim: %-highlight:#use21 | #use19,#use17 | -#use19 | #use19
+
+
       @eval-header: return ["@:blurry"]
       @eval-header: return my.highlightLi(1)
       @eval-header: my.test = 2
@@ -77,7 +91,6 @@
       - Return type can be
         - a list of header lines to add
         - anything else is ignored (but it allows for)
-
 
 
       @:#overviewiii overview no-libyli
@@ -175,8 +188,8 @@
       <img src="feature-check.svg" width="350"/>
       <img src="feature-check.svg" width="350"/>
 
-      ## SVG check on a second slide
-      Hi (with 2 spaces to add br, if the editor keeps them)
+      ## SVG check on a second slide
+      Hi (with 2 spaces to add br, if the editor keeps them)
       <img src="feature-check.svg" width="350"/>
       <img src="feature-check.svg" width="350"/>
     </template>

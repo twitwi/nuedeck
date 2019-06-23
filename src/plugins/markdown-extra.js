@@ -16,6 +16,7 @@ export default () => ({
         // The slide will be removed later, after it can be copied
       }
 
+      // slide copy
       if (s.firstChild.tagName && s.firstChild.tagName.match(/^h[12]$/i)) {
         if (startsWithIgnoreCase(s.firstChild.textContent, '@COPY:')) {
           let main = RESTRIM()
@@ -23,8 +24,9 @@ export default () => ({
           s = w.children[i]
         }
       }
+
+      // injection of content from the header
       {
-        // injection
         let prefix = ''
         let suffix = ''
         for (let header of headerLines) {

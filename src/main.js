@@ -39,6 +39,8 @@ plugins.push(new EvalMarkdownPlugin())
 // ^ header only
 import ExtraMarkdownPlugin from './plugins/markdown-extra.js'
 plugins.push(new ExtraMarkdownPlugin())
+import AtAnimMarkdownPlugin from './plugins/markdown-atanim.js'
+plugins.push(new AtAnimMarkdownPlugin())
 import MathMarkdownPlugin from './plugins/markdown-math.js'
 plugins.push(new MathMarkdownPlugin())
 import SuffixesMarkdownPlugin from './plugins/markdown-suffixes.js'

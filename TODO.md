@@ -6,7 +6,7 @@
 
 - [x] TODO @eval-header: nd.highlightLi(4, 1) (but allow global custom functions, or plugins ones)... this parser is header time
 
-- [ ] TODO markdown shortcuts for animations
+- [x] TODO markdown shortcuts for animations (simple ones)
 
 - [ ] TODO check that nesting lists with 2 spaces does (or rather does not) work
 
