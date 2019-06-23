@@ -40,6 +40,7 @@
 
 
     #itsacopy h1 {border-bottom: 10px solid red; }
+    .accro { color: teal; font-weight: bold; }
     .blurry { filter: blur(.05em); }
     .greenborder { border: 5px solid chartreuse; }
     .comment { font-size: 75%; }
@@ -69,10 +70,10 @@
       - level 1
         - level 2\
           :star:
-        - level 2
+        - level 2{.blurry}
           - and 3
         - level 2
-          - and 3
+          - and 3 *$= 1 + 1$*{.highlight .blurry style="display: inline-block; transform: rotate(-10deg)"}
           - and 3
       - level 1
         - level 2
@@ -94,7 +95,7 @@
       <span class="step"></span>
 
       - @anim: %+highlight:#use23 | %+highlight: #use21 | %+highlight: #third #use15
-      - Un petit message @:step
+      - Un petit message {.step}
       - @anim: %-highlight:#use21 | #use19,#use17 | -#use19 | #use19
 
 
@@ -119,11 +120,11 @@
       - Imbalanced classification problems
         - The Problem (and performance measures)
         - Reweight, resampling, etc
-        - Correcting k-NN (*$\gamma$-NN@:accro*)
-        - Focusing on the F-Measure optimization (*CONE@:accro*)
+        - Correcting k-NN (*$\gamma$-NN*{.accro})
+        - Focusing on the F-Measure optimization (*CONE*{.accro})
       - Interpretability
         - Pleading for interpretability
-        - Adversarial Input↔Parameter Regularization (*AI↔PR@:accro*)
+        - Adversarial Input↔Parameter Regularization (*AI↔PR*{.accro})
         - Previous, current and future approaches
         - auto link https://home.heeere.com
       - Discussion
@@ -139,6 +140,7 @@
       @: #copyhidden
       @for-copy
       ## To be copied but hidden...
+      - (if blurry, its actually the copy, so it's ok)
 
       @: blurry
       ## @copy: copyhidden
@@ -147,16 +149,15 @@
       - emoji using just unicode
       - or `:pig:`
       - see https://github.com/showdownjs/showdown/wiki/Emojis
-      - @:step
 
       @: #pigs
-      ## Anim scratch (with h2 as step) @:step
-      - gruik *:pig: @:p1*
-      - gruik *:pig: @:p2*
-      - gruik *:pig: @:p3*
-      - gruik *:pig: @:p4*
-      - gruik *:pig: @:p5*
-      - gruik *:pig: @:p6*
+      ## Anim scratch (with h2 as step) {.step}
+      - gruik *:pig:*{.p1}
+      - gruik *:pig:*{.p2}
+      - gruik *:pig:*{.p3}
+      - gruik *:pig:*{.p4}
+      - gruik *:pig:*{.p5}
+      - gruik *:pig:*{.p6}
 
       <span class="step" data-anim="show" data-target=".p2" data-merge-next></span>
       <!--TODO: low priority, adding this creates some difference between init and going back to the beginning span class="step" data-anim="hide" data-target=".p2" data-merge-next></span-->
@@ -169,6 +170,22 @@
       @inject: <span class="step" data-anim="hide" data-target=".p5" data-merge-next></span>
       @inject: <span class="step" data-anim="hide" data-target=".p6" data-merge-next></span>
       ## @copy: pigs
+
+
+      @: #pigsat
+      ## Anim @anim (with h2 as step) {.step}
+      - gruik@ *:pig:*{.p1}
+      - gruik@ *:pig:*{.p2}
+      - gruik@ *:pig:*{.p3}
+      - gruik@ *:pig:*{.p4}
+      - gruik@ *:pig:*{.p5}
+      - gruik@ *:pig:*{.p6}
+      - @anim: .p2 + .p3 | .p4 + .p1
+
+      @: blurry
+      @inject: @anim: .p5 +
+      @inject: @anim: .p6 +
+      ## @copy: pigsat
 
 
       @sticky-add: @:blurry
@@ -190,7 +207,7 @@
       @sticky-now
       @sticky-clear
       @:libyli
-      ## Testing libyli class (with step on the h2) @:step
+      ## Testing libyli class (with step on the h2) {.step}
       - step 1
         - step 1a
         - step 1b
@@ -367,7 +384,9 @@
       # @copy: simpleTest
 
       ## Classes etc inside
+      - https://www.npmjs.com/package/markdown-it-attrs
       - with some math $sin(x) @:id=sin blurry greenborder$
+                       (or  *$sin(x)$*{.blurry .greenborder id=sin}
       - with a comment // this is the comment
       - styling both the text @:greenborder // and the comment @:blurry
       - can use gdef in latex $\global\def\thing{T^H_ING}   \thing + \thing$

@@ -10,6 +10,8 @@
 
 - [x] TODO switch to mardown-it (robust, faster, 2 spaces) (nesting lists with 2 spaces did not work) motivated partly by https://github.com/showdownjs/showdown/issues/367 https://www.reddit.com/r/Notable/comments/bzwgia/another_update_on_v160/
 
+- [ ] TODO review and fix @anim continuation and @anim in @inject
+
 - [ ] TODO real starter/tester file (index.html)
 
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
@@ -28,7 +30,7 @@
 
 - [ ] TODO enable https://github.com/markdown-it/markdown-it-container and make it easily extensible from nuedeck
 
-- [ ] TODO consider https://www.npmjs.com/package/markdown-it-attrs (it is perfect but has no container-styling etc, but it can be done with data-container-styling=....)
+- [x] TODO kept both @:.... suffixes (non-advertised) and preferred https://www.npmjs.com/package/markdown-it-attrs (it is perfect in some sense but has no container-styling, needs .classname, etc, but it can be done with data-container-styling=....)
 
 - [ ] TODO ui, as in the previous, ui elements could be added automatically unless they are present in the template (e.g. goto ui, etc)
 

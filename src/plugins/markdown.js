@@ -1,6 +1,7 @@
 
 import MarkdownIt from 'markdown-it'
 import Emoji from 'markdown-it-emoji'
+import Attrs from 'markdown-it-attrs'
 import { indexOfIgnoreCase } from './tools'
 
 export function digestAtColonContent(expr, target, targetList) {
@@ -67,6 +68,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     //typographer: true,
   })
   converter.use(Emoji, {})
+  converter.use(Attrs, {})
 
   let res = []
   for (let lines of slides) {
