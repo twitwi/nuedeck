@@ -33,8 +33,8 @@ export default () => ({
         var subparts = parts[i].split(/ *\+ */)
         for (let ii in subparts) {
           var what = subparts[ii]
-          if (what == "") continue // as a good side effect, this allows to set a "anim-continue" on all elements (e.g., put a + at the end of the line)
-          let continuating  = ii != subparts.length-1
+          if (what === "") continue // as a good side effect, this allows to set a "anim-continue" on all elements (e.g., put a + at the end of the line)
+          let continuating = ii != subparts.length-1
           let toAdd = null
 
           // TODO take back animationDuration etc
@@ -73,7 +73,7 @@ export default () => ({
           }
           if (toAdd !== null) {
             //console.log("SPAN", toAdd.outerHTML)
-            if (continuating) toAdd.setAttribute('data-anim-merge', true)
+            if (continuating) toAdd.setAttribute('data-merge-next', true)
             allToAdd.push(toAdd)
           }
         }

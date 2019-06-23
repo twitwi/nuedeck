@@ -161,7 +161,8 @@
 
       <span class="step" data-anim="show" data-target=".p2" data-merge-next></span>
       <!--TODO: low priority, adding this creates some difference between init and going back to the beginning span class="step" data-anim="hide" data-target=".p2" data-merge-next></span-->
-      <span class="step" data-anim="show" data-target=".p3" ></span>
+      <span class="step" data-anim="show" data-target=".p3" data-merge-next></span>
+      <span class="step">Test merge with 2 and 3</span>
       <span class="step" data-anim="show" data-target=".p4" data-merge-next></span>
       <span class="step" data-anim="show" data-target=".p1"></span>
 
@@ -180,7 +181,9 @@
       - gruik@ *:pig:*{.p4}
       - gruik@ *:pig:*{.p5}
       - gruik@ *:pig:*{.p6}
-      - @anim: .p2 + .p3 | .p4 + .p1
+      - @anim: .p2 + .p3 +
+      - + test continuation with 2 and 3 {.step}
+      - @anim: .p4 + .p1
 
       @: blurry
       @inject: @anim: .p5 +
