@@ -8,7 +8,7 @@
 
 - [x] TODO markdown shortcuts for animations (simple ones)
 
-- [ ] TODO check that nesting lists with 2 spaces does (or rather does not) work
+- [x] TODO switch to mardown-it (robust, faster, 2 spaces) (nesting lists with 2 spaces did not work) motivated partly by https://github.com/showdownjs/showdown/issues/367 https://www.reddit.com/r/Notable/comments/bzwgia/another_update_on_v160/
 
 - [ ] TODO real starter/tester file (index.html)
 
@@ -26,6 +26,10 @@
 
 - [ ] TODO new, clone system and ui, with log system too (think about nicer format)
 
+- [ ] TODO enable https://github.com/markdown-it/markdown-it-container and make it easily extensible from nuedeck
+
+- [ ] TODO consider https://www.npmjs.com/package/markdown-it-attrs (it is perfect but has no container-styling etc, but it can be done with data-container-styling=....)
+
 - [ ] TODO ui, as in the previous, ui elements could be added automatically unless they are present in the template (e.g. goto ui, etc)
 
 - [ ] TODO @eval-header: should use functions, provided by plugins, that are in nd but not directly in nd (in a subobject rather), there should be a suffix to eval something, in a slide, coming from "my" (but should be parse time or something)
@@ -36,7 +40,7 @@
 
 - [ ] TODO performance, test caching a list of plugins per callback type (to avoid iterating all everytime)
 
-- [ ] TODO properly handle options
+- [ ] TODO properly handle options across the whole project
 
 - [ ] TODO options, make an option to actually do process other types (other than md, for markdown-extra, markdown-math, markdown-suffixes, ...
 

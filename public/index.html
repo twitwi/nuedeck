@@ -64,6 +64,25 @@
 
     <template class="nd-source">
 
+      ## Nesting with 2 spaces
+      - level 1
+      - level 1
+        - level 2\
+          :star:
+        - level 2
+          - and 3
+        - level 2
+          - and 3
+          - and 3
+      - level 1
+        - level 2
+          - and 3
+          - and 3
+            - ... 4
+          - and 3
+        - level 2
+      - level 1
+
       @:#svgtest
       ## Animation test (with SVG)
       <local-style>
@@ -73,6 +92,7 @@
       <img src="Test.svg" width="100px"></img>
       <img src="Test.svg"               height="200px" id="third"></img>
       <span class="step"></span>
+
       - @anim: %+highlight:#use23 | %+highlight: #use21 | %+highlight: #third #use15
       - Un petit message @:step
       - @anim: %-highlight:#use21 | #use19,#use17 | -#use19 | #use19
@@ -105,6 +125,7 @@
         - Pleading for interpretability
         - Adversarial Input↔Parameter Regularization (*AI↔PR@:accro*)
         - Previous, current and future approaches
+        - auto link https://home.heeere.com
       - Discussion
 
       @:hi21
@@ -189,7 +210,7 @@
       <img src="feature-check.svg" width="350"/>
 
       ## SVG check on a second slide
-      Hi (with 2 spaces to add br, if the editor keeps them)
+      Hi (with a `\` for newline) \
       <img src="feature-check.svg" width="350"/>
       <img src="feature-check.svg" width="350"/>
     </template>
@@ -224,7 +245,7 @@
         - and some with two dollars: $$\sum_{i=1}^{10^{n}} f(i)$$ and $$x^{y^z}$$
         - and some using special HTML: <span data-special latex> \frac{10}{200}</span>
         - when more complex, use a div (at the beginning) to disable parsing
-        - <div style="display:inline-block" data-special latex>{x}_{y} {x}_{y}</div>
+        - <div data-special latex>{x}_{y} {x}_{y}</div>
         - <span class="inline" data-special latex>{x}_{y} {x}_{y}</span>
         - $ {x}_{y} {x}_{y}$
     </template>
@@ -401,6 +422,25 @@
    # TOTO 3 {{ nd.currentSlide * nd.currentSlide }}
    - cool <b>OK</b>
    - still can put <span data-special latex>\frac{10}{99}</span>
+
+   ## SVG to feature check
+   <img src="feature-check.svg" width="350"/>
+   <img src="feature-check.svg" width="350"/>
+
+   ## SVG check on a second slide
+   Hi \
+   <img src="feature-check.svg" width="350"/>
+   <img src="feature-check.svg" width="350"/>
+
+  ## SVG to feature check
+  <img src="feature-check.svg" width="350"/>
+  <img src="feature-check.svg" width="350"/>
+
+  ## SVG check on a second slide
+  Hi \
+  <img src="feature-check.svg" width="350"/>
+  <img src="feature-check.svg" width="350"/>
+
 </template>
 
     <template class="nd-source" data-type="html">

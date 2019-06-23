@@ -1,5 +1,6 @@
 
-import showdown from 'showdown'
+import MarkdownIt from 'markdown-it'
+import Emoji from 'markdown-it-emoji'
 import { indexOfIgnoreCase } from './tools'
 
 export function digestAtColonContent(expr, target, targetList) {
@@ -60,14 +61,12 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   }
   slides = slides.filter(lines => lines.join().trim().length > 0)
 
-  let converter = new showdown.Converter({
-    extensions: []
+  let converter = new MarkdownIt({
+    html: true,
+    linkify: true,
+    //typographer: true,
   })
-  converter.setOption('noHeaderId',  true),
-  converter.setOption('emoji',  true),
-  converter.setOption('literalMidWordUnderscores', true)
-  converter.setOption('disableForced4SpacesIndentedSublists', true)
-  //converter.setOption('simpleLineBreaks', true)
+  converter.use(Emoji, {})
 
   let res = []
   for (let lines of slides) {
@@ -84,7 +83,8 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
 
     let sraw = lines.join('\n')
 
-    let html = converter.makeHtml(sraw)
+    //let html = converter.makeHtml(sraw)
+    let html = converter.render(sraw)
     let parser = new DOMParser()
     let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
 
