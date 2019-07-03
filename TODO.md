@@ -12,7 +12,9 @@
 
 - [x] TODO review and fix @anim continuation and @anim in @inject
 
-- [ ] TODO find a way (sessionStorage?) to have live reload stay on the same slide
+- [ ] TODO bookmarkable URLs
+
+- [ ] TODO find a way (sessionStorage?) to have live reload stay on the same slide (if bookmarkable URL are note sufficient)
 
 - [ ] TODO real starter/tester file (index.html)
 
@@ -25,6 +27,8 @@
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
 
 - [ ] TODO TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor OR https://www.npmjs.com/package/markdown-it-toc-done-right
+
+- [ ] TODO make it possible for some links to pushState into the history
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
 
