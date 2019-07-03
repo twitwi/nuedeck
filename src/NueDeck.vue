@@ -83,6 +83,9 @@ export let defaultMixin = {
           fitMargin: [0, 0, 0, 0],
           fitDebounce: 200,
 
+          clearHashOnLoad: false, /* may be used for development to avoid jumping back to the same slide on reload */
+          disableSetHash: false, /* may be used for development to systematically jump back to the same slide on reload */
+          disableSetHashForSteps: false,
           // eslint-disable-next-line
           metadataSeparator: /(&nbsp;| )/gi,   /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */
         },
@@ -148,7 +151,7 @@ let vmopts = {
     let registerAction = this.$on.bind(this)
     let setDefaultOption = ()=>{} // (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"... but it is nice to have helpers/guides for the init thing
     this.callAllPlugins('init', {registerAction, setDefaultOption})
-
+    this.listenersToRemove = []
   },
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
@@ -192,6 +195,10 @@ let vmopts = {
     this.L('UPDATED')
     this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
   },
+  beforeDestroy () {
+    this.L('DESTROY')
+    this.removeAllListeners()
+  },
   methods: {
     async asyncBeforeMount () {
       let S = this.opts.core.selectors
@@ -233,6 +240,19 @@ let vmopts = {
           allNew = [...allNew, ...o]
         })
         this.addins.splice(0, 0, ...allNew)
+      }
+      if (this.opts.core.clearHashOnLoad) {
+        window.history.replaceState({}, '', '#')
+      }
+      { // Handle initial hash and the hashchange events
+        if (window.location.hash !== '') {
+          await this.jumpByHash() // async
+        }
+        this.addEventListener(window, 'hashchange', (e) => {
+          this.L('HASH CHANGE')
+          e.preventDefault()
+          this.jumpByHash() // async
+        })
       }
     },
     async asyncMounted () {
@@ -327,6 +347,33 @@ let vmopts = {
       }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
+    async jumpByHash (strWithHash, step=0) {
+      if (strWithHash === undefined) {
+        strWithHash = window.location.hash
+      }
+      let id = strWithHash.replace(/.*#/g, '')
+      if (id === '') return
+
+      // first consider slide IDs
+      for (let i in this.slides) {
+        if (this.slides[i].key === id) {
+          await this.jumpToSlide(i, step)
+          return
+        }
+      }
+
+      // now try another format, like #s:42 or even #s:42:-1 (last step of slide 42)
+      let parts = id.split(':')
+      if (parts[0] === 's' && parts.length > 1) {
+        let slide = parseInt(parts[1])
+        if (parts.length > 2) {
+          step = parseInt(parts[2])
+        }
+        await this.jumpToSlide(slide, step)
+      } else {
+        this.L('Unhandled hash format:', id)
+      }
+    },
     async jumpToSlide (sl, st, pPrev={}) {
       let makeStepCurrent = () => {
         let el = this.slides[sl].steps[st].el
@@ -385,6 +432,15 @@ let vmopts = {
         makeStepCurrent(this.slides[sl].steps[st].el)
         this.currentStep = st
       }
+      if (! this.opts.core.disableSetHash) {
+        let hash = '#s:' + this.currentSlide
+        if (! this.opts.core.disableSetHashForSteps) {
+          if (this.currentStep > 0) {
+            hash += ':' + this.currentStep
+          }
+        }
+        window.location.hash = hash
+      }
     },
     slideClasses (s, i, currentSlide) {
       let res = [this.opts.core.classes.slide]
@@ -422,6 +478,16 @@ let vmopts = {
         }
       }
       digest('--nuedeck-', this.opts)
+    },
+    addEventListener (target, event, listener) {
+      target.addEventListener(event, listener)
+      this.listenersToRemove.push({target, event, listener})
+    },
+    removeAllListeners () {
+      for (let {target, event, listener} of this.listenersToRemove) {
+        target.removeEventListener(event, listener)
+      }
+      this.listenersToRemove = []
     },
     callAllPlugins (fname, ...args) {
       for (let p of this.enabledPlugins) {

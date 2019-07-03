@@ -17,7 +17,7 @@ If you like, you can reuse or develop plugins and even leverage the fact that Nu
 
 <p>
 Historically, this project is born as a rewrite of [Deck.js with extensions](https://github.com/twitwi/deck.js).
-The goal is to keep a modular approach (with plugins) but have a better integration of important things (slide steps, animations, etc).
+The goal has been to keep a modular approach (with plugins) but to have a better integration of important things (slide steps, animations, keyboard handling, etc) and to leverage existing tool chains for development and build.
 The rewrite uses and leverages [Vue.js](http://vuejs.org/) but does not require any knowledge about it to write slides (or even some plugins).
 </p>
 

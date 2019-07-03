@@ -12,9 +12,7 @@
 
 - [x] TODO review and fix @anim continuation and @anim in @inject
 
-- [ ] TODO bookmarkable URLs
-
-- [ ] TODO find a way (sessionStorage?) to have live reload stay on the same slide (if bookmarkable URL are note sufficient)
+- [x] TODO bookmarkable URLs (solves: have live reload stay on the same slide)
 
 - [ ] TODO real starter/tester file (index.html)
 

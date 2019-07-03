@@ -46,6 +46,8 @@ plugins.push(new MathMarkdownPlugin())
 import SuffixesMarkdownPlugin from './plugins/markdown-suffixes.js'
 plugins.push(new SuffixesMarkdownPlugin())
 
+import AddSlideKeyPlugin from './plugins/enrich-add-slide-keys.js'
+plugins.push(new AddSlideKeyPlugin())
 import SVGPlugin from './plugins/enrich-svg.js'
 plugins.push(new SVGPlugin())
 import KatexPlugin from './plugins/enrich-katex.js'
