@@ -14,9 +14,11 @@
 
 - [ ] TODO real starter/tester file (index.html)
 
+- [ ] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*)
+
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
 
-- [ ] TODO TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor
+- [ ] TODO TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor OR https://www.npmjs.com/package/markdown-it-toc-done-right
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
 
@@ -49,6 +51,8 @@
 - [ ] TODO enrich-svg, options, allow disabling features ... low priority
 
 - [ ] TODO options, math delimiters in markdown-math ... low priority
+
+- [ ] TODO consider all plugins for markdown-it https://www.npmjs.com/search?q=keywords%3Amarkdown-it-plugin&page=2&perPage=20
 
 - [x] TODO make anim chainable with data-merge-next
 
