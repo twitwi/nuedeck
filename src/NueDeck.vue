@@ -1,8 +1,9 @@
 <template>
   <div class="nuedeck" ref="nuedeck">
-    <div class="fit" ref="fit">
+    <div :class="mode" ref="fit">
       <div v-for="[s,i] in slidesToRender"
       :key="'S'+i"
+      @click="slideClicked(i)"
       :class="slideClasses(s, i, currentSlide)"
       :style="{ display: Math.abs(currentSlide-i)<=2 ? undefined : 'none'}">
         <component
@@ -64,6 +65,7 @@ export let defaultMixin = {
           previousEndOfSlide: ['a'],
           nextEndOfSlide: ['z'],
           popupJumpToSlide: ['g'],
+          showSlideSorter: ['m'],
         },
         core: {
           classes : {
@@ -135,6 +137,7 @@ let vmopts = {
       // an optionDocs?
       currentSlide: 0,
       currentStep: 0,
+      mode: 'fit',
       vars: {},
     }
   },
@@ -156,6 +159,9 @@ let vmopts = {
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
     slidesToRender () {
+      if (this.mode === 'sorter') {
+        return this.slides.map((s,i) => [s, i])
+      }
       let start, end
       start = Math.max(0, this.currentSlide - 1)
       end = Math.min(this.currentSlide + 2, this.slides.length)
@@ -458,6 +464,12 @@ let vmopts = {
         res.push(s.containerClass)
       }
       return res
+    },
+    async slideClicked (i) {
+      if (this.mode === 'sorter') {
+        await this.jumpToSlide(i, 0)
+        this.mode = 'fit'
+      }
     },
     optionsOverrideFromCSS () {
       // e.g. :root { --nuedeck-core-designWidth: 1200; }

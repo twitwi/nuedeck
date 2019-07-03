@@ -63,5 +63,15 @@ export default () => ({
       if (res == null) return
       this.jumpToSlide(parseInt(res), 0)
     })
+    registerAction('showSlideSorter', () => {
+      if (this.mode === 'sorter') {
+        this.mode = 'fit'
+        return
+      }
+      this.mode = 'loading'
+      setTimeout(() => {
+        this.mode = 'sorter'
+      }, 0)
+    })
   }
 })

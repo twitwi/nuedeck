@@ -26,11 +26,13 @@
 
 - [ ] TODO TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor OR https://www.npmjs.com/package/markdown-it-toc-done-right
 
-- [ ] TODO make it possible for some links to pushState into the history
+- [ ] TODO make it possible for some of the links to pushState into the history
 
 - [ ] TODO new, add @chunk to load from file (either toplevel or in a slide, as before)
 
-- [ ] TODO new, slide sorter
+- [x] TODO simple slide sorter
+
+- [ ] TODO slide sorter: todo need to extract style (and maybe consider refactoring)
 
 - [ ] TODO new, help area
 
