@@ -478,7 +478,7 @@
  <template class="nd-source">
    # TOTO 2 {{ nd.currentSlide }} {{ nd.currentSlide }}
    - cool <b>OK</b>
-   - ness <button @click="currentSlide++">++</button>
+   - <div><button @click="nd.currentSlide++">++</button></div> ness
 
    @disable-math
    # TOTO 3 {{ nd.currentSlide * nd.currentSlide }}
@@ -494,14 +494,14 @@
    <img src="feature-check.svg" width="350"/>
    <img src="feature-check.svg" width="350"/>
 
-  ## SVG to feature check
-  <img src="feature-check.svg" width="350"/>
-  <img src="feature-check.svg" width="350"/>
+   ## SVG to feature check
+   <img src="feature-check.svg" width="350"/>
+   <img src="feature-check.svg" width="350"/>
 
-  ## SVG check on a second slide
-  Hi \
-  <img src="feature-check.svg" width="350"/>
-  <img src="feature-check.svg" width="350"/>
+   ## SVG check on a second slide
+   Hi \
+   <img src="feature-check.svg" width="350"/>
+   <img src="feature-check.svg" width="350"/>
 
 </template>
 
