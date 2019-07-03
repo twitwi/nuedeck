@@ -91,3 +91,11 @@ ok
 try "Showing the output tree"
 tree -sh "$o"
 OK
+
+if has make-zip ; then
+    try "Making zip file: temporary-nuedeck-release.zip"
+    rm -f temporary-nuedeck-release.zip
+    zip -r temporary-nuedeck-release.zip "$o"
+    OK
+fi
+

@@ -1,19 +1,48 @@
 # NueDeck
 
-NueDeck is a framework to build efficient presentation using markdown or HTML.
+NueDeck is a framework to make nice and robust presentations using markdown or HTML, .
 
 <p>
-NueDeck is built to be extensible but already comes with many features for increased productivity
-including an improved markdown syntax, latex/math equations,
+NueDeck comes with many features for increased productivity including
+a powerful extended markdown syntax,
+easy incremental display and SVG animations,
+inline latex/math equations,
+automatic presentation scaling with preserved aspect ratio,
+PDF export (already built-in in [DeckTape](https://github.com/astefanutti/decktape)),
+and more…
 </p>
 
-If you like, you can leverage the fact that it is based on [Vue.js](http://vuejs.org/) to do more advanced things.
+NueDeck is built in a modular way, so it is easy to add new features.
+If you like, you can reuse or develop plugins and even leverage the fact that NueDeck is based on [Vue.js](http://vuejs.org/) to do more advanced things.
 
+<p>
+Historically, this project is born as a rewrite of [Deck.js with extensions](https://github.com/twitwi/deck.js).
+The goal is to keep a modular approach (with plugins) but have a better integration of important things (slide steps, animations, etc).
+The rewrite uses and leverages [Vue.js](http://vuejs.org/) but does not require any knowledge about it to write slides (or even some plugins).
+</p>
 
 ### To create a NueDeck presentation
 
-see the [NueDeck Starter Kit](https://github.com/twitwi/nuedeck-starterkit) (coming soon).
+See the [NueDeck Starter Kit](https://github.com/twitwi/nuedeck-starterkit) (coming soon).
 
+In the meantime, you can [download a release](https://dl.heeere.com/temporary-nuedeck-release.zip) and modify the html file.
+
+For simple things, you can directly visualize your presentation using a `file:///` URL.
+To have a live reload of your presentation while you edit it, you can install and use a simple tool (if you have node.js), with:
+
+~~~
+npm install -g simple-hot-reload-server
+hrs .
+# or: hrs the-name-of-the-folder-with-your-presentation
+~~~
+
+Then you can view your presentation at http://localhost:8082/example.html (if the file name is `example.html`).
+
+
+
+----
+
+----
 
 ### Compile and hot-reload, for development
 ```

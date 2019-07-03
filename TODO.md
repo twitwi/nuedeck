@@ -12,9 +12,13 @@
 
 - [x] TODO review and fix @anim continuation and @anim in @inject
 
+- [ ] TODO find a way (sessionStorage?) to have live reload stay on the same slide
+
 - [ ] TODO real starter/tester file (index.html)
 
-- [ ] TODO make the readme decent + maybe a "starter" repo (from the starter file)
+- [ ] make a "starterkit" repo (from the starter file)
+
+- [x] TODO make the readme decent
 
 - [ ] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*)
 
@@ -44,7 +48,7 @@
 
 - [ ] TODO other anims, like follow path (maybe using composite transform), consider also https://animejs.com/ as a base, and more precisely https://animejs.com/documentation/#motionPath for the path anim
 
-- [ ] TODO performance, test caching a list of plugins per callback type (to avoid iterating all everytime)
+- [ ] TODO performance, test caching a list of plugins per callback type (to avoid iterating all every time)
 
 - [ ] TODO properly handle options across the whole project
 

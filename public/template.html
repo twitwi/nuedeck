@@ -34,9 +34,9 @@
     <!-- To author slides -->
     <template class="nd-source">
       @:title-slide /no-status
-      # <span v-html="$parent.br(vars.title)"></span> // comment
-      - {{ vars.author }}
-      - {{ vars.date }}
+      # <span v-html="nd.br(nd.vars.title)"></span> // comment
+      - {{ nd.vars.author }}
+      - {{ nd.vars.date }}
 
       ## TODO write your content
       - A template element with class nd-source (by default)
