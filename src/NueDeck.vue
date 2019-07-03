@@ -350,9 +350,11 @@ let vmopts = {
         if (this.slideContentRoots[sl] !== undefined) {
           // on slide change
           this.parseSteps(sl, this.slideContentRoots[sl])
+          this.slides[sl].steps.reverse()
           for (let step of this.slides[sl].steps) {
             maybe(step, 'init')()
           }
+          this.slides[sl].steps.reverse()
         }
       }
       if (st < 0) st = this.slides[sl].steps.length + st // handle negative step index
