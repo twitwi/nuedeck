@@ -14,6 +14,8 @@
 
 - [ ] TODO real starter/tester file (index.html)
 
+- [ ] TODO make the readme decent + maybe a "starter" repo (from the starter file)
+
 - [ ] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*)
 
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
@@ -40,7 +42,7 @@
 
 - [ ] TODO can we unwrap all (except explicit) paragraphs in ul/li (or find a way to make showdown not generate paragraphs)
 
-- [ ] TODO other anims, like follow path (maybe using composite transform)
+- [ ] TODO other anims, like follow path (maybe using composite transform), consider also https://animejs.com/ as a base, and more precisely https://animejs.com/documentation/#motionPath for the path anim
 
 - [ ] TODO performance, test caching a list of plugins per callback type (to avoid iterating all everytime)
 

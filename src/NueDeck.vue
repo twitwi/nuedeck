@@ -153,8 +153,9 @@ let vmopts = {
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
     slidesToRender () {
-      let start = Math.max(0, this.currentSlide - 1)
-      let end = Math.min(this.currentSlide + 2, this.slides.length)
+      let start, end
+      start = Math.max(0, this.currentSlide - 1)
+      end = Math.min(this.currentSlide + 2, this.slides.length)
       //start = 0 ; end = this.slides.length
       return this.slides.map((s,i) => [s, i]).slice(start, end)
     },
@@ -334,7 +335,7 @@ let vmopts = {
         this.forAll('.step, .current-step', clear => clear.classList.remove('current-step', 'current-step-exact'), dom)
         let cur = el
         cur.classList.add('current-step-exact')
-        while (! cur.parentNode.classList.contains('slide')) {
+        while (cur.parentNode.classList !== undefined && ! cur.parentNode.classList.contains('slide')) {
           cur.classList.add('current-step')
           cur = cur.parentNode
         }
