@@ -183,7 +183,7 @@ let vmopts = {
     this.asyncBeforeMount()
   },
   mounted () {
-    window.vm = this
+    window.nuedeck = this
     this.L('MOUNTED')
     this.asyncMounted()
   },
