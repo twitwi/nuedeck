@@ -20,9 +20,9 @@ set -e
 try "Checking there is at least 1 param (output)"
 if test $# = 0 ; then
     echo "Examples:"
-    echo "  $0 release"
-    echo "  $0 release no-npm"
-    echo "  $0 release no-npm recreate"
+    echo "  $0 release/"
+    echo "  $0 release/ no-npm"
+    echo "  $0 release/ no-npm recreate"
     echo "All options?"
     cat $0 | grep ' h[a]s ' | sed 's@.*h[a]s \([^ ]*\) @    \1\n@g' | grep -v '^[^ ]'
 fi
