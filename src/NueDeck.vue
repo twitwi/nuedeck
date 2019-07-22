@@ -531,6 +531,11 @@ let vmopts = {
         sep = this.opts.core.metadataSeparator
       }
       return v.replace(sep, "<br/>")
+    },
+    renderShortcut (k) {
+      let keys = this.opts.keys[k]
+      if (keys === undefined) return ''
+      return keys.map(v => `<span class="key">${v}</span>`).join(' / ')
     }
   }
 }

@@ -16,6 +16,7 @@
 
     <style>
 
+
     /* to override/complement the theme's default
     :root{--theme-transition-duration: 300ms}
     .current-slide-m1 { filter: blur(5px); }
@@ -64,6 +65,9 @@
     </template>
 
     <template class="nd-source">
+
+      ## Navigation keys
+      - <span v-html="nd.renderShortcut('showSlideSorter')"></span>
 
       ## Nesting with 2 spaces
       - level 1
