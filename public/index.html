@@ -34,46 +34,6 @@
     .nuedeck { position: relative; }
     */
 
-    .nuedeck .loading::before {
-      transform: none;
-      content: '🂠';
-      color: red;
-      position: fixed;
-      font-size: 40px;
-      z-index: 1000;
-    }
-    .nuedeck .loading {
-      opacity: 0.25 !important;
-      transition: opacity 600ms;
-    }
-    .nuedeck .sorter .slide {
-      display: inline-block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      position: relative !important;
-      transform: scale(0.9) !important;
-    }
-    .nuedeck .sorter .slide:hover {
-      transform: scale(1.5) !important;
-      box-shadow: red -5px -5px 10px, red 5px 5px 10px !important;
-      z-index: 1000;
-    }
-    .nuedeck .sorter {
-      --sorter-scale: 0.33;
-      transform-origin: 0 0 !important;
-      transform: scale(var(--sorter-scale)) !important;
-      position: absolute !important;
-      display: block !important;
-      border: 10px solid red !important;
-      box-sizing: border-box !important;
-      background: lightslategray !important;
-      left: 0 !important;
-      right: 0 !important;
-      width: calc(100% / var(--sorter-scale)) !important;
-      height: calc(100% / var(--sorter-scale)) !important;
-      overflow: scroll !important;
-    }
-
     .step[data-anim] { display: none; }
     .hidden { visibility: hidden; }
     .highlight { border: 5px solid red; }

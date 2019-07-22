@@ -111,7 +111,7 @@ def main_single(out, *params, p='  ', p0=''):
                 d[iname] = i['patch']['DEFAULT'](v)
     del ind, i, iname, v
     if out is None:
-        # TODO better name
+        # TODO better name + fix current generated name (missing a %s)
         out = format % tuple(d[i['name']] for i in info)
 
     print('\033[F' + p0 + 'Generating', out, '...')
@@ -134,6 +134,7 @@ def main_single(out, *params, p='  ', p0=''):
         '@include bullets%s();' % (d.dense,),
         '@include %s-colors(%s);' % (d.darkness, d.color),
         '',
+        '@include slide-sorter(); ',
         '@include extras(); ',
         '', ''
     ])

@@ -347,6 +347,7 @@ template {
 /* bullets */
 /* colors */
 /* extras, all together for now */
+/* slide sorter */
 /* unused? */
 :root {
   --theme-transition-duration: 300ms;
@@ -524,6 +525,54 @@ code {
 
 a, a:hover, a:focus, a:active, a:visited {
   color: #00c;
+}
+
+:root {
+  --sorter-scale: 0.33;
+}
+
+.loading::before {
+  transform: none;
+  content: '🂠🂠🂠🂠\A🂠🂠🂠🂠\A🂠🂠🂠🂠\A';
+  white-space: pre;
+  line-height: 1.5em;
+  color: teal;
+  position: fixed;
+  font-size: 40px;
+  z-index: 1000;
+}
+
+.loading {
+  opacity: 0.25 !important;
+  transition: opacity 600ms;
+}
+
+.sorter .slide {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  transform: scale(0.9) !important;
+}
+
+.sorter .slide:hover {
+  transform: scale(1.5) !important;
+  box-shadow: red -5px -5px 10px, red 5px 5px 10px !important;
+  z-index: 1000;
+}
+
+.sorter {
+  transform-origin: 0 0 !important;
+  transform: scale(var(--sorter-scale)) !important;
+  position: absolute !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  background: lightslategray !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: calc(100% / var(--sorter-scale)) !important;
+  height: calc(100% / var(--sorter-scale)) !important;
+  overflow: scroll !important;
 }
 
 blockquote {

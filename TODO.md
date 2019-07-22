@@ -34,9 +34,13 @@
 
 - [x] TODO simple slide sorter
 
-- [ ] TODO slide sorter: todo need to extract style (and maybe consider refactoring)
+- [x] TODO slide sorter: todo need to extract style (and maybe consider refactoring)  -> integrated in the theme without much effort for now
+
+- [ ] TODO slide sorter/mode: consider having URL variables for that
 
 - [ ] TODO new, help area
+
+- [ ] TODO help area: consider allowing live tuning of CSS vars
 
 - [ ] TODO performance, debug of over-refresh by vue
 
