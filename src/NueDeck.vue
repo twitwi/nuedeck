@@ -88,6 +88,7 @@ export let defaultMixin = {
           clearHashOnLoad: false, /* may be used for development to avoid jumping back to the same slide on reload */
           disableSetHash: false, /* may be used for development to systematically jump back to the same slide on reload */
           disableSetHashForSteps: false,
+          use0BasedIndexInSetHashForSlide: false,
           // eslint-disable-next-line
           metadataSeparator: /(&nbsp;| )/gi,   /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */
         },
@@ -369,11 +370,15 @@ let vmopts = {
       }
 
       // now try another format, like #s:42 or even #s:42:-1 (last step of slide 42)
+      // lower case s is 1-based index, upper case S is 0-based index
       let parts = id.split(':')
-      if (parts[0] === 's' && parts.length > 1) {
+      if (parts[0].toLowerCase() === 's' && parts.length > 1) {
         let slide = parseInt(parts[1])
         if (parts.length > 2) {
           step = parseInt(parts[2])
+        }
+        if (parts[0] === 's' && slide > 0) {
+          slide -= 1
         }
         await this.jumpToSlide(slide, step)
       } else {
@@ -439,7 +444,12 @@ let vmopts = {
         this.currentStep = st
       }
       if (! this.opts.core.disableSetHash) {
-        let hash = '#s:' + this.currentSlide
+        let hash
+        if (this.opts.core.use0BasedIndexInSetHashForSlide) {
+          hash = '#S:' + this.currentSlide
+        } else {
+          hash = '#s:' + (this.currentSlide + 1)
+        }
         if (! this.opts.core.disableSetHashForSteps) {
           if (this.currentStep > 0) {
             hash += ':' + this.currentStep

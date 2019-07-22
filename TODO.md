@@ -14,6 +14,8 @@
 
 - [x] TODO bookmarkable URLs (solves: have live reload stay on the same slide)
 
+- [x] TODO URLs consider using 1-based slide numbers by default as it is more user friendly -> #s:1 and #S:0 (steps are always 0 based though)
+
 - [ ] TODO real starter/tester file (index.html)
 
 - [ ] make a "starterkit" repo (from the starter file)
