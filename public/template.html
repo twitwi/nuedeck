@@ -37,6 +37,7 @@
       # <span v-html="nd.br(nd.vars.title)"></span> // comment
       - {{ nd.vars.author }}
       - {{ nd.vars.date }}
+      - (press <span v-html="nd.renderShortcut('nextStep')"></span> to play) {style=font-size:65%}
 
       ## TODO write your content
       - A template element with class nd-source (by default)
@@ -45,6 +46,37 @@
       - Some maths
         - $y = x^2 \times 99$ is equivalent to $x^2 = \pm \sqrt{\frac{y}{99}}$
         - More with $\sum_{i=1}^{20} \frac{1}{20} f(i)$
+
+      # Features and navigation
+
+      ## Navigation keys
+      - Step by step (with animations)
+        - <span v-html="nd.renderShortcut('previousStep')"></span>: backward
+        - <span v-html="nd.renderShortcut('nextStep')"></span>: forward
+      - Slide by slide (to browse)
+        - <span v-html="nd.renderShortcut('previousEndOfSlide')"></span>: backward
+        - <span v-html="nd.renderShortcut('nextEndOfSlide')"></span>: forward
+      - Slide by slide (to be ready to present, steps at the beginning of slides)
+        - <span v-html="nd.renderShortcut('previousSlide')"></span>: backward
+        - <span v-html="nd.renderShortcut('nextSlide')"></span>: forward
+
+      ## Jumping around in the presentation
+      - Jump to slide (popup) <span v-html="nd.renderShortcut('popupJumpToSlide')"></span>
+      - Slide sorter <span v-html="nd.renderShortcut('showSlideSorter')"></span>
+        - toggles the “slide sorter”
+        - easy "long jumps" in your presentation
+
+      # Slide authoring
+
+      # Extra
+
+      ## URL and Bookmarking
+      - Bookmarkable slides
+        - the URL is automatically updated when you navigate
+        - the history (back button) is not poluted though
+      - You can forge an URL, e.g.
+        - `#s:42` (or `#s:42:0`) to jump directly to slide 42
+        - `#s:42:2` to jump to slide 42, after two animation steps
     </template>
 
     <script src="./nuedeck/nuedeck-deps.js"></script>
