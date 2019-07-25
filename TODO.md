@@ -22,7 +22,9 @@
 
 - [x] TODO make the readme decent
 
-- [ ] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*)
+- [ ] TODO small doc on how we can write plugins, from simple components (what constraints?) to more coding stuff
+
+- [x] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*) -> the plugin is buggous (breaks @copy:, http:// etc) see https://github.com/pnewell/markdown-it-span/issues/1 and the link to how to actually make a plugin that works better
 
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
 
@@ -47,6 +49,8 @@
 - [ ] TODO new, clone system and ui, with log system too (think about nicer format)
 
 - [ ] TODO enable https://github.com/markdown-it/markdown-it-container and make it easily extensible from nuedeck
+
+- [ ] TODO redev a markdown-it-span (see above)
 
 - [x] TODO kept both @:.... suffixes (non-advertised) and preferred https://www.npmjs.com/package/markdown-it-attrs (it is perfect in some sense but has no container-styling, needs .classname, etc, but it can be done with data-container-styling=....)
 

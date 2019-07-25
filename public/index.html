@@ -149,10 +149,10 @@
       @: blurry
       ## @copy: copyhidden
 
-      ## start :pig: 🐷 :duck:
+      ## :star: :pig: 🐷 :duck:
       - emoji using just unicode
       - or `:pig:`
-      - see https://github.com/showdownjs/showdown/wiki/Emojis
+      - see https://github.com/markdown-it/markdown-it-emoji
 
       @: #pigs
       ## Anim scratch (with h2 as step) {.step}
@@ -392,8 +392,10 @@
 
       ## Classes etc inside
       - https://www.npmjs.com/package/markdown-it-attrs
-      - with some math $sin(x) @:id=sin blurry greenborder$
-                       (or  *$sin(x)$*{.blurry .greenborder id=sin}
+      - with some math
+        - custom at-syntax: $sin(x) @:id=sin blurry greenborder$
+        - an em tag *$sin(x)$*{.blurry .greenborder id=sin}
+        - a span (plugin not working) ::$sin(x)$::{.blurry .greenborder id=sin}
       - with a comment // this is the comment
       - styling both the text @:greenborder // and the comment @:blurry
       - can use gdef in latex $\global\def\thing{T^H_ING}   \thing + \thing$
