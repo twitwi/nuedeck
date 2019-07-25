@@ -15,6 +15,18 @@
     <meta name="date" content="2019-12-TODO">
 
     <style>
+    /* custom styles for the tutorial */
+    .hidden { visibility: hidden; } /* TODO in the style as the @anim sets it */
+
+    .densest { font-size: 50%; }
+    .red { color: darkred; }
+    .green { color: green; }
+    .yellow { color: yellow; }
+    .shadowed { text-shadow: royalblue 2px 2px 4px; }
+    code { font-size: 80%; font-family: monospace; }
+    li.src { list-style: none; margin: .4em 0 .2em -1em; }
+    li.src>pre, li.src>code {  border: 2px solid #383; border-radius: 2px; padding: .1em; background: #EEE; color: #111; font-size: 75%;}
+    li.src>pre { margin-right: 2em;}
     </style>
   </head>
   <body>
@@ -56,9 +68,10 @@
       - Slide by slide (to browse)
         - <span v-html="nd.renderShortcut('previousEndOfSlide')"></span>: backward
         - <span v-html="nd.renderShortcut('nextEndOfSlide')"></span>: forward
-      - Slide by slide (to be ready to present, steps at the beginning of slides)
+      - Slide by slide (to be ready to present, steps at the beginning of slides) TODO more clear
         - <span v-html="nd.renderShortcut('previousSlide')"></span>: backward
         - <span v-html="nd.renderShortcut('nextSlide')"></span>: forward
+      - 5 steps: *here*{.step} *we*{.step} *go*{.step} *with*{.step} *steps*{.step}
 
       ## Jumping around in the presentation
       - Jump to slide (popup) <span v-html="nd.renderShortcut('popupJumpToSlide')"></span>
@@ -67,6 +80,88 @@
         - easy "long jumps" in your presentation
 
       # Slide authoring
+
+      ## Using markdown *(code and corresponding rendering)*{.densest}
+      - `- Can be **bold** or *italic*` {.src}
+      - Can be **bold** or *italic*
+      - `- Features also auto-linking http://localhost:8082`  {.src}
+      - Features also auto-linking http://localhost:8082
+      - `- Inline HTML, <span class="red">e.g. to add a class</span>` {.src}
+      - Inline HTML, <span class="red">e.g. to add a class</span>
+
+      ## Syntax to add CSS classes *(and ids and attributes)*{.densest}
+      - `- Putting a class (red) on a list item {.red}` {.src}
+      - Putting a class (red) on a list item {.red}
+        - we can also set an id with <code>{#theId}</code>
+        - and do both and multiple classes <code>{#theId .red .other}</code>
+      - `- Putting a class on *an inline thing*{.green} only` {.src}
+      - Putting a class on *an inline thing*{.green} only
+      - `- And both *here*{.red} and **there**{.green} {.shadowed}` {.src}
+      - And both *here*{.red} and **there**{.green} {.shadowed}
+      - `- Setting attributes (edit me) {contentEditable=true}` {.src}
+      - Setting attributes (edit me) {contentEditable=true}
+      - `- and complex {.red style="border-left: 70px solid #16D;"}` {.src}
+      - and complex {.red style="border-left: 70px solid #16D;"}
+
+      ## Progressive display (slide steps)
+      - Any element with the `step` class will be a step
+        - everything is displayed up to the current step
+        - the rest is hidden or greyed-out (theme dependent)
+        - an implicit step is added at the end of slide
+      - Some navigation reminders {style="list-style:none; font-size: 65%; margin: .5em;"}
+        - step forward (<span v-html="nd.renderShortcut('nextStep')"></span>) and backward (<span v-html="nd.renderShortcut('previousStep')"></span>)
+        - beginning of slide (<span v-html="nd.renderShortcut('previousSlide')"></span>)
+      - Some steps
+        - `- first step {.step}` {.src}
+        - first step {.step}
+        - `- second step {.step}` {.src}
+        - second step {.step}
+        - `- *and*{.step} *some*{.step} *more*{.step} *steps*{.step}` {.src}
+        - *and*{.step} *some*{.step} *more*{.step} *steps*{.step}
+      - Example content *after the last explicit step*
+
+      ## TODO {.step}
+      - tip: put the step class to the title to show only the title at first
+
+      ## Appearance (out of order steps)
+      - Step 1 *and later*{.later} right now {.s1}
+      - Step 2 {.s2}
+      - Step 3 {.s3}
+      - Source {.step}
+        <pre><code>
+        ## Appearance (out of order steps)
+        - Step 1 *and later*<span class="red">{.later}</span> right now <span class="red">{.s1}</span>
+        - Step 2 {.s2}
+        - Step 3 {.s3}
+        - Source {.step}
+          …
+        - <span class="red"><span>@<span>anim: .s2 | .s1 | .s3 | .later</span>
+        </code></pre>
+        {.src}
+      - @anim: .s2 | .s1 | .s3 | .later
+
+
+      @: .libyli
+      ## Top level bullets, step by step, with `libyli`
+      - Step 0 \
+        Set the <span>`libyli`</span> class to the slide using a header:
+        <pre><code>
+        <span class="red"><span>@</span>: .libyli</span>
+        ## Top level bullets, step by step, …
+        - Step 0
+          …
+        - Step 1
+          - sub 1.1 *and combine with @anim*{.comb}
+          - sub 1.2
+        - Step 2
+        - @anim: .comb
+        </code></pre>
+        {.src style="list-style: inherit; margin: inherit"}
+      - Step 1
+        - sub 1.1 *and combine with @anim*{.comb}
+        - sub 1.2
+      - Step 2
+      - @anim: .comb
 
       # Extra
 
@@ -77,7 +172,12 @@
       - You can forge an URL, e.g.
         - `#s:42` (or `#s:42.0`) to jump directly to slide 42
         - `#s:42.2` to jump to slide 42, after two animation steps
-    </template>
+        - `#s:42.-1` to jump to slide 42, after the last animation step
+        - example: <a :href="'#s:'+(nd.currentSlide+1)+'.3'">&rArr;3</a> or <a :href="'#s:'+(nd.currentSlide+1)+'.1'">&rArr;1</a>
+      - *»0*{.step}*»1*{.step}*»2*{.step}*»3*{.step}*»4*{.step}
+
+      # END
+      </template>
 
     <script src="./nuedeck/nuedeck-deps.js"></script>
     <script src="./nuedeck/nuedeck.js"></script>
