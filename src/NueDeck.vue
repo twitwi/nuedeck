@@ -369,15 +369,17 @@ let vmopts = {
         }
       }
 
-      // now try another format, like #s:42 or even #s:42:-1 (last step of slide 42)
-      // lower case s is 1-based index, upper case S is 0-based index
+      // now try another format, like #s:42 or even #s:42.-1 (last step of slide 42)
+      // with lower case s, it is 1-based index; with upper case S, it is 0-based index
       let parts = id.split(':')
-      if (parts[0].toLowerCase() === 's' && parts.length > 1) {
-        let slide = parseInt(parts[1])
-        if (parts.length > 2) {
-          step = parseInt(parts[2])
+      let cmd = parts[0]
+      if (cmd.toLowerCase() === 's' && parts.length > 1) {
+        let subparts = parts[1].split('.')
+        let slide = parseInt(subparts[0])
+        if (subparts.length > 1) {
+          step = parseInt(subparts[1])
         }
-        if (parts[0] === 's' && slide > 0) {
+        if (cmd === 's' && slide > 0) {
           slide -= 1
         }
         await this.jumpToSlide(slide, step)
@@ -452,7 +454,7 @@ let vmopts = {
         }
         if (! this.opts.core.disableSetHashForSteps) {
           if (this.currentStep > 0) {
-            hash += ':' + this.currentStep
+            hash += '.' + this.currentStep
           }
         }
         window.location.hash = hash
