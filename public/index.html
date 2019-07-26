@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="./test.css">
+
     <meta charset="utf-8">
 
     <title>NueDeck: an introduction</title>
@@ -68,6 +69,25 @@
 
       ## Navigation keys
       - <span v-html="nd.renderShortcut('showSlideSorter')"></span>
+
+      ## CODE?
+      ``` js
+      var foo = function (bar) {
+        return bar++;
+      };
+
+      console.log(foo(5));
+      ```
+
+      ```javascript
+      a=12
+      console.log(a+a)
+      ```
+
+      ~~~sh
+      a=12
+      echo $a $a `ho`
+      ~~~
 
       ## Nesting with 2 spaces
       - level 1
@@ -423,8 +443,11 @@
     1. give an identifier to any element (or a slide)
     1. easily copy a slide with `@copy` (this will be illustrated at the end)
 
+@eval-header: nd.spanForCode1 = '<span class="red">e.g. to add a class</span>'
 ## One can type slides in markdown
-- Most of this demo is like that that
+- Most of this demo is like that
+- done with: `<span class="red">e.g. to add a class</span>`
+- done with: <code>{{ nd.spanForCode1 }}</code>
 
 ## You can use HTML too, if you need very specific things
 <div>

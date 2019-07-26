@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "highlight.js": "^9.15.8",
     "katex": "^0.10.2",
     "keymage": "^1.1.3",
     "markdown-it": "^8.4.2",

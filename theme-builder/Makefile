@@ -32,7 +32,7 @@ test-continuous:
 	bash -l -c '@mo ../public/test.css *.scss tools/* Makefile -- make test'
 
 test: ${D}/test.css
-	cp ${D}/test.css ../public/
+	cat ../node_modules/highlight.js/styles/github.css ../node_modules/katex/dist/katex.min.css ${D}/test.css > ../public/test.css
 
 ${D}/test.css: ${D}/test.scss $(wildcard _*.scss) Makefile
 	cp -t ${D} _*.scss

@@ -75,8 +75,8 @@ mkdir -p "$o"/nuedeck
 cp dist/js/app.*.js "$o"/nuedeck/nuedeck.js
 cp dist/js/chunk-vendors.*.js "$o"/nuedeck/nuedeck-deps.js
 cp public/template.html "$o"/example.html
-cat public/test.css node_modules/katex/dist/katex.min.css > "$o"/nuedeck/nuedeck-theme.css # take from the node_modules to have the proper fonts/ path
-
+cat public/test.css > "$o"/nuedeck/nuedeck-theme.css # take from the node_modules to have the proper fonts/ path
+# already in Makefile make test:  node_modules/katex/dist/katex.min.css node_modules/highlight.js/styles/github.css
 mkdir -p "$o"/nuedeck/fonts
 if ! has no-theme-fonts ; then
     cat public/test.css|grep 'url(fonts/'|sed 's@.*url(fonts/\([^)]*\)).*@theme-builder/build/fonts/\1@g' | xargs cp -t "$o"/nuedeck/fonts/

@@ -3,6 +3,7 @@ import MarkdownIt from 'markdown-it'
 import Emoji from 'markdown-it-emoji'
 import Attrs from 'markdown-it-attrs'
 import { indexOfIgnoreCase } from './tools'
+import hljs from 'highlight.js'
 
 export function digestAtColonContent(expr, target, targetList) {
   if (targetList === undefined) targetList = [target]
@@ -65,6 +66,16 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   let converter = new MarkdownIt({
     html: true,
     linkify: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str, true).value;
+        } catch (__) {
+
+        }
+      }
+      return ''; // use external default escaping
+    },
     //typographer: true,
   })
   converter.use(Emoji, {})
