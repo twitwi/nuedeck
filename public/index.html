@@ -257,6 +257,38 @@
       Hi (with a `\` for newline) \
       <img src="feature-check.svg" width="350"/>
       <img src="feature-check.svg" width="350"/>
+
+
+      @:libyli
+      ## libyli to test steps with live content
+      - step 1
+        - step 1a
+        - step 1b
+      - step 2
+        - step 2a {{ nd.currentStep }}
+        - step 2b
+      - step 3
+        - step 3a
+        - step 3b
+      - step 4
+        - step 4a
+        - step 4b
+
+      @:libyli
+      ## libyli to test anims with live content
+      - step 1
+        - step 1a
+        - step 1b
+        - @anim: .toto
+      - step 2
+        - step 2a {{ nd.currentStep }}
+        - step 2b
+      - step 3
+        - step 3a
+        - step 3b
+      - step 4
+        - step 4a
+        - step 4b.{{ nd.currentStep }} {.toto}
     </template>
 
     <!-- There can be multiple "nd-source" blocks, of different types (see html below) -->

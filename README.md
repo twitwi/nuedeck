@@ -27,7 +27,7 @@ See the [NueDeck Starter Kit](https://github.com/twitwi/nuedeck-starterkit) (com
 
 In the meantime, you can [download a release](https://dl.heeere.com/temporary-nuedeck-release.zip) and modify the html file.
 
-For simple things, you can directly visualize your presentation using a `file:///` URL.
+For simple things, you can try to directly visualize your presentation using a `file:///` URL.
 To have a live reload of your presentation while you edit it, you can install and use a simple tool (if you have node.js), with:
 
 ~~~
