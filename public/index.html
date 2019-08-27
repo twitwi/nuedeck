@@ -266,7 +266,9 @@
         - step 1b
       - step 2
         - step 2a {{ nd.currentStep }}
+          <input v-model="nd.vars.toto" v-on:keydown.stop=""></input>
         - step 2b
+          <Katex :expression="'\\frac{' + nd.currentStep + '}{' + nd.vars.toto + '}'"></Katex>
       - step 3
         - step 3a
         - step 3b
@@ -451,7 +453,7 @@
       - with a comment // this is the comment
       - styling both the text @:greenborder // and the comment @:blurry
       - can use gdef in latex $\global\def\thing{T^H_ING}   \thing + \thing$
-      - here again $\thing + \thing$
+      - here again $\thing + \thing$ (should be ok?)
       - and the built-in $\nuedeck$
     </template>
 

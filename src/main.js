@@ -13,6 +13,9 @@ Vue.component('StatusBar', StatusBar)
 import LocalStyle from './components/LocalStyle.vue'
 Vue.component('LocalStyle', LocalStyle)
 
+import Katex from './components/Katex.vue'
+Vue.component('Katex', Katex)
+
 
 let plugins = []
 

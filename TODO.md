@@ -26,7 +26,7 @@
 
 - [ ] TODO enrich-katex should have a working gdef and/or accept some way of having custom macros (e.g. via a header? @latex-def:, so it can be made sticky)
 
-- [ ] TODO have a vue katex component to allow dynamic maths https://github.com/lucpotage/vue-katex/blob/master/src/components/KatexElement.vue
+- [x] TODO have a vue katex component to allow dynamic maths https://github.com/lucpotage/vue-katex/blob/master/src/components/KatexElement.vue
 
 - [x] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*) -> the plugin is buggous (breaks @copy:, http:// etc) see https://github.com/pnewell/markdown-it-span/issues/1 and the link to how to actually make a plugin that works better
 
