@@ -42,8 +42,12 @@
       - handles markdown nd-source (default ones) (also html as there is nothing to do)
       - it extracts the headers of each slide (remember, # or ## separated)
       - it asyncly `plugins:enrichGeneratedSlidesHeader` that can only change the header
-        - here plugins can be stateful, typically `MarkdownSticky`, `MarkdownEval`
-          or `MarkdownAtAnim`
+        - here plugins can be stateful, typically `MarkdownSticky`, or not And
+          just working on the header `MarkdownAtAnim` or `MarkdownEval` or `MarkdownExtra`
+        - e.g. MarkdownAtAnim rewrites @anim to @inject that is consumed by MarkdownExtra
+          which is also the plugin that handles slide @copy
+        - e.g. @copy and @inject are transformed by MardownExtra into elements
+          that are later interpreted in `enrichGeneratedSlides` (by Enrich and CopySlide)
       - it skips slides that have the `@OFF` header (case insensitive, always)
       - it parses, using MarkdownIt, each slide to html
       - it asyncly `plugins:enrichGeneratedSlides` passing the headers
