@@ -25,7 +25,7 @@
     keybindings are registered,
     then `asyncBeforeMount` which will generate the actual list of slides
   - `asyncBeforeMount` does a lot
-    - for each nd-source, asncly `plugins:generateSlides`
+    - for each nd-source, asyncly `plugins:generateSlides` (which ramifies, below)
     - on the result, init empty steps, set data-root=true (TODO: exlain data-root use?)
     - call `plugins:enrichSlideDeck` on the complete deck
     - set this.slides from the modified complete deck --> this will eventually

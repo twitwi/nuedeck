@@ -41,6 +41,17 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   { // Split slides at # and ## starting lines
     let lines = content.split('\n')
 
+    // handle raw markdown include (for "chapters" or things like this)
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i]
+      if (line.match(/^# *@CHUNK:/i)) {
+        let path = line.substr(line.indexOf(':')+1).trim()
+        let res = await fetch(path)
+        let data = await res.text()
+        lines.splice(i, 1, ...data.split('\n'))
+        i--
+      }
+    }
     // remove leading empty lines
     while (lines.length > 0 && lines[0].trim() === '') {
       lines.splice(0, 1)

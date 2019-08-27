@@ -36,7 +36,9 @@
 
 - [ ] TODO make it possible for some of the links to pushState into the history
 
-- [ ] **TODO** new, add @chunk to load from file (either toplevel or in a slide, as before)
+- [x] TODO new, add @chunk to load from file (toplevel)
+
+- [ ] TODO @chunk in a slide, which indents all, or even @copy of a subpart ... low priority
 
 - [x] TODO simple slide sorter
 

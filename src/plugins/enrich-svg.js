@@ -7,6 +7,7 @@ async function svgInject(singleSVG, options) {
   let isLocal = fileUrl.startsWith('file://')
 
   return new Promise(resolve => {
+    // TODO: could use the fetch api
     let rq = new XMLHttpRequest()
     rq.onreadystatechange = function() {
       if (rq.readyState === 4) {
