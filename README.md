@@ -8,17 +8,17 @@ a powerful extended markdown syntax,
 easy incremental display and SVG animations,
 inline latex/math equations,
 automatic presentation scaling with preserved aspect ratio,
-PDF export (already built-in in [DeckTape](https://github.com/astefanutti/decktape)),
+PDF export (already integrated in <a href="https://github.com/astefanutti/decktape">DeckTape</a>),
 and more…
 </p>
 
 NueDeck is built in a modular way, so it is easy to add new features.
-If you like, you can reuse or develop plugins and even leverage the fact that NueDeck is based on [Vue.js](http://vuejs.org/) to do more advanced things.
+If you like, you can reuse or develop plugins and even leverage the fact that NueDeck is based on [Vue.js](https://vuejs.org/) to do more advanced things.
 
 <p>
-Historically, this project is born as a rewrite of [Deck.js with extensions](https://github.com/twitwi/deck.js).
+Historically, this project is born as a rewrite of <a href="https://github.com/twitwi/deck.js">Deck.js with extensions</a>.
 The goal has been to keep a modular approach (with plugins) but to have a better integration of important things (slide steps, animations, keyboard handling, etc) and to leverage existing tool chains for development and build.
-The rewrite uses and leverages [Vue.js](http://vuejs.org/) but does not require any knowledge about it to write slides (or even some plugins).
+The rewrite uses and leverages <a href="https://vuejs.org/">Vue.js</a> but does not require any knowledge about it to write slides (or even some plugins).
 </p>
 
 ### To create a NueDeck presentation
