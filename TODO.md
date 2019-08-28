@@ -62,7 +62,7 @@
 
 - [ ] TODO ui, as in the previous, ui elements could be added automatically unless they are present in the template (e.g. goto ui, etc)
 
-- [ ] **TODO** @eval-header: should use functions, provided by plugins, that are in nd but not directly in nd (in a subobject rather), there should be a suffix to eval something, in a slide, coming from "my" (but should be parse time or something)... we need a namespace for functions, a namespace of eval-header variables (parse time, non reactive, but how to make them frozen in the slide? tips: @eval-header: my.thmlot = my.th++, but we might want something local my[currentSlide].thmlot = my.th++) and a namespace that may exist at parse time but that is meant to be there later and be reactive -> my? (the previous could be a convention, like my.parse as in my.parse.th++)
+- [ ] **TODO** @eval-header: should use functions, provided by plugins, with better and clearer namespacing for parse-time and later variables, etc
 
 - [ ] TODO can we unwrap all (except explicit) paragraphs in ul/li (or find a way to make showdown not generate paragraphs)
 
