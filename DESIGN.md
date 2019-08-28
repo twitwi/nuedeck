@@ -43,7 +43,8 @@
       - it extracts the headers of each slide (remember, # or ## separated)
       - it asyncly `plugins:enrichGeneratedSlidesHeader` that can only change the header
         - here plugins can be stateful, typically `MarkdownSticky`, or not And
-          just working on the header `MarkdownAtAnim` or `MarkdownEval` or `MarkdownExtra`
+          just working on the header `MarkdownAtAnim` or `MarkdownEval` (for @eval-header)
+          or `MarkdownExtra`, ...
         - e.g. MarkdownAtAnim rewrites @anim to @inject that is consumed by MarkdownExtra
           which is also the plugin that handles slide @copy
         - e.g. @copy and @inject are transformed by MardownExtra into elements

@@ -23,6 +23,8 @@ plugins.push({name: 'Toto'})
 
 import DummyPlugin from './plugins/dummy.js'
 plugins.push(new DummyPlugin())
+import CoreFunctionsPlugin from './plugins/core-functions.js'
+plugins.push(new CoreFunctionsPlugin())
 import NavigationPlugin from './plugins/navigation.js'
 plugins.push(new NavigationPlugin())
 import AutofitPlugin from './plugins/autofit.js'

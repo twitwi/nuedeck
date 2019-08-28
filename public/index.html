@@ -68,7 +68,7 @@
     <template class="nd-source">
 
       ## Navigation keys
-      - <span v-html="nd.renderShortcut('showSlideSorter')"></span>
+      - <span v-html="$f.renderShortcut('showSlideSorter')"></span>
 
       # @chunk: nav.md
 
@@ -126,10 +126,10 @@
 
 
       @eval-header: return ["@:blurry"]
-      @eval-header: return my.highlightLi(1)
-      @eval-header: my.test = 2
-      @eval-header: return my.highlightLi(1, my.test, 'greenborder', /*noMerge*/true)
-      @eval-header: return my.highlightLi(2, --my.test)
+      @eval-header: return highlightLi(1)
+      @eval-header: $p.test = 2
+      @eval-header: return highlightLi(1, $p.test, 'greenborder', /*noMerge*/true)
+      @eval-header: return highlightLi(2, --$p.test)
       @inject-end: <span class="step" data-anim="add-class" data-target="[data-root]>*>li:nth-of-type(1)>*>li:nth-of-type(1)" data-class="highlight" data-merge-next></span>
       ## Can have header evaluation
       - Can be
@@ -262,15 +262,19 @@
 
 
       @:libyli
+      @eval-header: set($o, 'who', 'Bob')
+      @eval-header: set($o, 'toto', 42)
       ## libyli to test steps with live content
       - step 1
         - step 1a
         - step 1b
       - step 2
         - step 2a {{ nd.currentStep }}
-          <input v-model="nd.vars.toto" v-on:keydown.stop=""></input>
+          <input v-model="$o.who" v-on:keydown.stop=""></input>
+          <input v-model="$o.toto" v-on:keydown.stop=""></input>
         - step 2b
-          <Katex :expression="'\\frac{' + nd.currentStep + '}{' + nd.vars.toto + '}'"></Katex>
+          Hello {{ $o.who }}
+          <Katex :expression="'\\frac{' + nd.currentStep + '}{' + $o.toto + '}'"></Katex>
       - step 3
         - step 3a
         - step 3b
@@ -293,6 +297,31 @@
       - step 4
         - step 4a
         - step 4b.{{ nd.currentStep }} {.toto}
+
+      # Link between parse-time and live-time
+
+      @eval-header: set($o, 'custom', {})
+      @off
+      # Unshown, just some header to init $o.custom
+
+      @eval-header: set($o, 'thing', 999431)
+      @eval-header: set($o.custom, ID, 431)
+      @disable-math
+      ## Per-slide data from parsing (not workin in title?)
+      - {{ $o.thing }} (the value is modified by the next slide at parse time)
+      - issue with double dollars...
+      - {{ $o.custom[ID]}} (one value per slide)
+      - NB: `ID` is opaque ({{ID}})
+
+      @eval-header: set($o, 'thing', 999124)
+      @eval-header: set($o.custom, ID, 124)
+      @disable-math
+      ## Per-slide data from parsing (not workin in title?)
+      - {{ $o.thing }}
+      - issue with double dollars...
+      - {{ $o.custom[ID]}} (one value per slide)
+      - NB: `ID` is opaque ({{ID}})
+
     </template>
 
     <!-- There can be multiple "nd-source" blocks, of different types (see html below) -->

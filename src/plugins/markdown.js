@@ -82,7 +82,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
         try {
           return hljs.highlight(lang, str, true).value;
         } catch (__) {
-
+          // not sure what to do
         }
       }
       return ''; // use external default escaping
@@ -93,14 +93,16 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
   converter.use(Attrs, {})
 
   let res = []
-  for (let lines of slides) {
-    let header = []
+  for (let islide in slides) {
+    let header
+    let lines = slides[islide]
+    let innerID = '' + (parseInt(islide) + Math.random())
     {
       let i = 0
       while (lines[i].startsWith('@')) { i++ }
       header = lines.splice(0, i)
     }
-    await vm.asyncCallAllPlugins('enrichGeneratedSlidesHeader', {type: 'md', headerLines: header})
+    await vm.asyncCallAllPlugins('enrichGeneratedSlidesHeader', {type: 'md', headerLines: header, vm, innerID})
     if (indexOfIgnoreCase(header, '@OFF') !== -1) {
       continue
     }
@@ -112,7 +114,7 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     let parser = new DOMParser()
     let wrapper = parser.parseFromString('<section>'+html+'</section>', 'text/html').body
 
-    await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper, headerLines: header})
+    await vm.asyncCallAllPlugins('enrichGeneratedSlides', {type: 'md', body: wrapper, headerLines: header, innerID})
 
     // apply generic headers of the form @: #myid mycls mycls2
     for (let h of header) {
@@ -122,17 +124,18 @@ async function makeSlidesFromMarkdown(contentNode, vm) {
     }
 
     Array.from(wrapper.children).forEach(s => {
-      res.push(slideFromElement(s))
+      res.push(slideFromElement(s, innerID))
     })
   }
   return res
 }
 
-function slideFromElement(s) {
+function slideFromElement(s, innerID) {
   return {
     contentElement: s,
     containerClass: s.getAttribute('data-container-class'),
-    key: s.getAttribute('id')
+    key: s.getAttribute('id'), // might be undefined, will then be set by enrich-add-slide-keys
+    innerID, // e.g., to match parse-time slide (in @eval-header) with the associated live slide
   }
 }
 

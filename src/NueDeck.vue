@@ -9,7 +9,8 @@
         <component
         :key="'SC'+i"
         :is="{
-          inject: ['nd'],
+          inject: ['nd', '$o', '$f'],
+          data: function () { return {ID: s.innerID} },
           mounted () {
             slideContentRoot(i, this.$el)
           },
@@ -19,15 +20,15 @@
         <component v-for="(a,ai) in addins"
         :key="'S'+i+'A'+ai"
         :is="{
-          inject: ['nd'], // for raw addin in nd-addin
-          provide: function () { return {renderSlide:i} },
+          inject: ['nd', '$o', '$f'], // for raw addin in nd-addin
+          provide: function () { return {renderSlide: i, ID: s.innerID} },
           template: a.contentTemplate
         }"></component>
       </div>
       <component v-for="(a,ai) in addons"
       :key="'A'+ai"
       :is="{
-        inject: ['nd'], // for raw addon in nd-addon
+        inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
         template: a.contentTemplate
       }"></component>
    </div>
@@ -122,7 +123,7 @@ let vmopts = {
     plugins: { type: Array, default: () => [] },
   },
   provide: function () {
-    return {nd: this}
+    return {nd: this, $o: this.userDataDollarO, $f: this.NR.functionsDollarF}
   },
   data () {
     return {
@@ -140,6 +141,7 @@ let vmopts = {
       currentStep: 0,
       mode: 'fit',
       vars: {},
+      userDataDollarO: {},
     }
   },
   watch: {
@@ -147,15 +149,19 @@ let vmopts = {
       this.L('WATCH: slides')
     }
   },
+  beforeCreate () {
+    // non-reactive properties
+    this.NR = {}
+    this.NR.functionsDollarF = {}
+    this.NR.slideContentRoots = {}
+    this.NR.listenersToRemove = []
+  },
   created () {
     this.L('PLUGINS', this.plugins.map(p => p.name), this.enabledPlugins.map(p => p.name))
 
-    // non-reactive properties
-    this.slideContentRoots = {}
     let registerAction = this.$on.bind(this)
     let setDefaultOption = ()=>{} // (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"... but it is nice to have helpers/guides for the init thing
-    this.callAllPlugins('init', {registerAction, setDefaultOption})
-    this.listenersToRemove = []
+    this.callAllPlugins('init', {functions: this.NR.functionsDollarF, registerAction, setDefaultOption})
   },
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
@@ -273,21 +279,21 @@ let vmopts = {
       // this happens because currentSlide changes => classes for the slides changes => for loop redone... (independant of the use of slidesToRender)
       //this.L('SLIDE CONTENT MOUNTED', i, dom)
       this.L('SLIDE CONTENT MOUNTED')
-      this.slideContentRoots[i] = dom
-      if (this.slideContentRootsNotify !== undefined) {
-        if (this.slideContentRootsNotifyIndex === i) {
-          this.slideContentRootsNotify()
-          this.slideContentRootsNotify = undefined
+      this.NR.slideContentRoots[i] = dom
+      if (this.NR.slideContentRootsNotify !== undefined) {
+        if (this.NR.slideContentRootsNotifyIndex === i) {
+          this.NR.slideContentRootsNotify()
+          this.NR.slideContentRootsNotify = undefined
         }
       }
     },
     async ensureSlideIsMounted (sl) {
-      if (this.slideContentRoots[sl] !== undefined) {
+      if (this.NR.slideContentRoots[sl] !== undefined) {
         return
       }
       return new Promise(resolve => {
-        this.slideContentRootsNotify = resolve
-        this.slideContentRootsNotifyIndex = sl
+        this.NR.slideContentRootsNotify = resolve
+        this.NR.slideContentRootsNotifyIndex = sl
         this.currentStep = 0
         this.currentSlide = sl
       })
@@ -391,7 +397,7 @@ let vmopts = {
       let makeStepCurrent = () => {
         let el = this.slides[sl].steps[st].el
         if (el === undefined || el === null) return
-        let dom = this.slideContentRoots[sl]
+        let dom = this.NR.slideContentRoots[sl]
         this.forAll('.step, .current-step', clear => clear.classList.remove('current-step', 'current-step-exact'), dom)
         let cur = el
         cur.classList.add('current-step-exact')
@@ -408,9 +414,9 @@ let vmopts = {
       // if we change slide, ensure it we load and init the anims
       if (prev.sl !== sl) {
         await this.ensureSlideIsMounted(sl)
-        if (this.slideContentRoots[sl] !== undefined) {
+        if (this.NR.slideContentRoots[sl] !== undefined) {
           // on slide change
-          this.parseSteps(sl, this.slideContentRoots[sl])
+          this.parseSteps(sl, this.NR.slideContentRoots[sl])
           this.slides[sl].steps.reverse()
           for (let step of this.slides[sl].steps) {
             maybe(step, 'init')()
@@ -505,13 +511,13 @@ let vmopts = {
     },
     addEventListener (target, event, listener) {
       target.addEventListener(event, listener)
-      this.listenersToRemove.push({target, event, listener})
+      this.NR.listenersToRemove.push({target, event, listener})
     },
     removeAllListeners () {
-      for (let {target, event, listener} of this.listenersToRemove) {
+      for (let {target, event, listener} of this.NR.listenersToRemove) {
         target.removeEventListener(event, listener)
       }
-      this.listenersToRemove = []
+      this.NR.listenersToRemove = []
     },
     callAllPlugins (fname, ...args) {
       for (let p of this.enabledPlugins) {
@@ -527,18 +533,6 @@ let vmopts = {
       }
       return null
     },
-    // TODO: maybe separate what is meant to be used like these?
-    br (v, sep=undefined) {
-      if (sep === undefined) {
-        sep = this.opts.core.metadataSeparator
-      }
-      return v.replace(sep, "<br/>")
-    },
-    renderShortcut (k) {
-      let keys = this.opts.keys[k]
-      if (keys === undefined) return ''
-      return keys.map(v => `<span class="key">${v}</span>`).join(' / ')
-    }
   }
 }
 

@@ -30,7 +30,6 @@ export default () => ({
         let show = () => dom.querySelectorAll(attr('target')).forEach(e => e.classList.remove('hidden'))
         let init = attr('noinit') ? ()=>{} : hide
         push({init, fast: show, doit: show, undo: hide, back: show})
-        console.log(out[out.length-1])
         return 'BREAK'
       }
       case 'hide': {
