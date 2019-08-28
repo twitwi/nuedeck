@@ -232,6 +232,12 @@ let vmopts = {
         }
         // At this point, slides are in DOM form in contentElement
         await this.asyncCallAllPlugins('enrichSlideDeck', allNew)
+        // We force the $o to be reactive again, in case enrichment created non reactive things inside
+        for (let k in this.userDataDollarO) {
+          let v = this.userDataDollarO[k]
+          delete this.userDataDollarO[k]
+          this.$set(this.userDataDollarO, k, v)
+        }
         this.slides.splice(0, 0, ...allNew.map( s => ({...s, contentElement: undefined, contentTemplate: s.contentElement.outerHTML}) ))
       }
       { // Load addons (to be added to the container)

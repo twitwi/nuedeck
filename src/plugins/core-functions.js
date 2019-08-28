@@ -21,7 +21,7 @@ export default () => ({
     }
   },
 
-  registerEvalHeaderFunctions(functions, vm) {
+  registerEvalHeaderFunctions(functions/*, vm*/) {
     // Register functions to be used in @eval-header:
 
     functions.highlightLi = (i1, i2, cls, noMerge) => {
@@ -32,10 +32,12 @@ export default () => ({
       return [`@inject-end: <span class="step" data-anim="add-class" data-target="[data-root]>*>li:nth-child(${i1})${suff}" data-class="${cls}" ${mergeSuff}></span>`]
     }
 
+    /*
     functions.set = (o, k, v) => {
       vm.$set(o, k, v)
       return undefined
     }
+    */
   }
 
 })

@@ -262,8 +262,8 @@
 
 
       @:libyli
-      @eval-header: set($o, 'who', 'Bob')
-      @eval-header: set($o, 'toto', 42)
+      @eval-header: $o.who = 'Bob'
+      @eval-header: $o.toto = 42
       ## libyli to test steps with live content
       - step 1
         - step 1a
@@ -300,12 +300,12 @@
 
       # Link between parse-time and live-time
 
-      @eval-header: set($o, 'custom', {})
+      @eval-header: $o.custom = {}
       @off
       # Unshown, just some header to init $o.custom
 
-      @eval-header: set($o, 'thing', 999431)
-      @eval-header: set($o.custom, ID, 431)
+      @eval-header: $o.thing = 999431
+      @eval-header: $o.custom[ID] = 431
       @disable-math
       ## Per-slide data from parsing (not workin in title?)
       - {{ $o.thing }} (the value is modified by the next slide at parse time)
@@ -313,8 +313,8 @@
       - {{ $o.custom[ID]}} (one value per slide)
       - NB: `ID` is opaque ({{ID}})
 
-      @eval-header: set($o, 'thing', 999124)
-      @eval-header: set($o.custom, ID, 124)
+      @eval-header: $o.thing = 999124
+      @eval-header: $o.custom[ID] = 124
       @disable-math
       ## Per-slide data from parsing (not workin in title?)
       - {{ $o.thing }}
