@@ -79,7 +79,7 @@ cat public/test.css > "$o"/nuedeck/nuedeck-theme.css # take from the node_module
 # already in Makefile make test:  node_modules/katex/dist/katex.min.css node_modules/highlight.js/styles/github.css
 mkdir -p "$o"/nuedeck/fonts
 if ! has no-theme-fonts ; then
-    cat public/test.css|grep 'url(fonts/'|sed 's@.*url(fonts/\([^)]*\)).*@theme-builder/build/fonts/\1@g' | xargs cp -t "$o"/nuedeck/fonts/
+    cat public/test.css|grep 'url(fonts/'|sed 's@.*url(fonts/\([^)]*\)).*@theme-builder/build/fonts/\1@g' |grep -v KaTeX | xargs cp -t "$o"/nuedeck/fonts/
 elif has all-theme-fonts ; then
     cp -t "$o"/nuedeck/fonts/ theme-builder/build/fonts/*
 fi
