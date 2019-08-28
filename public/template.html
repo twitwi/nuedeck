@@ -46,10 +46,10 @@
     <!-- To author slides -->
     <template class="nd-source">
       @:title-slide /no-status
-      # <span v-html="nd.br(nd.vars.title)"></span> // comment
+      # <span v-html="$f.br(nd.vars.title)"></span> // comment
       - {{ nd.vars.author }}
       - {{ nd.vars.date }}
-      - (press <span v-html="nd.renderShortcut('nextStep')"></span> to play) {style=font-size:65%}
+      - (press <span v-html="$f.renderShortcut('nextStep')"></span> to play) {style=font-size:65%}
 
       ## TODO write your content
       - A template element with class nd-source (by default)
@@ -63,19 +63,19 @@
 
       ## Navigation keys
       - Step by step (with animations)
-        - <span v-html="nd.renderShortcut('previousStep')"></span>: backward
-        - <span v-html="nd.renderShortcut('nextStep')"></span>: forward
+        - <span v-html="$f.renderShortcut('previousStep')"></span>: backward
+        - <span v-html="$f.renderShortcut('nextStep')"></span>: forward
       - Slide by slide (to browse)
-        - <span v-html="nd.renderShortcut('previousEndOfSlide')"></span>: backward
-        - <span v-html="nd.renderShortcut('nextEndOfSlide')"></span>: forward
+        - <span v-html="$f.renderShortcut('previousEndOfSlide')"></span>: backward
+        - <span v-html="$f.renderShortcut('nextEndOfSlide')"></span>: forward
       - Slide by slide (to be ready to present, steps at the beginning of slides) TODO more clear
-        - <span v-html="nd.renderShortcut('previousSlide')"></span>: backward
-        - <span v-html="nd.renderShortcut('nextSlide')"></span>: forward
+        - <span v-html="$f.renderShortcut('previousSlide')"></span>: backward
+        - <span v-html="$f.renderShortcut('nextSlide')"></span>: forward
       - 5 steps: *here*{.step} *we*{.step} *go*{.step} *with*{.step} *steps*{.step}
 
       ## Jumping around in the presentation
-      - Jump to slide (popup) <span v-html="nd.renderShortcut('popupJumpToSlide')"></span>
-      - Slide sorter <span v-html="nd.renderShortcut('showSlideSorter')"></span>
+      - Jump to slide (popup) <span v-html="$f.renderShortcut('popupJumpToSlide')"></span>
+      - Slide sorter <span v-html="$f.renderShortcut('showSlideSorter')"></span>
         - toggles the “slide sorter”
         - easy "long jumps" in your presentation
 
@@ -109,8 +109,8 @@
         - the rest is hidden or greyed-out (theme dependent)
         - an implicit step is added at the end of slide
       - Some navigation reminders {style="list-style:none; font-size: 65%; margin: .5em;"}
-        - step forward (<span v-html="nd.renderShortcut('nextStep')"></span>) and backward (<span v-html="nd.renderShortcut('previousStep')"></span>)
-        - beginning of slide (<span v-html="nd.renderShortcut('previousSlide')"></span>)
+        - step forward (<span v-html="$f.renderShortcut('nextStep')"></span>) and backward (<span v-html="$f.renderShortcut('previousStep')"></span>)
+        - beginning of slide (<span v-html="$f.renderShortcut('previousSlide')"></span>)
       - Some steps
         - `- first step {.step}` {.src}
         - first step {.step}
@@ -182,7 +182,7 @@
       ## URL and Bookmarking
       - Bookmarkable slides
         - the URL is automatically updated when you navigate
-        - the history (back button) is not poluted though
+        - the history (back button) is not polluted though
       - You can forge an URL, e.g.
         - `#s:42` (or `#s:42.0`) to jump directly to slide 42
         - `#s:42.2` to jump to slide 42, after two animation steps
