@@ -62,7 +62,7 @@
 
 - [ ] TODO ui, as in the previous, ui elements could be added automatically unless they are present in the template (e.g. goto ui, etc)
 
-- [ ] **TODO** @eval-header: should use functions, provided by plugins, with better and clearer namespacing for parse-time and later variables, etc
+- [x] TODO @eval-header: should use functions, provided by plugins, with better and clearer namespacing for parse-time and later variables, etc
 
 - [ ] TODO can we unwrap all (except explicit) paragraphs in ul/li (or find a way to make showdown not generate paragraphs)
 
