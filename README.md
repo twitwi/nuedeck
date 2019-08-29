@@ -8,7 +8,7 @@ a powerful extended markdown syntax,
 easy incremental display and SVG animations,
 inline latex/math equations,
 automatic presentation scaling with preserved aspect ratio,
-PDF export (already integrated in <a href="https://github.com/astefanutti/decktape">DeckTape</a>),
+PDF export (already integrated in <a href="https://github.com/astefanutti/decktape">DeckTape</a>, see below),
 and more…
 </p>
 
@@ -39,6 +39,18 @@ hrs .
 Then you can view your presentation at http://localhost:8082/example.html (if the file name is `example.html`).
 
 
+----
+
+### Exporting to pdf
+
+The latest version of [DeckTape](https://github.com/astefanutti/decktape) includes support for NueDeck (to export only top level slides and not every animation step).
+Until a new version is released on npm, you can install the latest version with:
+
+~~~
+npm install -g git+ssh://git@github.com:astefanutti/decktape.git
+# or
+npm install -g git+https://github.com/astefanutti/decktape.git
+~~~
 
 ----
 
