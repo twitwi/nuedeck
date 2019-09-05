@@ -16,7 +16,8 @@
     "markdown-it-attrs": "^2.4.1",
     "markdown-it-emoji": "^1.4.0",
     "normalize.css": "^8.0.1",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue2-hammer": "^2.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",

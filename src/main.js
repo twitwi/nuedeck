@@ -3,6 +3,9 @@ import NueDeck from './NueDeck.vue'
 
 Vue.config.productionTip = false
 
+import { VueHammer } from 'vue2-hammer'
+Vue.use(VueHammer)
+
 // consider https://vuejs.org/v2/guide/components-registration.html (require.context etc)
 import HelloWorld from './components/HelloWorld.vue'
 Vue.component('HelloWorld', HelloWorld)
@@ -15,7 +18,6 @@ Vue.component('LocalStyle', LocalStyle)
 
 import Katex from './components/Katex.vue'
 Vue.component('Katex', Katex)
-
 
 let plugins = []
 

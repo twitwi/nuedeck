@@ -1,5 +1,7 @@
 <template>
-  <div class="nuedeck" ref="nuedeck">
+  <div class="nuedeck" ref="nuedeck"
+  v-hammer:swipe="handleSwipe"
+  >
     <div :class="mode" ref="fit">
       <div v-for="[s,i] in slidesToRender"
       :key="'S'+i"
@@ -365,6 +367,13 @@ let vmopts = {
         }
       }
       s.steps.splice(0, s.steps.length, ...allNew)
+    },
+    handleSwipe (event) {
+      let d = event.direction
+      if (d == 2) { this.$emit('nextStep') } // left
+      if (d == 4) { this.$emit('previousStep') } // right
+      if (d == 8) { this.$emit('nextEndOfSlide') } // up
+      if (d == 16) { this.$emit('previousEndOfSlide') } // down
     },
     async jumpByHash (strWithHash, step=0) {
       if (strWithHash === undefined) {
