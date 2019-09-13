@@ -474,7 +474,7 @@ body {
   overflow: hidden;
 }
 
-.hidden {
+.hidden, .hidden * {
   visibility: hidden;
 }
 
@@ -516,7 +516,7 @@ the very current slide has .current-slide
   opacity: var(--theme-step-opacity);
 }
 
-/* Inside the slide sorter, show all */
+/* Inside the slide sorter, show all (in step-opacity, as the slide-sorter() does not know how to counteract the steps, only the step-opacity() knows */
 .sorter .slide * {
   opacity: 1 !important;
 }
