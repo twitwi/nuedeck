@@ -474,16 +474,51 @@ body {
   overflow: hidden;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-inline {
+  display: inline;
+}
+
 :root {
   --theme-step-opacity: 0.1;
 }
 
+/*
+The very current step has .current-step-exact
+and any of its parent has .current-step
+the very current slide has .current-slide
+*/
 .current-step ~ * {
   opacity: var(--theme-step-opacity);
 }
 
+.current-step-exact .step {
+  opacity: var(--theme-step-opacity);
+}
+
+.current-step-exact .step ~ * {
+  opacity: var(--theme-step-opacity);
+}
+
+/* For transitions that show the next slide */
 .slide:not(.current-slide):not(.current-slide-m1) .step, .slide:not(.current-slide):not(.current-slide-m1) .step ~ * {
   opacity: var(--theme-step-opacity);
+}
+
+/* Inside the slide sorter, show all */
+.sorter .slide * {
+  opacity: 1 !important;
 }
 
 /*

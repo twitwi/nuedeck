@@ -37,9 +37,7 @@
     */
 
     .step[data-anim] { display: none; }
-    .hidden { visibility: hidden; }
     .highlight { border: 5px solid red; }
-
 
     #itsacopy h1 {border-bottom: 10px solid red; }
     .accro { color: teal; font-weight: bold; }
@@ -48,6 +46,21 @@
     .comment { font-size: 75%; }
     .comment::before { content: "//  "; }
     #sin { color: red; display: inline-block; transform: scale(2); transform-origin: left bottom; }
+
+    /* visualize steps for checking theme behavior */
+    .current-slide .show-steps .step::before {
+      content: "☚";
+      width: 0;
+      display: inline-block;
+      opacity: 0.75;
+      transform: scale(2, 2) rotate(175deg) translateY(-0.0em);
+      transform-origin: left;
+      z-index: 1000;
+      color: black;
+    }
+    .current-slide .show-steps .current-step.current-step-exact::before {
+      color: red;
+    }
     </style>
   </head>
   <body>
@@ -250,6 +263,29 @@
         - step 4a
         - step 4b
 
+      @:.show-steps
+      ## Test steps and sub steps (for themes)
+      - Step 1 {.step}
+        - step 1.a (show directly, compare to step 3.a trick)
+        - step 1.b {.step}
+        - step 1.c
+      - Step 2 {style=font-size:15px}
+        - step 2.a
+        - step 2.b {.step}
+        - step 2.c
+          - step 2.c.a
+          - step 2.c.b {.step}
+          - step 2.c.c
+        - step 2.d
+      - Step 3 (there is a hidden first step, it could also be inline here)
+        - {.display-none .step}
+        - step 3.a (trick vs Step 1, to not show 3.a at first)
+        - step 3.b {.step}
+        - step 3.c
+      - Step 4 {.step}
+        - step 4.a
+        - step 4.b {.step}
+        - step 4.c
 
       ## SVG to feature check
       <img src="feature-check.svg" width="350"/>

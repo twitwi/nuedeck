@@ -25,6 +25,12 @@
     overflow: hidden;
   }
 }
+@mixin useful() {
+  .hidden { visibility: hidden; }
+  .display-none {display: none; }
+  .display-block {display: block; }
+  .display-inline {display: inline; }
+}
 
 @mixin size($base) {
   /* sizes */
@@ -90,14 +96,27 @@
   :root {
     --theme-step-opacity: $o;
   }
+  /*
+  The very current step has .current-step-exact
+  and any of its parent has .current-step
+  the very current slide has .current-slide
+  */
   .current-step~* {
     opacity: var(--theme-step-opacity);
   }
+  .current-step-exact .step { opacity: var(--theme-step-opacity); }
+  .current-step-exact .step~* { opacity: var(--theme-step-opacity); }
+  /* For transitions that show the next slide */
   .slide:not(.current-slide):not(.current-slide-m1) {
     .step, .step~* {
       opacity: var(--theme-step-opacity);
     }
   }
+  /* Inside the slide sorter, show all (in step-opacity, as the slide-sorter() does not know how to counteract the steps, only the step-opacity() knows */
+  .sorter .slide * {
+    opacity: 1 !important;
+  }
+
   /*
   .current-step.current-step-exact::after {
     content: "☚";

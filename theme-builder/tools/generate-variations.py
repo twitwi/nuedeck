@@ -126,6 +126,7 @@ def main_single(out, *params, p='  ', p0=''):
         '@import "theme-chunks";',
         '',
         '@include base();',
+        '@include useful();',
         '@include step-opacity(0.1);',
         '',
         '@include transition-%s();' % (d.transition,),
