@@ -2,7 +2,7 @@
   <div class="nuedeck" ref="nuedeck"
   v-hammer:swipe="handleSwipe"
   >
-    <div :class="mode" ref="fit">
+    <div :class="modes" ref="fit">
       <div v-for="[s,i] in slidesToRender"
       :key="'S'+i"
       @click="slideClicked(i)"
@@ -68,7 +68,8 @@ export let defaultMixin = {
           previousEndOfSlide: ['a'],
           nextEndOfSlide: ['z'],
           popupJumpToSlide: ['g'],
-          showSlideSorter: ['m'],
+          toggleSlideSorter: ['m'],
+          toggleComments: ['v'],
         },
         core: {
           classes : {
@@ -141,7 +142,7 @@ let vmopts = {
       // an optionDocs?
       currentSlide: 0,
       currentStep: 0,
-      mode: 'fit',
+      modes: {fit: true},
       vars: {},
       userDataDollarO: {},
     }
@@ -168,7 +169,7 @@ let vmopts = {
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
     slidesToRender () {
-      if (this.mode === 'sorter') {
+      if (this.hasMode('sorter')) {
         return this.slides.map((s,i) => [s, i])
       }
       let start, end
@@ -215,6 +216,16 @@ let vmopts = {
     this.removeAllListeners()
   },
   methods: {
+    hasMode (m) {
+      return this.modes.hasOwnProperty(m) && !! this.modes[m]
+    },
+    toggleMode (m) {
+      if (this.modes.hasOwnProperty(m)) {
+        this.modes[m] = ! this.modes[m]
+      } else {
+        this.$set(this.modes, m, true)
+      }
+    },
     async asyncBeforeMount () {
       let S = this.opts.core.selectors
       { // Load slides in different formats
@@ -499,9 +510,10 @@ let vmopts = {
       return res
     },
     async slideClicked (i) {
-      if (this.mode === 'sorter') {
+      if (this.hasMode('sorter')) {
         await this.jumpToSlide(i, 0)
-        this.mode = 'fit'
+        this.toggleMode('sorter')
+        this.toggleMode('fit') // somewhat hard-coded default fit... (see other instances of the same comment)
       }
     },
     optionsOverrideFromCSS () {

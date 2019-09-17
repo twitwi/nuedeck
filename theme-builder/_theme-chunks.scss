@@ -26,10 +26,14 @@
   }
 }
 @mixin useful() {
+  .step[data-anim] { display: none; }
   .hidden, .hidden * { visibility: hidden; }
   .display-none {display: none; }
   .display-block {display: block; }
   .display-inline {display: inline; }
+  /* comments */
+  .comment { font-size: 10px; color: cornflowerblue; font-style: italic; }
+  .nuedeck>:not(.with-comments) .comment { display: none; }
 }
 
 @mixin size($base) {

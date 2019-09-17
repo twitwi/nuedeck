@@ -474,6 +474,10 @@ body {
   overflow: hidden;
 }
 
+.step[data-anim] {
+  display: none;
+}
+
 .hidden, .hidden * {
   visibility: hidden;
 }
@@ -488,6 +492,17 @@ body {
 
 .display-inline {
   display: inline;
+}
+
+/* comments */
+.comment {
+  font-size: 10px;
+  color: cornflowerblue;
+  font-style: italic;
+}
+
+.nuedeck > :not(.with-comments) .comment {
+  display: none;
 }
 
 :root {
@@ -568,25 +583,25 @@ the very current slide has .current-slide
   font-family: 'Exo 2';
   font-style: italic;
   font-weight: 400;
-  src: local("Exo 2 Italic"), local("Exo2-Italic"), url(fonts/7cHov4okm5zmbtYtG-wc4w.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHov4okm5zmbtYtG-wc4w.woff) format("woff");
+  src: local("Exo 2 Italic"), local("Exo2-Italic"), url(fonts/7cHov4okm5zmbtYtG-wc4w.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHov4okm5zmbtYtG-wc4w.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: italic;
   font-weight: 700;
-  src: local("Exo 2 Bold Italic"), local("Exo2-BoldItalic"), url(fonts/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff");
+  src: local("Exo 2 Bold Italic"), local("Exo2-BoldItalic"), url(fonts/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: normal;
   font-weight: 400;
-  src: local("Exo 2"), local("Exo2-Regular"), url(fonts/7cHmv4okm5zmbtYoK-g.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHmv4okm5zmbtYoK-g.woff) format("woff");
+  src: local("Exo 2"), local("Exo2-Regular"), url(fonts/7cHmv4okm5zmbtYoK-g.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHmv4okm5zmbtYoK-g.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: normal;
   font-weight: 700;
-  src: local("Exo 2 Bold"), local("Exo2-Bold"), url(fonts/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v5/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff");
+  src: local("Exo 2 Bold"), local("Exo2-Bold"), url(fonts/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff");
 }
 .timekeeper {
   font-family: monospace;

@@ -29,6 +29,8 @@ import CoreFunctionsPlugin from './plugins/core-functions.js'
 plugins.push(new CoreFunctionsPlugin())
 import NavigationPlugin from './plugins/navigation.js'
 plugins.push(new NavigationPlugin())
+import GlobalStatesPlugin from './plugins/global-states.js'
+plugins.push(new GlobalStatesPlugin())
 import AutofitPlugin from './plugins/autofit.js'
 plugins.push(new AutofitPlugin())
 
