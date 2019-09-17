@@ -52,7 +52,7 @@
       - it skips slides that have the `@OFF` header (case insensitive, always)
       - it parses, using MarkdownIt, each slide to html
       - it asyncly `plugins:enrichGeneratedSlides` passing the headers
-  - on mounted (asyncly) read option override from CSS, asyncly `plugin:mounted`,
+  - on mounted (asyncly) read option override from CSS, asyncly `plugins:mounted`,
     force jump to current slide and step
   - jumping is async because we might need to wait for the slide to get rendered
     and for its content to be parsed to know the sub-animations, etc, which can
