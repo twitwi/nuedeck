@@ -489,7 +489,7 @@ let vmopts = {
             hash += '.' + this.currentStep
           }
         }
-        window.location.hash = hash
+        window.history.replaceState({}, '', hash)
       }
     },
     slideClasses (s, i, currentSlide) {
