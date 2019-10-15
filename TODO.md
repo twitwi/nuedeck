@@ -36,6 +36,8 @@
 
 - [ ] TODO make it possible for some of the links to pushState into the history
 
+- [ ] TODO Hammer.js swipe should be optional? so that it does not prevent from selecting the text
+
 - [x] TODO new, add @chunk to load from file (toplevel)
 
 - [ ] TODO @chunk in a slide, which indents all, or even @copy of a subpart ... low priority
