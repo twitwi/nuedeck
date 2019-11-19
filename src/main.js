@@ -74,6 +74,11 @@ let props = {
   plugins
 }
 
+if (window && window.nuedeckAddPlugins) {
+  window.nuedeckAddPlugins(Vue, plugins)
+}
+
 new Vue({
   render: h => h(NueDeck, {props}),
 }).$mount('#nd-container')
+
