@@ -24,7 +24,7 @@
 
 - [ ] TODO small doc on how we can write plugins, from simple components (what constraints?) to more coding stuff, including the window.nuedeckAddPlugins(Vue, plugins) callback (if nothing else was already though of but forgotten)
 
-- [ ] TODO enrich-katex should have a working gdef and/or accept some way of having custom macros (e.g. via a header? @latex-def:, so it can be made sticky)
+- [x] TODO enrich-katex should have a working gdef and/or accept some way of having custom macros (e.g. via a header? @latex-def:, so it can be made sticky) -> just made the macro ok so we can define stuff in an early slide and use them later
 
 - [x] TODO have a vue katex component to allow dynamic maths https://github.com/lucpotage/vue-katex/blob/master/src/components/KatexElement.vue
 

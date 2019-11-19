@@ -2,6 +2,10 @@
 import { selfAndAll } from './tools'
 import Katex from 'katex'
 
+let globalMacros = {
+  '\\nuedeck': 'N_{UE}D^{ECK}'
+}
+
 export default () => ({
   name: 'Katex',
   /*async*/ enrichSlideDeck(slides) {
@@ -18,9 +22,7 @@ export default () => ({
         let v = `\\displaystyle ${span.textContent}`
         Katex.render(v, span, {
           displayMode: false,
-          macros: {
-            '\\nuedeck': 'N_{UE}D^{ECK}'
-          },
+          macros: globalMacros,
           throwOnError: false, // fail silently
           errorColor: '#ff0077',
         });

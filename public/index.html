@@ -534,8 +534,9 @@
       - with a comment // this is the comment
       - styling both the text @:greenborder // and the comment @:blurry
       - can use gdef in latex $\global\def\thing{T^H_ING}   \thing + \thing$
-      - here again $\thing + \thing$ (should be ok?)
+      - here again $\thing + \thing$ (ok! persistently defined at markdownification, always done)
       - and the built-in $\nuedeck$
+
     </template>
 
   <template class="nd-source">
@@ -606,6 +607,10 @@
    Hi \
    <img src="feature-check.svg" width="350"/>
    <img src="feature-check.svg" width="350"/>
+
+   ## Back using a gdef
+   - $\thing$ (defined in a previous slide... ok)
+
 
 </template>
 
