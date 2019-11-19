@@ -22,7 +22,7 @@
 
 - [x] TODO make the readme decent
 
-- [ ] TODO small doc on how we can write plugins, from simple components (what constraints?) to more coding stuff
+- [ ] TODO small doc on how we can write plugins, from simple components (what constraints?) to more coding stuff, including the window.nuedeckAddPlugins(Vue, plugins) callback (if nothing else was already though of but forgotten)
 
 - [ ] TODO enrich-katex should have a working gdef and/or accept some way of having custom macros (e.g. via a header? @latex-def:, so it can be made sticky)
 
@@ -34,7 +34,7 @@
 
 - [ ] **TODO** TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor OR https://www.npmjs.com/package/markdown-it-toc-done-right
 
-- [ ] TODO make it possible for some of the links to pushState into the history
+- [ ] TODO make it possible for some of the links to pushState into the history (or not)
 
 - [ ] TODO Hammer.js swipe should be optional? so that it does not prevent from selecting the text
 
