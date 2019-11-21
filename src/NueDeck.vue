@@ -388,15 +388,21 @@ let vmopts = {
     },
     async jumpByHash (strWithHash, step=0) {
       if (strWithHash === undefined) {
-        strWithHash = window.location.hash
+        strWithHash = window.decodeURI(window.location.hash)
       }
-      let id = strWithHash.replace(/.*#/g, '')
+      let addToHistory = false
+      if (strWithHash.startsWith('#⇒')) {
+        addToHistory = true
+        strWithHash = '#' + strWithHash.substr(2)
+      }
+      let jump = async (slide, step) => await this.jumpToSlide(slide, step, {}, addToHistory)
+      let id = strWithHash.replace(/.*#/g, '') // not sure, as we never pass an actual strWithHash anyway
       if (id === '') return
 
       // first consider slide IDs
       for (let i in this.slides) {
         if (this.slides[i].key === id) {
-          await this.jumpToSlide(i, step)
+          await jump(i, step)
           return
         }
       }
@@ -414,12 +420,12 @@ let vmopts = {
         if (cmd === 's' && slide > 0) {
           slide -= 1
         }
-        await this.jumpToSlide(slide, step)
+        await jump(slide, step)
       } else {
         this.L('Unhandled hash format:', id)
       }
     },
-    async jumpToSlide (sl, st, pPrev={}) {
+    async jumpToSlide (sl, st, pPrev={}, addToHistory=false) {
       let makeStepCurrent = () => {
         let el = this.slides[sl].steps[st].el
         if (el === undefined || el === null) return
@@ -489,7 +495,11 @@ let vmopts = {
             hash += '.' + this.currentStep
           }
         }
-        window.history.replaceState({}, '', hash)
+        if (addToHistory) {
+          window.history.pushState({}, '', hash)
+        } else {
+          window.history.replaceState({}, '', hash)
+        }
       }
     },
     slideClasses (s, i, currentSlide) {

@@ -34,7 +34,7 @@
 
 - [ ] **TODO** TOC and overview plugin to generate all these, consider https://www.npmjs.com/package/markdown-it-toc-and-anchor OR https://www.npmjs.com/package/markdown-it-toc-done-right
 
-- [ ] TODO make it possible for some of the links to pushState into the history (or not)
+- [x] TODO make it possible for some of the links to pushState into the history (or not), #s:1 does not, #⇒s:2 does (and #S:2 and #⇒S:3, with capital for 0-based indices)
 
 - [x] TODO Hammer.js swipe should be optional? so that it does not prevent from selecting the text -> enable only on mobile or with [mobile] (disable by [no-mobile] if you don't want it on mobile)
 
