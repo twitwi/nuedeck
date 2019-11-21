@@ -4,7 +4,6 @@ import NueDeck from './NueDeck.vue'
 Vue.config.productionTip = false
 
 import { VueHammer } from 'vue2-hammer'
-Vue.use(VueHammer)
 
 // consider https://vuejs.org/v2/guide/components-registration.html (require.context etc)
 import HelloWorld from './components/HelloWorld.vue'
@@ -74,6 +73,21 @@ let props = {
   plugins
 }
 
+let decideWhetherToHandleTouch = function() {
+  let isTouchDevice = function() {
+    return (('ontouchstart' in window)
+    || (navigator.MaxTouchPoints > 0)
+    || (navigator.msMaxTouchPoints > 0));
+  }
+  let hashHas = tag => window && -1 != window.location.hash.indexOf('['+tag+']')
+  
+  if (hashHas('mobile') || isTouchDevice() && !hashHas('no-mobile')) {
+    Vue.use(VueHammer)
+  }
+}
+decideWhetherToHandleTouch()
+
+// User callback for extensibility (adding new components, new plugins etc)
 if (window && window.nuedeckAddPlugins) {
   window.nuedeckAddPlugins(Vue, plugins)
 }

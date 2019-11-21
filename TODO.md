@@ -36,7 +36,7 @@
 
 - [ ] TODO make it possible for some of the links to pushState into the history (or not)
 
-- [ ] TODO Hammer.js swipe should be optional? so that it does not prevent from selecting the text
+- [x] TODO Hammer.js swipe should be optional? so that it does not prevent from selecting the text -> enable only on mobile or with [mobile] (disable by [no-mobile] if you don't want it on mobile)
 
 - [x] TODO new, add @chunk to load from file (toplevel)
 
