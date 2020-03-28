@@ -24,6 +24,8 @@ plugins.push({name: 'Toto'})
 
 import DummyPlugin from './plugins/dummy.js'
 plugins.push(new DummyPlugin())
+
+// Main plugins
 import CoreFunctionsPlugin from './plugins/core-functions.js'
 plugins.push(new CoreFunctionsPlugin())
 import NavigationPlugin from './plugins/navigation.js'
@@ -33,11 +35,13 @@ plugins.push(new GlobalStatesPlugin())
 import AutofitPlugin from './plugins/autofit.js'
 plugins.push(new AutofitPlugin())
 
+// Animation/Stepping related plugins
 import AnimationStepPlugin from './plugins/step-animation.js'
 plugins.push(new AnimationStepPlugin())
 import SimpleStepPlugin from './plugins/step-simple.js'
 plugins.push(new SimpleStepPlugin())
 
+// Extensions of the custom Markdown format 
 import MarkdownPlugin from './plugins/markdown.js'
 plugins.push(new MarkdownPlugin())
 import StickyMarkdownPlugin from './plugins/markdown-sticky.js'
@@ -54,6 +58,7 @@ plugins.push(new MathMarkdownPlugin())
 import SuffixesMarkdownPlugin from './plugins/markdown-suffixes.js'
 plugins.push(new SuffixesMarkdownPlugin())
 
+// Post markdown enrichment plugins
 import AddSlideKeyPlugin from './plugins/enrich-add-slide-keys.js'
 plugins.push(new AddSlideKeyPlugin())
 import SVGPlugin from './plugins/enrich-svg.js'
@@ -77,7 +82,7 @@ let decideWhetherToHandleTouch = function() {
   let isTouchDevice = function() {
     return (('ontouchstart' in window)
     || (navigator.MaxTouchPoints > 0)
-    || (navigator.msMaxTouchPoints > 0));
+    || (navigator.msMaxTouchPoints > 0))
   }
   let hashHas = tag => window && -1 != window.location.hash.indexOf('['+tag+']')
   

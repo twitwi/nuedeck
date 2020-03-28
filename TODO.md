@@ -20,6 +20,12 @@
 
 - [ ] make a "starterkit" repo (from the starter file)
 
+- [ ] **TODO** new, clone system and ui, with log system too (think about nicer format)
+
+- [ ] **TODO** port browsercast to nuedeck
+
+- [ ] **TODO** make an annotate plugin that saves the drawn stuff
+
 - [x] TODO make the readme decent
 
 - [ ] TODO small doc on how we can write plugins, from simple components (what constraints?) to more coding stuff, including the window.nuedeckAddPlugins(Vue, plugins) callback (if nothing else was already though of but forgotten)
@@ -53,8 +59,6 @@
 - [ ] TODO help area: consider allowing live tuning of CSS vars
 
 - [ ] TODO performance, debug of over-refresh by vue
-
-- [ ] **TODO** new, clone system and ui, with log system too (think about nicer format)
 
 - [ ] TODO enable https://github.com/markdown-it/markdown-it-container and make it easily extensible from nuedeck
 
