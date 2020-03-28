@@ -19,7 +19,7 @@
   - inside the content, there can also be some @... magic things
 - What happens when?
   - before the creation of the vue (and after the registration of the embedded plugins),
-    window.nuedeckAddPlugins(Vue, plugins) is call if it exists
+    window.nuedeckAddPlugins(Vue, plugins) is called if it exists
   - on creation (before any binding to the DOM), `plugins:init` (all `init`
     methods of the plugins are called)
   - just before mounting (into the page) the html title and meta tags (name=...)
