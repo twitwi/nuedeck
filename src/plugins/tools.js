@@ -43,7 +43,7 @@ export function replaceNodeByOuterHTMLFragment(node, html) {
   parent.removeChild(node)
 }
 
-let endsWith = (longStr, part) => longStr.indexOf(part, longStr.length - part.length) !== -1
+export let endsWith = (longStr, part) => longStr.indexOf(part, longStr.length - part.length) !== -1
 let _REST = null
 export let REST = ()=>_REST
 let _RESTRIM = null
@@ -74,3 +74,9 @@ export let indexOfIgnoreCase = (arr, part) => {
 export let equalsIgnoreCase = (longStr, part) => {
   return longStr.toUpperCase() === part.toUpperCase()
 }
+
+// To avoid eslint warning and unsafe direct access to hasOwnProperty 
+export let hasOwnProperty = (o, k) => Object.prototype.hasOwnProperty.call(o, k)
+
+// eslint-disable-next-line no-console
+export let consoleLog = (...args) => console.log(...args)

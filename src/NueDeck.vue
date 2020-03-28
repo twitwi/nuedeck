@@ -41,10 +41,11 @@
 
 // TODO make sure we can run offline etc
 import keymage from 'keymage'
+import {hasOwnProperty, consoleLog} from './plugins/tools.js'
 
 let tools = {
   L () {
-    console.log(...['LOG:', ...arguments])
+    consoleLog(...['LOG:', ...arguments])
   },
   forAll (sel, f, base=document) {
     base.querySelectorAll(sel).forEach(f)
@@ -217,10 +218,10 @@ let vmopts = {
   },
   methods: {
     hasMode (m) {
-      return this.modes.hasOwnProperty(m) && !! this.modes[m]
+      return hasOwnProperty(this.modes, m) && !! this.modes[m]
     },
     toggleMode (m) {
-      if (this.modes.hasOwnProperty(m)) {
+      if (hasOwnProperty(this.modes, m)) {
         this.modes[m] = ! this.modes[m]
       } else {
         this.$set(this.modes, m, true)
@@ -357,7 +358,7 @@ let vmopts = {
         while (i < allNew.length) {
           if (allNew[i].mergeNext) {
             if (i+1 == allNew.length) {
-              console.log('ERROR merge TODO better message')
+              this.L('ERROR merge TODO better message')
               break
             }
             // actual merge
