@@ -324,6 +324,7 @@
         - step 2b
           Hello {{ $o.who }}
           <Katex :expression="'\\frac{' + nd.currentStep + '}{' + $o.toto + '}'"></Katex>
+          <Katex expression="`\\frac{$_{nd.currentStep}}{$_{$o.toto}}`"></Katex> <!-- template + need $_ to avoid direct interpretation -->
       - step 3
         - step 3a
         - step 3b
