@@ -32,9 +32,9 @@
 
 - [x] TODO enrich-katex should have a working gdef and/or accept some way of having custom macros (e.g. via a header? @latex-def:, so it can be made sticky) -> just made the macro ok so we can define stuff in an early slide and use them later
 
-- [x] TODO have a vue katex component to allow dynamic maths https://github.com/lucpotage/vue-katex/blob/master/src/components/KatexElement.vue
+- [x] TODO have a vue katex component to allow dynamic maths https://github.com/lucpotage/vue-katex/blob/master/src/components/KatexElement.vue
 
-- [x] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*) -> the plugin is buggous (breaks @copy:, http:// etc) see https://github.com/pnewell/markdown-it-span/issues/1 and the link to how to actually make a plugin that works better
+- [x] TODO consider https://www.npmjs.com/package/markdown-it-span at least when we want to wrap something (like math) to style it etc (instead of *truc*) -> the plugin is buggous (breaks @copy:, http:// etc) see https://github.com/pnewell/markdown-it-span/issues/1 and the link to how to actually make a plugin that works better
 
 - [x] TODO new, goto ui, minimalist for now (just a prompt)
 
@@ -50,21 +50,23 @@
 
 - [x] TODO simple slide sorter
 
-- [x] TODO slide sorter: todo need to extract style (and maybe consider refactoring)  -> integrated in the theme without much effort for now
+- [x] TODO slide sorter: todo need to extract style (and maybe consider refactoring)  -> integrated in the theme without much effort for now
 
 - [ ] TODO slide sorter/mode: consider having URL variables for that
 
 - [ ] TODO new, help area
 
-- [ ] TODO help area: consider allowing live tuning of CSS vars
+- [ ] TODO help area: consider allowing live tuning of CSS vars
+
+- [ ] TODO check and debug transition (related to the next todo?)
 
 - [ ] TODO performance, debug of over-refresh by vue
 
-- [ ] TODO enable https://github.com/markdown-it/markdown-it-container and make it easily extensible from nuedeck
+- [ ] TODO enable https://github.com/markdown-it/markdown-it-container and make it easily extensible from nuedeck
 
-- [ ] TODO redev a markdown-it-span (see above)
+- [ ] TODO redev a markdown-it-span (see above)
 
-- [x] TODO kept both @:.... suffixes (non-advertised) and preferred https://www.npmjs.com/package/markdown-it-attrs (it is perfect in some sense but has no container-styling, needs .classname, etc, but it can be done with data-container-styling=....)
+- [x] TODO kept both @:.... suffixes (non-advertised) and preferred https://www.npmjs.com/package/markdown-it-attrs (it is perfect in some sense but has no container-styling, needs .classname, etc, but it can be done with data-container-styling=....)
 
 - [ ] TODO ui, as in the previous, ui elements could be added automatically unless they are present in the template (e.g. goto ui, etc)
 
@@ -84,7 +86,7 @@
 
 - [ ] TODO options, math delimiters in markdown-math ... low priority
 
-- [ ] TODO consider all plugins for markdown-it https://www.npmjs.com/search?q=keywords%3Amarkdown-it-plugin&page=2&perPage=20
+- [ ] TODO consider all plugins for markdown-it https://www.npmjs.com/search?q=keywords%3Amarkdown-it-plugin&page=2&perPage=20
 
 - [x] TODO make anim chainable with data-merge-next
 
