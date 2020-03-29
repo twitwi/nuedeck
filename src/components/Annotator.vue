@@ -12,6 +12,8 @@
       :class="{'tool-size': true, active: currentWidth == s}"
       @click="currentWidth = s">{{s}}</span>
       <span v-html="nd.NR.functionsDollarF.renderShortcut('toggleAnnotator')" @click.prevent="nd.$emit('toggleAnnotator')"></span>
+      <span @click="save()">[S]</span>
+      <span @click="load()">[L]</span>
     </div>
     <canvas ref="canvas"
     @mousedown="mDown($event)"
@@ -29,31 +31,38 @@ export default {
     current: {default: ''},
     colors: {default: () => ['blue', 'black', 'red', 'green', 'cyan', 'magenta', 'yellow']},
     sizes: {default: () => [1, 3, 5, 10, 20]},
+    lsKey: {default: 'nuedeck-annotator'},
   },
   data: () => ({
-    slidePages: {}, // slideId -> list of pages
+    //slidePages: {}, // slideId -> list of pages
     currentPage: -1,
     currentColor: 'blue',
     currentWidth: 3,
   }),
   computed: {
     pages () {
-      if (this.slidePages[this.current] == null) {
+      if (this.nd.ext.annotate[this.current] == null) {
         return []
       }
-      return this.slidePages[this.current]
+      return this.nd.ext.annotate[this.current]
     },
   },
   mounted () {
-    this.repaintCanvas() // to set the canvas size
+    let topStyle = window.getComputedStyle(this.$refs.root.parentElement)
+    this.$refs.canvas.width = topStyle.width.replace('px', '')
+    this.$refs.canvas.height = topStyle.height.replace('px', '')
+    if (this.nd.ext.annotate[this.current] != null) {
+      this.currentPage = this.nd.ext.annotate[this.current].length - 1
+      this.repaintCanvas()
+    }
   },
   methods: {
     addPage () {
-      if (this.slidePages[this.current] == null) {
-        this.$set(this.slidePages, this.current, [])
+      if (this.nd.ext.annotate[this.current] == null) {
+        this.$set(this.nd.ext.annotate, this.current, [])
       }
-      this.slidePages[this.current].push([])
-      this.currentPage = this.slidePages[this.current].length - 1
+      this.nd.ext.annotate[this.current].push([])
+      this.currentPage = this.nd.ext.annotate[this.current].length - 1
       this.repaintCanvas()
     },
     setPage (i) {
@@ -68,7 +77,7 @@ export default {
       let ctx = canvas.getContext('2d')
       ctx.lineCap = 'round'
       ctx.lineJoin = 'round'
-      let objects = this.slidePages[this.current][this.currentPage]
+      let objects = this.nd.ext.annotate[this.current][this.currentPage]
       for (let o of objects) {
         ctx.beginPath()
         if (o[0].type == 'line') {
@@ -89,19 +98,19 @@ export default {
       return [ev.offsetX, ev.offsetY]
     },
     mDown (ev) {
-      window.sp = this.slidePages
-      if (this.slidePages[this.current] == null) {
+      window.sp = this.nd.ext.annotate
+      if (this.nd.ext.annotate[this.current] == null) {
         this.addPage()
       }
       let color = this.currentColor
       let width = this.currentWidth
       let [x, y] = this.pos(ev)
       let line = [{type: 'line', color, width}, {x, y}]
-      this.slidePages[this.current][this.currentPage].push(line)
+      this.nd.ext.annotate[this.current][this.currentPage].push(line)
     },
     mMove (ev) {
       if (ev.buttons == 1) {
-        let objects = this.slidePages[this.current][this.currentPage]
+        let objects = this.nd.ext.annotate[this.current][this.currentPage]
         let line = objects[objects.length - 1]
         let [x, y] = this.pos(ev)
         line.push({x, y})
@@ -109,13 +118,28 @@ export default {
       }
     },
     mUp (ev) {
-        let objects = this.slidePages[this.current][this.currentPage]
+        let objects = this.nd.ext.annotate[this.current][this.currentPage]
         let line = objects[objects.length - 1]
         if (line.length == 2) {
           let [x, y] = this.pos(ev)
           line.push({x, y})
           this.repaintCanvas()
         }
+        this.nd.addLog('annotator-dump', this.nd.ext.annotate)
+    },
+    save () {
+      localStorage.setItem(this.lsKey, JSON.stringify(this.nd.ext.annotate))
+    },
+    load () {
+      let ls = localStorage.getItem(this.lsKey)
+      if (ls == null) {
+        return null
+      }
+      this.nd.$set(this.nd.ext, 'annotate', JSON.parse(ls))
+      if (this.nd.ext.annotate[this.current] != null) {
+        this.currentPage = this.nd.ext.annotate[this.current].length - 1
+        this.repaintCanvas()
+      }
     },
   },
 }

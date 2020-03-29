@@ -154,6 +154,10 @@ let vmopts = {
       modes: {fit: true},
       vars: {},
       userDataDollarO: {},
+      // for extensions, for now...
+      ext: {
+        annotate: {},
+      },
     }
   },
   watch: {
