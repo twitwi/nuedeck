@@ -32,7 +32,7 @@ format = '%s-%s%s%s-%s.scss'
 info = [
     {
         'name': 'transition',
-        'values': 'simple raw horiz3 perpsective'.split(' '),
+        'values': 'simple raw horiz3 perspective'.split(' '),
     },
     {
         'name': 'darkness',
