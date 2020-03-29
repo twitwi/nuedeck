@@ -12,6 +12,9 @@ Vue.component('HelloWorld', HelloWorld)
 import StatusBar from './components/StatusBar.vue'
 Vue.component('StatusBar', StatusBar)
 
+import HelpArea from './components/HelpArea.vue'
+Vue.component('HelpArea', HelpArea)
+
 import LocalStyle from './components/LocalStyle.vue'
 Vue.component('LocalStyle', LocalStyle)
 

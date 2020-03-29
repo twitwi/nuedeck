@@ -70,6 +70,7 @@
     <!-- To add something to the container -->
     <template class="nd-addon">
       <status-bar :current="nd.currentSlide"></status-bar>
+      <help-area></help-area>
     </template>
 
     <!-- To add something to every slide -->
@@ -81,7 +82,9 @@
     <template class="nd-source">
 
       ## Navigation keys
-      - <span v-html="$f.renderShortcut('showSlideSorter')"></span>
+      - <span v-html="$f.renderShortcut('previousStep')"></span>: backward
+      - <span v-html="$f.renderShortcut('nextStep')"></span>: forward
+      - <span v-html="$f.renderShortcut('toggleSlideSorter')"></span>: slide sorter
       - This is a comment {.comment}
 
       # @chunk: nav.md

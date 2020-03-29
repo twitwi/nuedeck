@@ -2,6 +2,7 @@
   <div class="nuedeck" ref="nuedeck"
   v-hammer:swipe="handleSwipe"
   >
+    <div :class="cssModes" style="display:none"></div>
     <div :class="modes" ref="fit">
       <div v-for="[s,i] in slidesToRender"
       :key="'S'+i"
@@ -71,6 +72,7 @@ export let defaultMixin = {
           popupJumpToSlide: ['g'],
           toggleSlideSorter: ['m'],
           toggleComments: ['v'],
+          toggleHelpArea: ['h'],
         },
         core: {
           classes : {
@@ -143,6 +145,7 @@ let vmopts = {
       // an optionDocs?
       currentSlide: 0,
       currentStep: 0,
+      cssModes: {},
       modes: {fit: true},
       vars: {},
       userDataDollarO: {},
@@ -225,6 +228,16 @@ let vmopts = {
         this.modes[m] = ! this.modes[m]
       } else {
         this.$set(this.modes, m, true)
+      }
+    },
+    hasCssMode (m) {
+      return hasOwnProperty(this.cssModes, m) && !! this.cssModes[m]
+    },
+    toggleCssMode (m) {
+      if (hasOwnProperty(this.cssModes, m)) {
+        this.cssModes[m] = ! this.cssModes[m]
+      } else {
+        this.$set(this.cssModes, m, true)
       }
     },
     async asyncBeforeMount () {

@@ -6,7 +6,9 @@
   :root {
     --theme-transition-duration: 300ms;
   }
-  body {
+  body, html{
+    padding: 0;
+    margin: 0;
     overflow: hidden;
   }
   .nuedeck {
@@ -24,6 +26,26 @@
     display: inline-block;
     overflow: hidden;
   }
+  /* help area */
+  .nuedeck>:first-child:not(.with-helparea)~* .help-area { display: none; }
+  .help-area {
+    position: absolute;
+    overflow: hidden;
+    z-index: 10;
+    /* */
+    left: 10%;
+    right: 10%;
+    bottom: 0;
+    /* */
+    background: rgba(50, 70, 50, 0.9);
+    border: 2px solid lime;
+    border-bottom: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /* */
+    padding: 0 1em;
+    overflow-y: scroll;
+  }  
 }
 @mixin useful() {
   .step[data-anim] { display: none; }
@@ -33,7 +55,7 @@
   .display-inline {display: inline; }
   /* comments */
   .comment { font-size: 10px; color: cornflowerblue; font-style: italic; }
-  .nuedeck>:not(.with-comments) .comment { display: none; }
+  .nuedeck>:first-child:not(.with-comments)~* .comment { display: none; }
 }
 
 @mixin size($base) {
@@ -65,7 +87,7 @@
   .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; }
   .slide { transition: all var(--theme-transition-duration), visibility 0s; visibility: hidden; }
   .current-slide-m1 { opacity: 1; visibility: visible; }
-  .current-slide { opacity: 1; visibility: visible; z-index: 100; }
+  .current-slide { opacity: 1; visibility: visible; z-index: 5; }
   .current-slide-p1 { opacity: 0; visibility: visible; }
   .current-slide-p2 { opacity: 0; }
 }
@@ -80,7 +102,7 @@
   .current-slide-m1 { transform: translate(calc(-400px + 400px * var(--p)), 0px) scale(var(--p), var(--p));}
   .current-slide { transform: translate(calc(800px * var(--p)), 0); }
   .current-slide-p1 { transform: translate(calc(400px + 800px * 1.5*var(--p)), 0px) scale(var(--p), var(--p)) ; }
-  .current-slide-p2 { transform: translate(calc(400px + 800px * 1.5*var(--p)), calc(600px * var(--p))) scale(0, 0) ; z-index: -1}
+  .current-slide-p2 { transform: translate(calc(400px + 800px * 1.5*var(--p)), calc(600px * var(--p))) scale(0, 0) ; z-index: -5}
 }
 
 @mixin transition-perspective() {
@@ -89,9 +111,9 @@
   :root { --nuedeck-core-designWidth: 1500; --nuedeck-core-designHeight: 900; }
   .nuedeck { perspective: 2000px; }
   .slide { position: absolute; left: 0; top: 0; width: 800px; height: 600px; transition: all var(--theme-transition-duration), z-index 0s; }
-  .slide { z-index: -100; transform: translate(50%,0%) scale(.1, .1); opacity: 0; }
-  .current-slide-m1 { z-index: 1; opacity: 0.75; transform: translate(50px, 0) scale(0.75, 0.75)}
-  .current-slide { z-index: 3; opacity: 1; transform: translate(800px, 0);}
+  .slide { z-index: -5; transform: translate(50%,0%) scale(.1, .1); opacity: 0; }
+  .current-slide-m1 { z-index: -1; opacity: 0.75; transform: translate(50px, 0) scale(0.75, 0.75)}
+  .current-slide { z-index: 5; opacity: 1; transform: translate(800px, 0);}
   .current-slide-p1 { z-index: 2; opacity: 1; transform: translate(30%,70%) scale(0.5, 0.5) rotateZ(10deg) rotateX(45deg); }
   .current-slide-p2 { z-index: 1; opacity: 1; transform: translate(30%,90%) scale(0.25, 0.25) rotateZ(20deg) rotateX(45deg); }
 }
@@ -313,6 +335,10 @@
     font-size: 12px;
     text-align: center;
   }
+  .fit>.slide-number {
+    z-index: 10;
+    bottom: 10px;
+  }
 
   .key {
     border: 2px solid black;
@@ -339,7 +365,7 @@
     color: teal;
     position: fixed;
     font-size: 40px;
-    z-index: 1000;
+    z-index: 100;
   }
   .loading {
     opacity: 0.25 !important;
@@ -355,7 +381,7 @@
   .sorter .slide:hover {
     transform: scale(1.5) !important;
     box-shadow: red -5px -5px 10px, red 5px 5px 10px !important;
-    z-index: 1000;
+    z-index: 100;
   }
   .sorter {
     transform-origin: 0 0 !important;

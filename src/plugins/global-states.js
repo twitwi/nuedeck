@@ -4,12 +4,11 @@ export default () => ({
   name: 'GlobalStates',
   init ({registerAction}) {
     // event bus from key bindings
+    registerAction('toggleHelpArea', () => {
+      this.toggleCssMode('with-helparea')
+    })
     registerAction('toggleComments', () => {
-      if (this.hasMode('with-comments')) {
-        this.toggleMode('with-comments')
-      } else {
-        this.toggleMode('with-comments')
-      }
+      this.toggleCssMode('with-comments')
     })
     registerAction('toggleSlideSorter', () => {
       if (this.hasMode('sorter')) {
