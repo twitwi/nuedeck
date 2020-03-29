@@ -7,6 +7,9 @@ export default () => ({
     registerAction('toggleHelpArea', () => {
       this.toggleCssMode('with-helparea')
     })
+    registerAction('toggleAnnotator', () => {
+      this.toggleCssMode('with-annotator')
+    })
     registerAction('toggleComments', () => {
       this.toggleCssMode('with-comments')
     })

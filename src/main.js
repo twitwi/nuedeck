@@ -15,6 +15,9 @@ Vue.component('StatusBar', StatusBar)
 import HelpArea from './components/HelpArea.vue'
 Vue.component('HelpArea', HelpArea)
 
+import Annotator from './components/Annotator.vue'
+Vue.component('Annotator', Annotator)
+
 import LocalStyle from './components/LocalStyle.vue'
 Vue.component('LocalStyle', LocalStyle)
 

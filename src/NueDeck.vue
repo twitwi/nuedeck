@@ -28,13 +28,14 @@
           template: a.contentTemplate
         }"></component>
       </div>
-      <component v-for="(a,ai) in addons"
-      :key="'A'+ai"
-      :is="{
-        inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
-        template: a.contentTemplate
-      }"></component>
-   </div>
+      <div v-for="(a,ai) in addons" :key="'A'+ai" class="addon">
+        <component
+        :is="{
+          inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
+          template: a.contentTemplate
+        }"></component>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,6 +74,7 @@ export let defaultMixin = {
           toggleSlideSorter: ['m'],
           toggleComments: ['v'],
           toggleHelpArea: ['h'],
+          toggleAnnotator: ['w'],
         },
         core: {
           classes : {
