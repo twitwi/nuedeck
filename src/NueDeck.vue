@@ -92,6 +92,8 @@ export let defaultMixin = {
           fitMargin: [0, 0, 0, 0],
           fitDebounce: 200,
 
+          localStorageLogsKey: 'nuedeck-logs',
+
           clearHashOnLoad: false, /* may be used for development to avoid jumping back to the same slide on reload */
           disableSetHash: false, /* may be used for development to systematically jump back to the same slide on reload */
           disableSetHashForSteps: false,
@@ -143,6 +145,7 @@ let vmopts = {
         // nameOfTheEvent: { short: "...", long: "......."}
       },
       // an optionDocs?
+      logs: [],
       currentSlide: 0,
       currentStep: 0,
       cssModes: {},
@@ -400,6 +403,39 @@ let vmopts = {
       if (d == 8) { this.$emit('nextEndOfSlide') } // up
       if (d == 16) { this.$emit('previousEndOfSlide') } // down
     },
+    clearLogs () {
+      let k = this.opts.core.localStorageLogsKey
+      localStorage.removeItem(k)
+      this.logs.splice(0, this.logs.length)
+    },
+    getLogs (sectionFilter=null) {
+      let k = this.opts.core.localStorageLogsKey
+      let ls = localStorage.getItem(k)
+      if (ls == null) {
+        ls = []
+      } else {
+        ls = JSON.parse(ls)
+      }
+      if (sectionFilter != null) {
+        ls = ls.filter(l => l.section == sectionFilter)
+      }
+      return ls
+    },
+    addLog (section, data, date=new Date()) {
+      let k = this.opts.core.localStorageLogsKey
+      let ls = localStorage.getItem(k)
+      if (ls == null) {
+        ls = []
+      } else {
+        ls = JSON.parse(ls)
+      }
+      let ms = date.getTime()
+      let string = date.toISOString()
+      ls.unshift({section, date: {ms, string}, data})
+      ls = JSON.stringify(ls)
+      localStorage.setItem(k, ls)
+      this.logs = JSON.parse(ls) // TODO: might want to optimize by unshifting in logs (at the risk having of unsynced versions) 
+    },
     async jumpByHash (strWithHash, step=0) {
       if (strWithHash === undefined) {
         strWithHash = window.decodeURI(window.location.hash)
@@ -457,6 +493,8 @@ let vmopts = {
       this.L('JUMP', prev, sl, st)
       if (sl < 0) sl = this.slides.length + sl // handle negative slide index
       if (sl < 0 || sl > this.slides.length - 1) return // out of range
+
+      this.addLog('change-slide', {from: {slide:prev.sl, step:prev.st}, to:{slide:sl, step:st}})
       // if we change slide, ensure it we load and init the anims
       if (prev.sl !== sl) {
         await this.ensureSlideIsMounted(sl)

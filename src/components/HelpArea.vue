@@ -7,6 +7,10 @@
         <span v-html="nd.NR.functionsDollarF.renderShortcut(k)"></span>: {{k}}
       </div>
     </div>
+    <h4>View Logs</h4>
+    <div class="view-logs">
+      <pre><div v-for="({date, section, data},i) in formattedLogs" :key="999999 - i"><span class="date">{{date}}</span> <span :class="'section-'+section">[{{ section }}] </span> <span>{{data}}</span></div></pre>
+    </div>
   </div>
 </template>
 
@@ -15,7 +19,31 @@ export default {
   name: 'HelpArea',
   inject: {nd: 'nd'},
   props: {
-  }
+  },
+  computed: {
+    formattedLogs () {
+      let tzoffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
+      let localISOTime = d => new Date(d - tzoffset).toISOString().slice(0, -1).replace(/T/, ' @ ')
+
+      return this.nd.logs.map(l => {
+        let data = l.data
+        let appendRaw = true
+        if (l.section == 'change-slide') {
+          data = `${data.from.slide}.${data.from.step} -> ${data.to.slide}.${data.to.step}`
+        } else {
+          data = JSON.stringify(data)
+          appendRaw = false
+        }
+        if (appendRaw) {
+          data += ' ::: '+JSON.stringify(l.data)
+        }
+        return {
+          date: localISOTime(l.date.ms),
+          section: l.section,
+          data
+        }})
+    },
+  },
 }
 </script>
 

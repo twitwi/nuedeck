@@ -36,6 +36,7 @@
     left: 10%;
     right: 10%;
     bottom: 0;
+    top: 15%;
     /* */
     background: rgba(50, 70, 50, 0.9);
     border: 2px solid lime;
@@ -45,6 +46,14 @@
     /* */
     padding: 0 1em;
     overflow-y: scroll;
+
+    .view-logs {
+      font-size: 65%;
+      overflow-x: scroll;
+
+      .date { font-size: 65%; }
+      .section-change-slide { font-weight: bold; color: white; }
+    }
   }  
 }
 @mixin useful() {
