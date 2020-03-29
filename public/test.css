@@ -453,7 +453,9 @@ template {
   --theme-transition-duration: 300ms;
 }
 
-body {
+body, html {
+  padding: 0;
+  margin: 0;
   overflow: hidden;
 }
 
@@ -472,6 +474,30 @@ body {
 .slide {
   display: inline-block;
   overflow: hidden;
+}
+
+/* help area */
+.nuedeck > :first-child:not(.with-helparea) ~ * .help-area {
+  display: none;
+}
+
+.help-area {
+  position: absolute;
+  overflow: hidden;
+  z-index: 10;
+  /* */
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  /* */
+  background: rgba(50, 70, 50, 0.9);
+  border: 2px solid lime;
+  border-bottom: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* */
+  padding: 0 1em;
+  overflow-y: scroll;
 }
 
 .step[data-anim] {
@@ -501,7 +527,7 @@ body {
   font-style: italic;
 }
 
-.nuedeck > :not(.with-comments) .comment {
+.nuedeck > :first-child:not(.with-comments) ~ * .comment {
   display: none;
 }
 
@@ -567,7 +593,7 @@ the very current slide has .current-slide
 .current-slide {
   opacity: 1;
   visibility: visible;
-  z-index: 100;
+  z-index: 5;
 }
 
 .current-slide-p1 {
@@ -583,25 +609,25 @@ the very current slide has .current-slide
   font-family: 'Exo 2';
   font-style: italic;
   font-weight: 400;
-  src: local("Exo 2 Italic"), local("Exo2-Italic"), url(fonts/7cHov4okm5zmbtYtG-wc4w.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHov4okm5zmbtYtG-wc4w.woff) format("woff");
+  src: url(fonts/7cH3v4okm5zmbtYtMeA0FKq0Jjg2drF0feC9hpk.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v8/7cH3v4okm5zmbtYtMeA0FKq0Jjg2drF0feC9hpk.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: italic;
   font-weight: 700;
-  src: local("Exo 2 Bold Italic"), local("Exo2-BoldItalic"), url(fonts/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHtv4okm5zmbtYtE1c58H0Jng.woff) format("woff");
+  src: url(fonts/7cH3v4okm5zmbtYtMeA0FKq0Jjg2drGTeuC9hpk.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v8/7cH3v4okm5zmbtYtMeA0FKq0Jjg2drGTeuC9hpk.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: normal;
   font-weight: 400;
-  src: local("Exo 2"), local("Exo2-Regular"), url(fonts/7cHmv4okm5zmbtYoK-g.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHmv4okm5zmbtYoK-g.woff) format("woff");
+  src: url(fonts/7cH1v4okm5zmbvwkAx_sfcEuiD8jvvKsOdC5.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v8/7cH1v4okm5zmbvwkAx_sfcEuiD8jvvKsOdC5.woff) format("woff");
 }
 @font-face {
   font-family: 'Exo 2';
   font-style: normal;
   font-weight: 700;
-  src: local("Exo 2 Bold"), local("Exo2-Bold"), url(fonts/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v6/7cHrv4okm5zmbt6TDvs7wHk.woff) format("woff");
+  src: url(fonts/7cH1v4okm5zmbvwkAx_sfcEuiD8jWfWsOdC5.woff) format("woff"), url(https://fonts.gstatic.com/s/exo2/v8/7cH1v4okm5zmbvwkAx_sfcEuiD8jWfWsOdC5.woff) format("woff");
 }
 .timekeeper {
   font-family: monospace;
@@ -689,7 +715,7 @@ a, a:hover, a:focus, a:active, a:visited {
   color: teal;
   position: fixed;
   font-size: 40px;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .loading {
@@ -708,7 +734,7 @@ a, a:hover, a:focus, a:active, a:visited {
 .sorter .slide:hover {
   transform: scale(1.5) !important;
   box-shadow: red -5px -5px 10px, red 5px 5px 10px !important;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .sorter {
@@ -755,6 +781,11 @@ a:hover, a:focus {
   right: 0;
   font-size: 12px;
   text-align: center;
+}
+
+.fit > .slide-number {
+  z-index: 10;
+  bottom: 10px;
 }
 
 .key {
