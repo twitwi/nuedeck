@@ -1,13 +1,23 @@
 <template>
   <div class="annotator" ref="root">
-    <div class="pages">
+    <div class="tools">
       <span v-for="(p,i) in pages" :key="i"
       @click.prevent="setPage(i)"
       :class="{currentpage: currentPage == i}">[{{i+1}}]</span>
       <span class="new-page" @click.prevent="addPage">(+)</span>
+      <span v-for="c in colors" :key="c"
+      :class="{'tool-color': true, active: currentColor == c}"
+      @click="currentColor = c" :style="{color: c}">.</span>
+      <span v-for="s in sizes" :key="s"
+      :class="{'tool-size': true, active: currentWidth == s}"
+      @click="currentWidth = s">{{s}}</span>
       <span v-html="nd.NR.functionsDollarF.renderShortcut('toggleAnnotator')" @click.prevent="nd.$emit('toggleAnnotator')"></span>
     </div>
-    <canvas ref="canvas"></canvas>
+    <canvas ref="canvas"
+    @mousedown="mDown($event)"
+    @mouseup="mUp($event)"
+    @mousemove="mMove($event)"
+    ></canvas>
   </div>
 </template>
 
@@ -16,11 +26,15 @@ export default {
   name: 'Annotator',
   inject: {nd: 'nd'},
   props: {
-    current: {default: ''}
+    current: {default: ''},
+    colors: {default: () => ['blue', 'black', 'red', 'green', 'cyan', 'magenta', 'yellow']},
+    sizes: {default: () => [1, 3, 5, 10, 20]},
   },
   data: () => ({
     slidePages: {}, // slideId -> list of pages
     currentPage: -1,
+    currentColor: 'blue',
+    currentWidth: 3,
   }),
   computed: {
     pages () {
@@ -30,12 +44,15 @@ export default {
       return this.slidePages[this.current]
     },
   },
+  mounted () {
+    this.repaintCanvas() // to set the canvas size
+  },
   methods: {
     addPage () {
       if (this.slidePages[this.current] == null) {
         this.$set(this.slidePages, this.current, [])
       }
-      this.slidePages[this.current].push([this.slidePages[this.current].length*20]) // TODO [] and tools to add
+      this.slidePages[this.current].push([])
       this.currentPage = this.slidePages[this.current].length - 1
       this.repaintCanvas()
     },
@@ -48,13 +65,57 @@ export default {
       let topStyle = window.getComputedStyle(this.$refs.root.parentElement)
       canvas.width = topStyle.width.replace('px', '')
       canvas.height = topStyle.height.replace('px', '')
-      console.log(canvas.width, canvas.height)
       let ctx = canvas.getContext('2d')
-      ctx.lineWidth = 10
-      ctx.strokeStyle = 'orange'
-      ctx.moveTo(20, this.pages[this.currentPage][0])
-      ctx.lineTo(160, 20)
-      ctx.stroke()
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+      let objects = this.slidePages[this.current][this.currentPage]
+      for (let o of objects) {
+        ctx.beginPath()
+        if (o[0].type == 'line') {
+          let [{color, width}, ...points] = o
+          ctx.lineWidth = width
+          ctx.strokeStyle = color
+          for (let pi in points) {
+            let p = points[pi]
+            ctx[pi == 0 ? 'moveTo' : 'lineTo'](p.x, p.y)
+          }
+          ctx.stroke()
+        } else {
+          console.log('UNSUPPORTED type for annotator object', o)
+        }
+      }
+    },
+    pos (ev) {
+      return [ev.offsetX, ev.offsetY]
+    },
+    mDown (ev) {
+      window.sp = this.slidePages
+      if (this.slidePages[this.current] == null) {
+        this.addPage()
+      }
+      let color = this.currentColor
+      let width = this.currentWidth
+      let [x, y] = this.pos(ev)
+      let line = [{type: 'line', color, width}, {x, y}]
+      this.slidePages[this.current][this.currentPage].push(line)
+    },
+    mMove (ev) {
+      if (ev.buttons == 1) {
+        let objects = this.slidePages[this.current][this.currentPage]
+        let line = objects[objects.length - 1]
+        let [x, y] = this.pos(ev)
+        line.push({x, y})
+        this.repaintCanvas()
+      }
+    },
+    mUp (ev) {
+        let objects = this.slidePages[this.current][this.currentPage]
+        let line = objects[objects.length - 1]
+        if (line.length == 2) {
+          let [x, y] = this.pos(ev)
+          line.push({x, y})
+          this.repaintCanvas()
+        }
     },
   },
 }

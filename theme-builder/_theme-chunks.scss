@@ -63,8 +63,24 @@
     position: absolute;
     left: 0; right: 0; top: 0; bottom: 0;
 
-    .pages { position: absolute; right: 0; top: 0;}
+    .tools {
+      position: absolute; right: 0; bottom: 0;
+      padding: 10px;
+      background: rgba(200, 200, 200, 0.15);
+
+      .tool-size {
+        background: darkslategrey; color: white; border-radius: 50%;
+        padding: .1em .2em;
+      }
+      .tool-color {
+        border-radius: 50%;
+        background: currentColor;
+        display: inline-block; width: 1em;
+      }
+      .active { filter: blur(.066em); }
+    }
     .currentpage { color: red; text-decoration: underline; }
+
   }
 }
 @mixin useful() {
