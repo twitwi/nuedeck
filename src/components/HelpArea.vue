@@ -1,15 +1,15 @@
 <template>
   <div class="help-area">
     <h3>Help, Tools and Configuration</h3>
+    <h4><label>View Logs <input type="checkbox" v-model="viewLogs"/></label></h4>
+    <div class="view-logs" v-if="viewLogs">
+      <pre><div v-for="({date, section, data},i) in formattedLogs" :key="999999 - i"><span class="date">{{date}}</span> <span :class="'section-'+section">[{{ section }}] </span> <span>{{data}}</span></div></pre>
+    </div>
     <h4>Key bindings</h4>
     <div class="helpkeys">
       <div v-for="(v,k) in nd.opts.keys" :key="k">
         <span v-html="nd.NR.functionsDollarF.renderShortcut(k)"></span>: {{k}}
       </div>
-    </div>
-    <h4>View Logs</h4>
-    <div class="view-logs">
-      <pre><div v-for="({date, section, data},i) in formattedLogs" :key="999999 - i"><span class="date">{{date}}</span> <span :class="'section-'+section">[{{ section }}] </span> <span>{{data}}</span></div></pre>
     </div>
   </div>
 </template>
@@ -20,6 +20,9 @@ export default {
   inject: {nd: 'nd'},
   props: {
   },
+  data: () => ({
+    viewLogs: true
+  }),
   computed: {
     formattedLogs () {
       let tzoffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds

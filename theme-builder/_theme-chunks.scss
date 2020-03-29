@@ -38,8 +38,8 @@
     bottom: 0;
     top: 15%;
     /* */
-    background: rgba(50, 70, 50, 0.9);
-    border: 2px solid lime;
+    background: rgba(172, 241, 172, 0.9);
+    border: 2px solid darkgreen;
     border-bottom: 0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -52,7 +52,7 @@
       overflow-x: scroll;
 
       .date { font-size: 65%; }
-      .section-change-slide { font-weight: bold; color: white; }
+      .section-change-slide { font-weight: bold; color: darkgreen; }
     }
   }  
 }
