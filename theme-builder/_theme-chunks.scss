@@ -120,7 +120,7 @@
 
 @mixin step-opacity($o) {
   :root {
-    --theme-step-opacity: $o;
+    --theme-step-opacity: #{$o};
   }
   /*
   The very current step has .current-step-exact
