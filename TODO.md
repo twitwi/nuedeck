@@ -20,11 +20,13 @@
 
 - [ ] make a "starterkit" repo (from the starter file)
 
-- [ ] **TODO** new, clone system and ui, with log system too (think about nicer format)
+- [ ] **TODO** new, clone system and ui
+
+- [x] log system (think about nicer format)
 
 - [ ] **TODO** port browsercast to nuedeck
 
-- [ ] **TODO** make an annotate plugin that saves the drawn stuff
+- [x] TODO make an annotate plugin that saves the drawn stuff
 
 - [x] TODO make the readme decent
 
@@ -54,7 +56,7 @@
 
 - [ ] TODO slide sorter/mode: consider having URL variables for that
 
-- [ ] TODO new, help area
+- [x] TODO new, help area
 
 - [ ] TODO help area: consider allowing live tuning of CSS vars
 
