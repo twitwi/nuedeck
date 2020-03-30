@@ -476,28 +476,104 @@ body, html {
   overflow: hidden;
 }
 
+/* */
+.addon {
+  pointer-events: none;
+}
+
+.addon * {
+  pointer-events: auto;
+}
+
 /* help area */
 .nuedeck > :first-child:not(.with-helparea) ~ * .help-area {
   display: none;
 }
 
 .help-area {
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.help-area-content {
   position: absolute;
   overflow: hidden;
-  z-index: 10;
   /* */
   left: 10%;
   right: 10%;
   bottom: 0;
+  top: 15%;
   /* */
-  background: rgba(50, 70, 50, 0.9);
-  border: 2px solid lime;
+  background: #FFFFFFD0;
+  /*rgba(172, 241, 172, 0.9);*/
+  border: 2px solid darkgreen;
   border-bottom: 0;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   /* */
   padding: 0 1em;
   overflow-y: scroll;
+}
+.help-area-content .view-logs {
+  font-size: 65%;
+  overflow-x: scroll;
+}
+.help-area-content .view-logs .date {
+  font-size: 65%;
+}
+.help-area-content .view-logs .section-change-slide {
+  font-weight: bold;
+  color: darkgreen;
+}
+.help-area-content .view-logs .section-annotator-dump {
+  font-weight: bold;
+  color: darkmagenta;
+}
+
+/* annotator */
+.nuedeck > :first-child:not(.with-annotator) ~ * .annotator {
+  display: none;
+}
+
+.annotator {
+  z-index: 10;
+  border: 2px solid darkblue;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.annotator .tools {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 10px;
+  background: rgba(200, 200, 200, 0.15);
+}
+.annotator .tools .tool-size {
+  background: darkslategrey;
+  color: white;
+  border-radius: 50%;
+  padding: .1em .2em;
+}
+.annotator .tools .tool-color {
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+  width: 1em;
+}
+.annotator .tools .active {
+  filter: blur(0.066em);
+}
+.annotator .currentpage {
+  color: red;
+  text-decoration: underline;
 }
 
 .step[data-anim] {
@@ -572,7 +648,7 @@ the very current slide has .current-slide
 }
 */
 /* THEME: trivial with a small forward transition */
-.slide {
+.slide, .addon {
   position: absolute;
   left: 0;
   top: 0;
