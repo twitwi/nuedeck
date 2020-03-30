@@ -90,7 +90,7 @@ export default {
           }
           ctx.stroke()
         } else {
-          console.log('UNSUPPORTED type for annotator object', o)
+          this.$console.log('UNSUPPORTED type for annotator object', o)
         }
       }
     },
