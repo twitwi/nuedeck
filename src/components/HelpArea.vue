@@ -21,7 +21,7 @@ export default {
   props: {
   },
   data: () => ({
-    viewLogs: true
+    viewLogs: false,
   }),
   computed: {
     formattedLogs () {

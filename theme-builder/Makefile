@@ -39,7 +39,7 @@ ${D}/test.css: ${D}/test.scss $(wildcard _*.scss) Makefile
 	cd ${D} && sass ${SASSOPTS} --update test.scss:test.css
 
 ${D}/test.scss: tools/generate-variations.py $(wildcard _*.scss) _fontbox.scss tools/*.py Makefile
-	cd ${D} && ../$< ../$@ horiz3 light 200 - - -
+	cd ${D} && ../$< ../$@ - light 200 - - -
 
 
 .PHONY: sass-generate theme-variations
