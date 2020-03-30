@@ -26,6 +26,9 @@
     display: inline-block;
     overflow: hidden;
   }
+  /* */
+  .addon { pointer-events: none; }
+  .addon * { pointer-events: auto; }
   /* help area */
   .nuedeck>:first-child:not(.with-helparea)~* .help-area { display: none; }
   .help-area {
