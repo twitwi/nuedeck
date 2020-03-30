@@ -32,16 +32,21 @@
   /* help area */
   .nuedeck>:first-child:not(.with-helparea)~* .help-area { display: none; }
   .help-area {
+    z-index: 10;
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .help-area-content {
     position: absolute;
     overflow: hidden;
-    z-index: 10;
     /* */
     left: 10%;
     right: 10%;
     bottom: 0;
     top: 15%;
     /* */
-    background: rgba(172, 241, 172, 0.9);
+    background: #FFFFFFD0; /*rgba(172, 241, 172, 0.9);*/
     border: 2px solid darkgreen;
     border-bottom: 0;
     border-top-left-radius: 10px;

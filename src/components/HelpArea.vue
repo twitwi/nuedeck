@@ -1,14 +1,19 @@
 <template>
-  <div class="help-area">
-    <h3>Help, Tools and Configuration</h3>
-    <h4><label>View Logs <input type="checkbox" v-model="viewLogs"/></label></h4>
-    <div class="view-logs" v-if="viewLogs">
-      <pre><div v-for="({date, section, data},i) in formattedLogs" :key="999999 - i"><span class="date">{{date}}</span> <span :class="'section-'+section">[{{ section }}] </span> <span>{{data}}</span></div></pre>
-    </div>
-    <h4>Key bindings</h4>
-    <div class="helpkeys">
-      <div v-for="(v,k) in nd.opts.keys" :key="k">
-        <span v-html="nd.NR.functionsDollarF.renderShortcut(k)"></span>: {{k}}
+  <div class="help-area" @click="nd.$emit('toggleHelpArea')">
+    <div class="help-area-content" @click.stop="">
+      <h3>Help, Tools and Configuration</h3>
+      <h4>
+        <label>View Logs <input type="checkbox" v-model="viewLogs"/></label>
+      </h4>
+      <div class="view-logs" v-if="viewLogs">
+        <span @click="copyContent('logspre')">(copy all){{nl}}</span>
+        <pre ref="logspre"><span v-for="({date, section, data},i) in formattedLogs" :key="999999 - i"><span class="date">{{date}}</span> <span :class="'section-'+section">[{{ section }}] </span> <span>{{data}}</span>{{nl}}</span></pre>
+      </div>
+      <h4>Key bindings</h4>
+      <div class="helpkeys">
+        <div v-for="(v,k) in nd.opts.keys" :key="k">
+          <span v-html="nd.NR.functionsDollarF.renderShortcut(k)"></span>: {{k}}
+        </div>
       </div>
     </div>
   </div>
@@ -22,6 +27,9 @@ export default {
   },
   data: () => ({
     viewLogs: false,
+    nbsp: ' ',
+    nl: `
+`,
   }),
   computed: {
     formattedLogs () {
@@ -46,6 +54,11 @@ export default {
           data
         }})
     },
+  },
+  methods: {
+    copyContent (k) {
+      navigator.clipboard.writeText(this.$refs[k].textContent)
+    }
   },
 }
 </script>
