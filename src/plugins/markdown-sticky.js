@@ -21,6 +21,7 @@ export default () => ({
         if (ind !== -1) {
           stickyHeaders.splice(ind, 1)
         } else {
+          // eslint-disable-next-line no-console
           console.log(`MarkdownSticky: no header ${RESTRIM()} to remove from ${stickyHeaders}`)
         }
       } else if (startsWithIgnoreCase(l, '@STICKY-NOW')) {

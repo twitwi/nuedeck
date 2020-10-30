@@ -27,6 +27,7 @@ export default () => ({
             i++
           }
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.log('ERROR in @eval-header:', RESTRIM(), e)
           i++
         }

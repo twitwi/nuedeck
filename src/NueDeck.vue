@@ -467,6 +467,7 @@ let vmopts = {
       return ls
     },
     addLog(section, data, date = new Date()) {
+      let start = Date.now()
       let k = this.opts.core.localStorageLogsKey
       let ls = localStorage.getItem(k)
       if (ls == null) {
@@ -480,6 +481,17 @@ let vmopts = {
       ls = JSON.stringify(ls)
       localStorage.setItem(k, ls)
       this.logs = JSON.parse(ls) // TODO: might want to optimize by unshifting in logs (at the risk having of unsynced versions)
+      let taken = Date.now() - start
+      if (taken > 100) {
+        this.___overtime = [...this.___overtime, taken]
+        if (this.___overtime.length > 4) {
+          alert('Warning: logs are getting big? it took ' + this.___overtime.join('/') + ' ms')
+          // eslint-disable-next-line no-console
+          console.log('Slow due to logs, consider:\nlocalStorage.setItem("' + k + '", "[]")')
+        }
+      } else {
+        this.___overtime = []
+      }
     },
     async jumpByHash(strWithHash, step = 0) {
       if (strWithHash === undefined) {
