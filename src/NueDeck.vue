@@ -9,39 +9,11 @@
         :class="slideClasses(s, i, currentSlide)"
         :style="{ display: Math.abs(currentSlide - i) <= 2 ? undefined : 'none' }"
       >
-        <component
-          :key="'SC' + i"
-          :is="{
-            inject: ['nd', '$o', '$f'],
-            data: function() {
-              return { ID: s.innerID }
-            },
-            mounted() {
-              slideContentRoot(i, this.$el)
-            },
-            template: s.contentTemplate,
-          }"
-        ></component>
-
-        <component
-          v-for="(a, ai) in addins"
-          :key="'S' + i + 'A' + ai"
-          :is="{
-            inject: ['nd', '$o', '$f'], // for raw addin in nd-addin
-            provide: function() {
-              return { renderSlide: i, ID: s.innerID }
-            },
-            template: a.contentTemplate,
-          }"
-        ></component>
+        <component :key="'SC' + i" :is="slideComponentIs[i]"></component>
+        <component v-for="(a, ai) in addins" :key="'S' + i + 'A' + ai" :is="addinComponentIs[i][ai]"></component>
       </div>
       <div v-for="(a, ai) in addons" :key="'A' + ai" class="addon">
-        <component
-          :is="{
-            inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
-            template: a.contentTemplate,
-          }"
-        ></component>
+        <component :is="addonComponentIs[ai]"></component>
       </div>
     </div>
   </div>
@@ -202,6 +174,36 @@ let vmopts = {
       //start = 0 ; end = this.slides.length
       return this.slides.map((s, i) => [s, i]).slice(start, end)
     },
+    slideComponentIs() {
+      let that = this
+      return this.slides.map((s, i) => ({
+        inject: ['nd', '$o', '$f'],
+        data: function() {
+          return { ID: s.innerID }
+        },
+        mounted() {
+          that.slideContentRoot(i, this.$el)
+        },
+        template: s.contentTemplate,
+      }))
+    },
+    addinComponentIs() {
+      return this.slides.map((s, i) =>
+        this.addins.map(a => ({
+          inject: ['nd', '$o', '$f'], // for raw addin in nd-addin
+          provide: function() {
+            return { renderSlide: i, ID: s.innerID }
+          },
+          template: a.contentTemplate,
+        }))
+      )
+    },
+    addonComponentIs() {
+      return this.addons.map(a => ({
+        inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
+        template: a.contentTemplate,
+      }))
+    },
     slideCount() {
       return this.slides.length
     },
@@ -336,7 +338,7 @@ let vmopts = {
       // TODO: investigate, hard, this seems to be called way too much du to vuejs rerendering a lot...
       // this happens because currentSlide changes => classes for the slides changes => for loop redone... (independant of the use of slidesToRender)
       //this.L('SLIDE CONTENT MOUNTED', i, dom)
-      this.L('SLIDE CONTENT MOUNTED')
+      //this.L('SLIDE CONTENT MOUNTED')
       this.NR.slideContentRoots[i] = dom
       if (this.NR.slideContentRootsNotify !== undefined) {
         if (this.NR.slideContentRootsNotifyIndex === i) {
