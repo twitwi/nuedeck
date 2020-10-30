@@ -26,7 +26,7 @@ Vue.component('Katex', Katex)
 
 let plugins = []
 
-plugins.push({name: 'Toto'})
+plugins.push({ name: 'Toto' })
 
 import DummyPlugin from './plugins/dummy.js'
 plugins.push(new DummyPlugin())
@@ -47,7 +47,7 @@ plugins.push(new AnimationStepPlugin())
 import SimpleStepPlugin from './plugins/step-simple.js'
 plugins.push(new SimpleStepPlugin())
 
-// Extensions of the custom Markdown format 
+// Extensions of the custom Markdown format
 import MarkdownPlugin from './plugins/markdown.js'
 plugins.push(new MarkdownPlugin())
 import StickyMarkdownPlugin from './plugins/markdown-sticky.js'
@@ -79,20 +79,17 @@ plugins.push(new CopySlidePlugin())
 import InjectPlugin from './plugins/enrich-inject.js'
 plugins.push(new InjectPlugin()) // after copy
 
-
 let props = {
-  plugins
+  plugins,
 }
 
 let decideWhetherToHandleTouch = function() {
   let isTouchDevice = function() {
-    return (('ontouchstart' in window)
-    || (navigator.MaxTouchPoints > 0)
-    || (navigator.msMaxTouchPoints > 0))
+    return 'ontouchstart' in window || navigator.MaxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
   }
-  let hashHas = tag => window && -1 != window.location.hash.indexOf('['+tag+']')
-  
-  if (hashHas('mobile') || isTouchDevice() && !hashHas('no-mobile')) {
+  let hashHas = tag => window && -1 != window.location.hash.indexOf('[' + tag + ']')
+
+  if (hashHas('mobile') || (isTouchDevice() && !hashHas('no-mobile'))) {
     Vue.use(VueHammer)
   }
 }
@@ -104,6 +101,5 @@ if (window && window.nuedeckAddPlugins) {
 }
 
 new Vue({
-  render: h => h(NueDeck, {props}),
+  render: h => h(NueDeck, { props }),
 }).$mount('#nd-container')
-

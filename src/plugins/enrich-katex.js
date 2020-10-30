@@ -1,9 +1,8 @@
-
 import { selfAndAll } from './tools'
 import Katex from 'katex'
 
 let globalMacros = {
-  '\\nuedeck': 'N_{UE}D^{ECK}'
+  '\\nuedeck': 'N_{UE}D^{ECK}',
 }
 
 export default () => ({
@@ -25,8 +24,8 @@ export default () => ({
           macros: globalMacros,
           throwOnError: false, // fail silently
           errorColor: '#ff0077',
-        });
+        })
       }
     }
-  }
+  },
 })

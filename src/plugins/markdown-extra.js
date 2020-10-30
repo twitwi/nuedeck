@@ -1,11 +1,9 @@
-
 import { startsWithIgnoreCase, RESTRIM, indexOfIgnoreCase } from './tools'
 
 export default () => ({
   name: 'MarkdownExtra',
   //
-  /*async*/ enrichGeneratedSlides({type, body: w, headerLines}) {
-
+  /*async*/ enrichGeneratedSlides({ type, body: w, headerLines }) {
     if (type !== 'md') return
 
     for (let i = 0; i < w.children.length; i++) {
@@ -46,6 +44,5 @@ export default () => ({
         }
       }
     }
-  }
-
+  },
 })

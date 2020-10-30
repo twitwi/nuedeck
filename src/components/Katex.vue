@@ -1,10 +1,10 @@
 <script>
 // Taken from https://github.com/lucpotage/vue-katex
 // renamed
-import katex from 'katex';
+import katex from 'katex'
 export default {
   name: 'Katex',
-  inject: {nd: 'nd'},
+  inject: { nd: 'nd' },
   props: {
     expression: {
       type: String,
@@ -41,7 +41,7 @@ export default {
     },
     allowedProtocols: {
       type: Array,
-      default: () => (['http', 'https', 'mailto', '_relative']),
+      default: () => ['http', 'https', 'mailto', '_relative'],
     },
     strict: {
       type: [Boolean, String, Function],
@@ -50,18 +50,20 @@ export default {
   },
   computed: {
     options() {
-      return Object.assign({},
-          {
-            displayMode: this.displayMode,
-            throwOnError: this.throwOnError,
-            errorColor: this.errorColor,
-            macros: this.macros,
-            colorIsTextColor: this.colorIsTextColor,
-            maxSize: this.maxSize,
-            maxExpand: this.maxExpand,
-            allowedProtocols: this.allowedProtocols,
-            strict: this.strict,
-          });
+      return Object.assign(
+        {},
+        {
+          displayMode: this.displayMode,
+          throwOnError: this.throwOnError,
+          errorColor: this.errorColor,
+          macros: this.macros,
+          colorIsTextColor: this.colorIsTextColor,
+          maxSize: this.maxSize,
+          maxExpand: this.maxExpand,
+          allowedProtocols: this.allowedProtocols,
+          strict: this.strict,
+        }
+      )
     },
     math() {
       let expr = this.expression
@@ -74,16 +76,16 @@ export default {
         let $o = nd.userDataDollarO
         expr = f(nd, $o)
       }
-      return katex.renderToString(expr, this.options);
+      return katex.renderToString(expr, this.options)
     },
   },
   render(h) {
-    const element = this.displayMode ? 'div' : 'span';
+    const element = this.displayMode ? 'div' : 'span'
     return h(element, {
       domProps: {
         innerHTML: this.math,
       },
-    });
+    })
   },
-};
+}
 </script>

@@ -1,8 +1,6 @@
-
-
 export default () => ({
   name: 'Navigation',
-  init ({registerAction}) {
+  init({ registerAction }) {
     // event bus from key bindings
     registerAction('previousStep', () => {
       if (this.currentStep <= 0) {
@@ -63,5 +61,5 @@ export default () => ({
       if (res == null) return
       this.jumpToSlide(parseInt(res), 0)
     })
-  }
+  },
 })

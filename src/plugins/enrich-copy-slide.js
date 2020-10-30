@@ -1,4 +1,3 @@
-
 import { selfAndAll } from './tools'
 
 function replace(s, old, replacement) {
@@ -12,7 +11,6 @@ function replace(s, old, replacement) {
 export default () => ({
   name: 'CopySlide',
   /*async*/ enrichSlideDeck(slides) {
-
     let byId = {}
     for (let s of slides) {
       byId[s.key] = s.contentElement
@@ -44,5 +42,5 @@ export default () => ({
     for (let i of toRemove) {
       slides.splice(i, 1)
     }
-  }
+  },
 })

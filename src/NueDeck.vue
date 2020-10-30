@@ -1,66 +1,73 @@
 <template>
-  <div class="nuedeck" ref="nuedeck"
-  v-hammer:swipe="handleSwipe"
-  >
+  <div class="nuedeck" ref="nuedeck" v-hammer:swipe="handleSwipe">
     <div :class="cssModes" style="display:none"></div>
     <div :class="modes" ref="fit">
-      <div v-for="[s,i] in slidesToRender"
-      :key="'S'+i"
-      @click="slideClicked(i)"
-      :class="slideClasses(s, i, currentSlide)"
-      :style="{ display: Math.abs(currentSlide-i)<=2 ? undefined : 'none'}">
+      <div
+        v-for="[s, i] in slidesToRender"
+        :key="'S' + i"
+        @click="slideClicked(i)"
+        :class="slideClasses(s, i, currentSlide)"
+        :style="{ display: Math.abs(currentSlide - i) <= 2 ? undefined : 'none' }"
+      >
         <component
-        :key="'SC'+i"
-        :is="{
-          inject: ['nd', '$o', '$f'],
-          data: function () { return {ID: s.innerID} },
-          mounted () {
-            slideContentRoot(i, this.$el)
-          },
-          template: s.contentTemplate
-        }"></component>
+          :key="'SC' + i"
+          :is="{
+            inject: ['nd', '$o', '$f'],
+            data: function() {
+              return { ID: s.innerID }
+            },
+            mounted() {
+              slideContentRoot(i, this.$el)
+            },
+            template: s.contentTemplate,
+          }"
+        ></component>
 
-        <component v-for="(a,ai) in addins"
-        :key="'S'+i+'A'+ai"
-        :is="{
-          inject: ['nd', '$o', '$f'], // for raw addin in nd-addin
-          provide: function () { return {renderSlide: i, ID: s.innerID} },
-          template: a.contentTemplate
-        }"></component>
-      </div>
-      <div v-for="(a,ai) in addons" :key="'A'+ai" class="addon">
         <component
-        :is="{
-          inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
-          template: a.contentTemplate
-        }"></component>
+          v-for="(a, ai) in addins"
+          :key="'S' + i + 'A' + ai"
+          :is="{
+            inject: ['nd', '$o', '$f'], // for raw addin in nd-addin
+            provide: function() {
+              return { renderSlide: i, ID: s.innerID }
+            },
+            template: a.contentTemplate,
+          }"
+        ></component>
+      </div>
+      <div v-for="(a, ai) in addons" :key="'A' + ai" class="addon">
+        <component
+          :is="{
+            inject: ['nd', '$o', '$f'], // for raw addon in nd-addon
+            template: a.contentTemplate,
+          }"
+        ></component>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 // TODO make sure we can run offline etc
 import keymage from 'keymage'
-import {hasOwnProperty, consoleLog} from './plugins/tools.js'
+import { hasOwnProperty, consoleLog } from './plugins/tools.js'
 
 let tools = {
-  L () {
+  L() {
     consoleLog(...['LOG:', ...arguments])
   },
-  forAll (sel, f, base=document) {
+  forAll(sel, f, base = document) {
     base.querySelectorAll(sel).forEach(f)
   },
-  async asyncForAll (sel, f, base=document) {
+  async asyncForAll(sel, f, base = document) {
     for (let e of base.querySelectorAll(sel)) {
       await f(e)
     }
-  }
+  },
 }
 
 export let defaultMixin = {
-  data () {
+  data() {
     return {
       opts: {
         keys: {
@@ -77,39 +84,39 @@ export let defaultMixin = {
           toggleAnnotator: ['w'],
         },
         core: {
-          classes : {
+          classes: {
             slide: 'slide',
-            currentSlide: 'current-slide'
+            currentSlide: 'current-slide',
           },
           selectors: {
             container: '#nd-container',
             sources: '.nd-source',
             addins: '.nd-addin',
             addons: '.nd-addon',
-            svg: 'img[src$=".svg"]:not(.no-inject)'
+            svg: 'img[src$=".svg"]:not(.no-inject)',
           },
           designWidth: 800, // px
           designHeight: 600, // px
-          fitMode: "center middle",
+          fitMode: 'center middle',
           fitMargin: [0, 0, 0, 0],
           fitDebounce: 200,
 
           localStorageLogsKey: 'nuedeck-logs',
 
-          clearHashOnLoad: false, /* may be used for development to avoid jumping back to the same slide on reload */
-          disableSetHash: false, /* may be used for development to systematically jump back to the same slide on reload */
+          clearHashOnLoad: false /* may be used for development to avoid jumping back to the same slide on reload */,
+          disableSetHash: false /* may be used for development to systematically jump back to the same slide on reload */,
           disableSetHashForSteps: false,
           use0BasedIndexInSetHashForSlide: false,
           // eslint-disable-next-line
-          metadataSeparator: /(&nbsp;| )/gi,   /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */
+          metadataSeparator: /(&nbsp;| )/gi /* we need to handle '&nbsp;' and ' ' because in the title, ' ' becomes '&nbsp;' */,
         },
         skipPlugins: ['Dummy'], // names of plugins to disable
-      }
+      },
     }
-  }
+  },
 }
 
-function registerKeybindings (vm) {
+function registerKeybindings(vm) {
   if (vm.keyBindingsUnregistering !== undefined) {
     vm.keyBindingsUnregistering.forEach(f => f())
     vm.keyBindingsUnregistering = []
@@ -121,7 +128,7 @@ function registerKeybindings (vm) {
   }
 }
 
-function maybe (obj, possibleAttributeFunction) {
+function maybe(obj, possibleAttributeFunction) {
   if (obj[possibleAttributeFunction] === undefined) return () => {}
   return obj[possibleAttributeFunction]
 }
@@ -132,10 +139,10 @@ let vmopts = {
   props: {
     plugins: { type: Array, default: () => [] },
   },
-  provide: function () {
-    return {nd: this, $o: this.userDataDollarO, $f: this.NR.functionsDollarF}
+  provide: function() {
+    return { nd: this, $o: this.userDataDollarO, $f: this.NR.functionsDollarF }
   },
-  data () {
+  data() {
     return {
       opts: {}, // as a reminder that it is in the mixin
       slides: [],
@@ -151,7 +158,7 @@ let vmopts = {
       currentSlide: 0,
       currentStep: 0,
       cssModes: {},
-      modes: {fit: true},
+      modes: { fit: true },
       vars: {},
       userDataDollarO: {},
       // for extensions, for now...
@@ -161,53 +168,58 @@ let vmopts = {
     }
   },
   watch: {
-    slides () {
+    slides() {
       this.L('WATCH: slides')
-    }
+    },
   },
-  beforeCreate () {
+  beforeCreate() {
     // non-reactive properties
     this.NR = {}
     this.NR.functionsDollarF = {}
     this.NR.slideContentRoots = {}
     this.NR.listenersToRemove = []
   },
-  created () {
-    this.L('PLUGINS', this.plugins.map(p => p.name), this.enabledPlugins.map(p => p.name))
+  created() {
+    this.L(
+      'PLUGINS',
+      this.plugins.map(p => p.name),
+      this.enabledPlugins.map(p => p.name)
+    )
 
     let registerAction = this.$on.bind(this)
-    let setDefaultOption = ()=>{} // (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"... but it is nice to have helpers/guides for the init thing
-    this.callAllPlugins('init', {functions: this.NR.functionsDollarF, registerAction, setDefaultOption})
+    let setDefaultOption = () => {} // (path, value) => {} // TODO: actual things for e.g. core.designWidth ... but actually we have access to "this" so the thing that may matter is "setDefaultOption"... but it is nice to have helpers/guides for the init thing
+    this.callAllPlugins('init', { functions: this.NR.functionsDollarF, registerAction, setDefaultOption })
   },
   computed: {
     // TODO: check that it is actually useful in terms of perf to select the default
-    slidesToRender () {
+    slidesToRender() {
       if (this.hasMode('sorter')) {
-        return this.slides.map((s,i) => [s, i])
+        return this.slides.map((s, i) => [s, i])
       }
       let start, end
       start = Math.max(0, this.currentSlide - 1)
       end = Math.min(this.currentSlide + 2, this.slides.length)
       //start = 0 ; end = this.slides.length
-      return this.slides.map((s,i) => [s, i]).slice(start, end)
+      return this.slides.map((s, i) => [s, i]).slice(start, end)
     },
-    slideCount () {
+    slideCount() {
       return this.slides.length
     },
-    stepCount () {
+    stepCount() {
       return this.slides[this.currentSlide].steps.length
     },
-    enabledPlugins () {
+    enabledPlugins() {
       return this.plugins.filter(p => this.opts.skipPlugins.indexOf(p.name) === -1)
-    }
+    },
   },
-  beforeMount () {
-    { // Get HTML metadata into variables
+  beforeMount() {
+    {
+      // Get HTML metadata into variables
       let app = (n, v) => {
         this.vars[n] = v
       }
       app('title', document.querySelector('html>head>title').innerHTML)
-      this.forAll('html>head>meta[name]', (e) => {
+      this.forAll('html>head>meta[name]', e => {
         app(e.getAttribute('name'), e.getAttribute('content'))
       })
     }
@@ -215,45 +227,46 @@ let vmopts = {
     registerKeybindings(this)
     this.asyncBeforeMount()
   },
-  mounted () {
+  mounted() {
     window.nuedeck = this
     this.L('MOUNTED')
     this.asyncMounted()
   },
-  updated () {
+  updated() {
     this.L('UPDATED')
-    this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
+    this.jumpToSlide(this.currentSlide, this.currentStep, { sl: -999 })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.L('DESTROY')
     this.removeAllListeners()
   },
   methods: {
-    hasMode (m) {
-      return hasOwnProperty(this.modes, m) && !! this.modes[m]
+    hasMode(m) {
+      return hasOwnProperty(this.modes, m) && !!this.modes[m]
     },
-    toggleMode (m) {
+    toggleMode(m) {
       if (hasOwnProperty(this.modes, m)) {
-        this.modes[m] = ! this.modes[m]
+        this.modes[m] = !this.modes[m]
       } else {
         this.$set(this.modes, m, true)
       }
     },
-    hasCssMode (m) {
-      return hasOwnProperty(this.cssModes, m) && !! this.cssModes[m]
+    hasCssMode(m) {
+      return hasOwnProperty(this.cssModes, m) && !!this.cssModes[m]
     },
-    toggleCssMode (m) {
+    toggleCssMode(m) {
       if (hasOwnProperty(this.cssModes, m)) {
-        this.cssModes[m] = ! this.cssModes[m]
+        this.cssModes[m] = !this.cssModes[m]
       } else {
         this.$set(this.cssModes, m, true)
       }
     },
-    async asyncBeforeMount () {
+    async asyncBeforeMount() {
       let S = this.opts.core.selectors
-      { // Load slides in different formats
+      {
+        // Load slides in different formats
         let allNew = []
-        await this.asyncForAll(S.sources, async (slide) => {
+        await this.asyncForAll(S.sources, async slide => {
           let res = await this.asyncCallAllPlugins('generateSlides', slide, slide.content, allNew)
           if (res === undefined) {
             // no plugin handled this format
@@ -274,23 +287,25 @@ let vmopts = {
           delete this.userDataDollarO[k]
           this.$set(this.userDataDollarO, k, v)
         }
-        this.slides.splice(0, 0, ...allNew.map( s => ({...s, contentElement: undefined, contentTemplate: s.contentElement.outerHTML}) ))
+        this.slides.splice(0, 0, ...allNew.map(s => ({ ...s, contentElement: undefined, contentTemplate: s.contentElement.outerHTML })))
       }
-      { // Load addons (to be added to the container)
+      {
+        // Load addons (to be added to the container)
         let allNew = []
-        this.forAll(S.addons, (slide) => {
-          let o = Array.from(slide.content.children).map( el => ({
-            contentTemplate: el.outerHTML
+        this.forAll(S.addons, slide => {
+          let o = Array.from(slide.content.children).map(el => ({
+            contentTemplate: el.outerHTML,
           }))
           allNew = [...allNew, ...o]
         })
         this.addons.splice(0, 0, ...allNew)
       }
-      { // Load addins (to be added to every slide)
+      {
+        // Load addins (to be added to every slide)
         let allNew = []
-        this.forAll(S.addins, (slide) => {
-          let o = Array.from(slide.content.children).map( el => ({
-            contentTemplate: el.outerHTML
+        this.forAll(S.addins, slide => {
+          let o = Array.from(slide.content.children).map(el => ({
+            contentTemplate: el.outerHTML,
           }))
           allNew = [...allNew, ...o]
         })
@@ -299,24 +314,25 @@ let vmopts = {
       if (this.opts.core.clearHashOnLoad) {
         window.history.replaceState({}, '', '#')
       }
-      { // Handle initial hash and the hashchange events
+      {
+        // Handle initial hash and the hashchange events
         if (window.location.hash !== '') {
           await this.jumpByHash() // async
         }
-        this.addEventListener(window, 'hashchange', (e) => {
+        this.addEventListener(window, 'hashchange', e => {
           this.L('HASH CHANGE')
           e.preventDefault()
           this.jumpByHash() // async
         })
       }
     },
-    async asyncMounted () {
+    async asyncMounted() {
       await this.optionsOverrideFromCSS()
       await this.asyncCallAllPlugins('mounted')
-      await this.jumpToSlide(this.currentSlide, this.currentStep, {sl:-999})
+      await this.jumpToSlide(this.currentSlide, this.currentStep, { sl: -999 })
     },
     ...tools,
-    slideContentRoot (i, dom) {
+    slideContentRoot(i, dom) {
       // TODO: investigate, hard, this seems to be called way too much du to vuejs rerendering a lot...
       // this happens because currentSlide changes => classes for the slides changes => for loop redone... (independant of the use of slidesToRender)
       //this.L('SLIDE CONTENT MOUNTED', i, dom)
@@ -329,7 +345,7 @@ let vmopts = {
         }
       }
     },
-    async ensureSlideIsMounted (sl) {
+    async ensureSlideIsMounted(sl) {
       if (this.NR.slideContentRoots[sl] !== undefined) {
         return
       }
@@ -340,15 +356,19 @@ let vmopts = {
         this.currentSlide = sl
       })
     },
-    parseSteps (iSlide, dom) {
+    parseSteps(iSlide, dom) {
       this.L('PARSE STEPS', iSlide)
       let s = this.slides[iSlide]
       let allNew = []
       let lastStepEl = dom
-      this.forAll('.step', (el, iStep) => {
-        this.callAllPlugins('stepElementToAnimationStep', allNew, {el, iStep, iSlide, dom})
-        lastStepEl = el
-      }, dom)
+      this.forAll(
+        '.step',
+        (el, iStep) => {
+          this.callAllPlugins('stepElementToAnimationStep', allNew, { el, iStep, iSlide, dom })
+          lastStepEl = el
+        },
+        dom
+      )
       // heuristically, add a step if the last step is not at the very end
       while (lastStepEl !== dom) {
         if (lastStepEl.nextElementSibling !== null) {
@@ -379,19 +399,30 @@ let vmopts = {
         let i = 0
         while (i < allNew.length) {
           if (allNew[i].mergeNext) {
-            if (i+1 == allNew.length) {
+            if (i + 1 == allNew.length) {
               this.L('ERROR merge TODO better message')
               break
             }
             // actual merge
             let a = allNew[i]
             delete a.mergeNext
-            let b = allNew[i+1]
-            let ab = {...a, ...b}
-            for (let [k,dir] of [['init', true], ['fast', true], ['doit', true], ['undo', false], ['back', true]]) {
+            let b = allNew[i + 1]
+            let ab = { ...a, ...b }
+            for (let [k, dir] of [
+              ['init', true],
+              ['fast', true],
+              ['doit', true],
+              ['undo', false],
+              ['back', true],
+            ]) {
               ab[k] = () => {
-                if (dir) { maybe(a, k)() ; maybe(b, k)() }
-                else { maybe(b, k)() ; maybe(a, k)() }
+                if (dir) {
+                  maybe(a, k)()
+                  maybe(b, k)()
+                } else {
+                  maybe(b, k)()
+                  maybe(a, k)()
+                }
               }
             }
             allNew.splice(i, 2, ab)
@@ -402,19 +433,27 @@ let vmopts = {
       }
       s.steps.splice(0, s.steps.length, ...allNew)
     },
-    handleSwipe (event) {
+    handleSwipe(event) {
       let d = event.direction
-      if (d == 2) { this.$emit('nextStep') } // left
-      if (d == 4) { this.$emit('previousStep') } // right
-      if (d == 8) { this.$emit('nextEndOfSlide') } // up
-      if (d == 16) { this.$emit('previousEndOfSlide') } // down
+      if (d == 2) {
+        this.$emit('nextStep')
+      } // left
+      if (d == 4) {
+        this.$emit('previousStep')
+      } // right
+      if (d == 8) {
+        this.$emit('nextEndOfSlide')
+      } // up
+      if (d == 16) {
+        this.$emit('previousEndOfSlide')
+      } // down
     },
-    clearLogs () {
+    clearLogs() {
       let k = this.opts.core.localStorageLogsKey
       localStorage.removeItem(k)
       this.logs.splice(0, this.logs.length)
     },
-    getLogs (sectionFilter=null) {
+    getLogs(sectionFilter = null) {
       let k = this.opts.core.localStorageLogsKey
       let ls = localStorage.getItem(k)
       if (ls == null) {
@@ -427,7 +466,7 @@ let vmopts = {
       }
       return ls
     },
-    addLog (section, data, date=new Date()) {
+    addLog(section, data, date = new Date()) {
       let k = this.opts.core.localStorageLogsKey
       let ls = localStorage.getItem(k)
       if (ls == null) {
@@ -437,12 +476,12 @@ let vmopts = {
       }
       let ms = date.getTime()
       let string = date.toISOString()
-      ls.unshift({section, date: {ms, string}, data})
+      ls.unshift({ section, date: { ms, string }, data })
       ls = JSON.stringify(ls)
       localStorage.setItem(k, ls)
-      this.logs = JSON.parse(ls) // TODO: might want to optimize by unshifting in logs (at the risk having of unsynced versions) 
+      this.logs = JSON.parse(ls) // TODO: might want to optimize by unshifting in logs (at the risk having of unsynced versions)
     },
-    async jumpByHash (strWithHash, step=0) {
+    async jumpByHash(strWithHash, step = 0) {
       if (strWithHash === undefined) {
         strWithHash = window.decodeURI(window.location.hash)
       }
@@ -481,7 +520,7 @@ let vmopts = {
         this.L('Unhandled hash format:', id)
       }
     },
-    async jumpToSlide (sl, st, pPrev={}, addToHistory=false) {
+    async jumpToSlide(sl, st, pPrev = {}, addToHistory = false) {
       let makeStepCurrent = () => {
         let el = this.slides[sl].steps[st].el
         if (el === undefined || el === null) return
@@ -489,18 +528,18 @@ let vmopts = {
         this.forAll('.step, .current-step', clear => clear.classList.remove('current-step', 'current-step-exact'), dom)
         let cur = el
         cur.classList.add('current-step-exact')
-        while (cur.parentNode.classList !== undefined && ! cur.parentNode.classList.contains('slide')) {
+        while (cur.parentNode.classList !== undefined && !cur.parentNode.classList.contains('slide')) {
           cur.classList.add('current-step')
           cur = cur.parentNode
         }
       }
-      let prev = {sl: this.currentSlide, st: this.currentStep}
+      let prev = { sl: this.currentSlide, st: this.currentStep }
       Object.assign(prev, pPrev)
       this.L('JUMP', prev, sl, st)
       if (sl < 0) sl = this.slides.length + sl // handle negative slide index
       if (sl < 0 || sl > this.slides.length - 1) return // out of range
 
-      this.addLog('change-slide', {from: {slide:prev.sl, step:prev.st}, to:{slide:sl, step:st}})
+      this.addLog('change-slide', { from: { slide: prev.sl, step: prev.st }, to: { slide: sl, step: st } })
       // if we change slide, ensure it we load and init the anims
       if (prev.sl !== sl) {
         await this.ensureSlideIsMounted(sl)
@@ -521,7 +560,7 @@ let vmopts = {
         if (prev.st === st) {
           // pass
         } else if (prev.st < st) {
-          for (let i = prev.st+1; i < st; i++) {
+          for (let i = prev.st + 1; i < st; i++) {
             maybe(this.slides[sl].steps[i], 'fast')()
           }
           maybe(this.slides[sl].steps[st], 'doit')()
@@ -541,14 +580,14 @@ let vmopts = {
         makeStepCurrent(this.slides[sl].steps[st].el)
         this.currentStep = st
       }
-      if (! this.opts.core.disableSetHash) {
+      if (!this.opts.core.disableSetHash) {
         let hash
         if (this.opts.core.use0BasedIndexInSetHashForSlide) {
           hash = '#S:' + this.currentSlide
         } else {
           hash = '#s:' + (this.currentSlide + 1)
         }
-        if (! this.opts.core.disableSetHashForSteps) {
+        if (!this.opts.core.disableSetHashForSteps) {
           if (this.currentStep > 0) {
             hash += '.' + this.currentStep
           }
@@ -560,15 +599,15 @@ let vmopts = {
         }
       }
     },
-    slideClasses (s, i, currentSlide) {
+    slideClasses(s, i, currentSlide) {
       let res = [this.opts.core.classes.slide]
       {
         let n = i - currentSlide
-        let suffix = ""
+        let suffix = ''
         if (n > 0) {
           suffix = '-p' + n
         } else if (n < 0) {
-          suffix = '-m' + (-n)
+          suffix = '-m' + -n
         }
         res.push(this.opts.core.classes.currentSlide + suffix)
       }
@@ -577,63 +616,61 @@ let vmopts = {
       }
       return res
     },
-    async slideClicked (i) {
+    async slideClicked(i) {
       if (this.hasMode('sorter')) {
         await this.jumpToSlide(i, 0)
         this.toggleMode('sorter')
         this.toggleMode('fit') // somewhat hard-coded default fit... (see other instances of the same comment)
       }
     },
-    optionsOverrideFromCSS () {
+    optionsOverrideFromCSS() {
       // e.g. :root { --nuedeck-core-designWidth: 1200; }
       let st = getComputedStyle(this.$refs.nuedeck)
-      let digest = (pre, obj, maxd=10) => {
+      let digest = (pre, obj, maxd = 10) => {
         if (maxd <= 0) return
         if (obj === undefined) return
         if (typeof obj === 'string') return
         for (let att of Object.keys(obj)) {
-          let k = pre+att
+          let k = pre + att
           let v = st.getPropertyValue(k)
           if (v !== '') {
             this.L('CSS variable', k, 'replaces options value', obj[att], 'by', eval(v))
             obj[att] = eval(v)
           } else {
-            digest(`${k}-`, obj[att], maxd-1)
+            digest(`${k}-`, obj[att], maxd - 1)
           }
         }
       }
       digest('--nuedeck-', this.opts)
     },
-    addEventListener (target, event, listener) {
+    addEventListener(target, event, listener) {
       target.addEventListener(event, listener)
-      this.NR.listenersToRemove.push({target, event, listener})
+      this.NR.listenersToRemove.push({ target, event, listener })
     },
-    removeAllListeners () {
-      for (let {target, event, listener} of this.NR.listenersToRemove) {
+    removeAllListeners() {
+      for (let { target, event, listener } of this.NR.listenersToRemove) {
         target.removeEventListener(event, listener)
       }
       this.NR.listenersToRemove = []
     },
-    callAllPlugins (fname, ...args) {
+    callAllPlugins(fname, ...args) {
       for (let p of this.enabledPlugins) {
         let ret = maybe(p, fname).bind(this)(...args)
         if (ret === 'BREAK') return p
       }
       return null
     },
-    async asyncCallAllPlugins (fname, ...args) {
+    async asyncCallAllPlugins(fname, ...args) {
       for (let p of this.enabledPlugins) {
         let ret = await maybe(p, fname).bind(this)(...args)
         if (ret === 'BREAK') return p
       }
       return null
     },
-  }
+  },
 }
 
 export default vmopts
-
-
 </script>
 
 <style>

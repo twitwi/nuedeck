@@ -1,4 +1,3 @@
-
 import { startsWithIgnoreCase, RESTRIM, equalsIgnoreCase } from './tools'
 
 let stickyHeaders = []
@@ -6,8 +5,7 @@ let stickyHeaders = []
 export default () => ({
   name: 'MarkdownSticky',
 
-  /*async*/ enrichGeneratedSlidesHeader({type, headerLines}) {
-
+  /*async*/ enrichGeneratedSlidesHeader({ /*type,*/ headerLines }) {
     let i = 0
     let insertSticky = null
 
@@ -41,7 +39,5 @@ export default () => ({
     if (toInsert.length > 0) {
       headerLines.splice(0, 0, ...toInsert)
     }
-
-  }
-
+  },
 })

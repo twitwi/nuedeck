@@ -1,4 +1,3 @@
-
 import { startsWithIgnoreCase, RESTRIM } from './tools'
 
 let functions = {}
@@ -7,8 +6,7 @@ let $p = {}
 export default () => ({
   name: 'MarkdownEval',
 
-  async enrichGeneratedSlidesHeader({headerLines, vm, innerID}) {
-
+  async enrichGeneratedSlidesHeader({ headerLines, vm, innerID }) {
     await vm.asyncCallAllPlugins('registerEvalHeaderFunctions', functions, vm)
 
     let i = 0
@@ -29,14 +27,12 @@ export default () => ({
             i++
           }
         } catch (e) {
-          console.log("ERROR in @eval-header:", RESTRIM(), e)
+          console.log('ERROR in @eval-header:', RESTRIM(), e)
           i++
         }
       } else {
         i++
       }
     }
-
-  }
-
+  },
 })

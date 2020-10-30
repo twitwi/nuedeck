@@ -1,8 +1,6 @@
-
-
 export default () => ({
   name: 'GlobalStates',
-  init ({registerAction}) {
+  init({ registerAction }) {
     // event bus from key bindings
     registerAction('toggleHelpArea', () => {
       this.toggleCssMode('with-helparea')
@@ -26,5 +24,5 @@ export default () => ({
         this.toggleMode('sorter')
       }, 0)
     })
-  }
+  },
 })

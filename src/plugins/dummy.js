@@ -1,10 +1,9 @@
-
 function log() {
   console.log('DUMMY:', ...arguments)
 }
 
 /* eslint-disable */
-
+// prettier-ignore
 export default () => ({
   name: 'Dummy',
   // "this" will be the Vue object

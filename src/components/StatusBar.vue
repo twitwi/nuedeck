@@ -1,4 +1,5 @@
 <template>
+  <!-- prettier-ignore -->
   <div class="slide-number">
     {{ nd.vars.venue }} |
     {{ nd.vars.author }} |
@@ -10,14 +11,15 @@
 <script>
 export default {
   name: 'StatusBar',
-  inject: {nd: 'nd', renderSlide: {from: 'renderSlide', default: -42}}, // receiving the nuedeck object ($parent.$parent actually)
+  inject: { nd: 'nd', renderSlide: { from: 'renderSlide', default: -42 } }, // receiving the nuedeck object ($parent.$parent actually)
   props: {
     current: {
-      default () { return this.renderSlide }
-    }
-  }
+      default() {
+        return this.renderSlide
+      },
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
