@@ -1,3 +1,7 @@
+
+(I'm switching to https://sli.dev/ and not actively maintaining the nuedeck project)
+
+
 # NueDeck
 
 NueDeck is a framework to make nice and robust presentations using markdown or HTML, .
